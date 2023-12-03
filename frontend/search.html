@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="stylesheets/loading.css" />
+    <link rel="icon" href="icons/appIcon.png" />
+    <link rel="stylesheet" href="/stylesheets/reset.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheets/colors.css" />
+    <link rel="stylesheet" href="stylesheets/search.css">
+    <link rel="stylesheet" href="stylesheets/navbar.css" />
+    <link rel="stylesheet" href="stylesheets/button.css" />
+    <link rel="stylesheet" href="stylesheets/universalLoader.css">
+    <link rel="stylesheet" href="stylesheets/loading.css">
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/handleNavbar.js"></script>
+    <script src="scripts/handleSearch.js"></script>
+    <title>Wobble</title>
+  </head>
+  <body>
+    <div class="loadingScreen">
+      <h1 class="title">Loading</h1>
+      <div class="rainbow-marker-loader"></div>
+    </div>
+    <div class="universalLoader finished">
+      <div class="loader"></div>
+      <h1 class="title">Logging in...</h1>
+    </div>
+    <navbar class="navbar">
+      <a href="/" class="icon"
+        ><img src="icons/appIcon.png" alt="Icon placholder" />
+      </a>
+      <form class="searchBar" method="GET" action="search.html">
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder="Search bar placeholder"
+        />
+        <button hidden type="submit">Search</button>
+      </form>
+      <form action="/loginOrRegister.html" class="action account">
+        <button type="submit">Login</button>
+      </form>
+      <form action="/cart.html" class="action cart">
+        <span class="badge">0</span>
+        <button type="submit">Cart</button>
+      </form>
+      <form action="/dashboard.html" class="action dashboard">
+        <button type="submit">Dashboard</button>
+      </form>
+      <div class="categories">
+        <span class="item">Categories</span>
+      </div>
+    </navbar>
+    <main class="searchMain">
+      <div class="searchControls">
+        <h2 class="title">Filter options</h2>
+        <select class="button" name="sort">
+          <option value="ProductPrice asc">Ascending product price</option>
+          <option value="ProductPrice desc">Descending product price</option>
+          <option value="ProductSoldQuantity desc">Trending products</option>
+          <option value="ProductName asc">A-Z</option>
+          <option value="ProductName desc">Z-A</option>
+        </select>
+        <label for="priceRange">Minimum price: $0</label>
+        <h3 class="valueRange">0</h3>
+        <input
+          type="range"
+          value="0"
+          min="0"
+          step="10"
+          max="1000"
+          name="priceRange"
+          id="priceRange"
+        />
+        <h3 class="valueRange">1000</h3>
+        <button>Apply</button>
+      </div>
+      <div class="searchResult">
+        <h2 class="title">Search results</h1>
+      </div>
+      <div class="recommendations">
+        <h2 class="title">Recommendations based on your search and cart</h1>
+      </div>
+    </main>
+  </body>
+</html>

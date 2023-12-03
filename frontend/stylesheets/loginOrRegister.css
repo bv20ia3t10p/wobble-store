@@ -1,0 +1,186 @@
+.loginOrRegister {
+  display: grid;
+  grid-template-columns: repeat(2, 50%);
+  align-items: center;
+  justify-content: center;
+  height: 102vh;
+}
+.loginOrRegister .activePage {
+  background-color: white;
+  height: 100%;
+  width: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.loginOrRegister .inactivePage.login :not(.activatePage) :not(h1) {
+  display: none;
+}
+
+.loginOrRegister .inactivePage :not(.activatePage) :not(h1) {
+  display: none;
+}
+
+.loginOrRegister * {
+}
+
+.inactivePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3em;
+}
+
+.inactivePage .pageHeader {
+  font-size: 3em;
+  color: white;
+}
+
+.inactivePage .activatePage {
+  border: none;
+  border-radius: 3em;
+  background-color: white;
+  color: var(--orange-700);
+  width: 10em;
+  height: 2.5em;
+  font-size: 1.5em;
+}
+
+.activePage .pageHeader,
+.activePage .activatePage {
+  display: none;
+}
+
+.activePage *,
+.activePage {
+  color: var(--orange-700);
+  background-color: white;
+}
+
+.activePage #login-form {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  width: 90%;
+  height: 80%;
+  font-size: 2em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.activePage .formHeader,
+.activePage button {
+  grid-column: 1/-1;
+}
+
+.activePage .formHeader {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: var(--font-bold);
+}
+
+.activePage input {
+  border: none;
+  border-bottom: 0.1svh solid var(--orange-700);
+  color: var(--orange-700);
+  font-size: 1em;
+  /* opacity: 0.6; */
+}
+
+.activePage label {
+  font-size: 0.8em;
+  text-align: left;
+  padding-left: 6svh;
+  height: 30%;
+  display: flex;
+  align-items: center;
+  text-align: left;
+}
+
+label[for="login-email"] {
+  background-image: url("/icons/accountSticker.png");
+  background-repeat: no-repeat;
+  background-size: 5svh;
+}
+label[for="login-password"] {
+  background-image: url("/icons/passwordIcon.png");
+  background-repeat: no-repeat;
+  background-size: 5svh;
+}
+
+.activePage button[type="submit"] {
+  border: none;
+  background-color: var(--orange-700);
+  color: white;
+  font-size: 0.8em;
+  width: 30%;
+  justify-self: center;
+  height: 2.5em;
+  border-radius: 2em;
+}
+
+.activePage #signinWithGoogle,
+.activePage #registerWithGoogle {
+  border: 0.2svh solid var(--orange-700);
+  font-size: 0.8em;
+  width: 50%;
+  justify-self: center;
+  height: 2.8em;
+  border-radius: 2em;
+  background-image: url("/icons/googleIcon.png");
+  background-repeat: no-repeat;
+  background-size: 6svh;
+}
+
+.activePage #register-form {
+  display: grid;
+  grid-template-columns: 30% 1fr;
+  width: 90%;
+  height: 85%;
+  font-size: 1.6em;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0.6em;
+}
+
+.activePage #register-form label[for="register-segment"],
+.activePage #register-form #register-segment {
+  display: none;
+}
+
+.activePage #registerWithGoogle {
+  background-size: 6svh;
+}
+
+.activePage #register-form input {
+  font-size: 0.8em;
+}
+body{
+    margin-top:-2svh;
+    overflow: hidden;
+}
+* {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  }
+input:focus {
+    outline: none !important
+}
+
+.activePage #register-form select{
+    font-size:2svh;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    display: flex;
+    -moz-appearance:none; /* Firefox */
+    -webkit-appearance:none; /* Safari and Chrome */
+    appearance:none;
+}
+
+.activePage #register-form select:focus{
+    border: none;
+    outline: none !important;
+}

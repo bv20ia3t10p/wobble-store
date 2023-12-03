@@ -1,0 +1,86 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+/data
+# testing
+/coverage
+
+# production
+/build
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+*.suo
+*.user
+*.ncb
+Debug/
+Release/
+CodeAnalyst/
+
+ipch/
+*.sdf
+*.opensdf
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/DesignTimeBuild/.dtbcache.v2
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/06d39eee-3f3b-4e90-8948-eb42c3b111e8.vsidx
+<<<<<<< Updated upstream
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/1ddfd370-2a94-4506-942b-206733617b71.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/2a391e1a-44bd-4840-8959-d79720b0dc5d.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/3730e2bf-7d7a-4b9f-b3d2-8eead21b4c01.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/799de64e-e2c0-47fc-83fd-7ee2ed2ba2c9.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/8e755f53-9882-4c8c-b2bc-6f85ffa2896c.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/9ce8f104-4dc6-414b-97c3-758a5b43af45.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/a8e468ef-009b-4bef-a6de-d71b1f027c73.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/bfb9dae8-b10c-49de-9de0-4bcffd47ddcd.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/ca3ee172-9d6f-4900-8303-b2493c703a69.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/cc563fc8-3d1e-49a1-98b1-3dcc71310b25.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/v17/.futdcache.v2
+backend/ECommerceBackEnd/.vs/ProjectEvaluation/ecommercebackend.metadata.v7.bin
+backend/ECommerceBackEnd/.vs/ProjectEvaluation/ecommercebackend.projects.v7.bin
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/DesignTimeBuild/.dtbcache.v2
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/06d39eee-3f3b-4e90-8948-eb42c3b111e8.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/1ddfd370-2a94-4506-942b-206733617b71.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/2a391e1a-44bd-4840-8959-d79720b0dc5d.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/3730e2bf-7d7a-4b9f-b3d2-8eead21b4c01.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/799de64e-e2c0-47fc-83fd-7ee2ed2ba2c9.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/9ce8f104-4dc6-414b-97c3-758a5b43af45.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/ca3ee172-9d6f-4900-8303-b2493c703a69.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/cc563fc8-3d1e-49a1-98b1-3dcc71310b25.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/v17/.futdcache.v2
+backend/ECommerceBackEnd/.vs/ProjectEvaluation/ecommercebackend.metadata.v7.bin
+backend/ECommerceBackEnd/.vs/ProjectEvaluation/ecommercebackend.projects.v7.bin
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/DesignTimeBuild/.dtbcache.v2
+=======
+backend/ECommerceBackEnd/ECommerceBackEnd/obj/ECommerceBackEnd.csproj.nuget.g.props
+>>>>>>> Stashed changes
+backend/ECommerceBackEnd/ECommerceBackEnd/appsettings.json
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/config/applicationhost.config
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/06d39eee-3f3b-4e90-8948-eb42c3b111e8.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/1ddfd370-2a94-4506-942b-206733617b71.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/2a391e1a-44bd-4840-8959-d79720b0dc5d.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/3730e2bf-7d7a-4b9f-b3d2-8eead21b4c01.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/799de64e-e2c0-47fc-83fd-7ee2ed2ba2c9.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/9ce8f104-4dc6-414b-97c3-758a5b43af45.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/ca3ee172-9d6f-4900-8303-b2493c703a69.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/cc563fc8-3d1e-49a1-98b1-3dcc71310b25.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/d51454c6-9961-4bfc-b2ae-2673f6b936ab.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/FileContentIndex/df892d5b-9201-4dbd-8c4c-586edeefa823.vsidx
+backend/ECommerceBackEnd/.vs/ECommerceBackEnd/v17/.futdcache.v2
+backend/ECommerceBackEnd/.vs/ProjectEvaluation/ecommercebackend.metadata.v7.bin
+backend/ECommerceBackEnd/.vs/ProjectEvaluation/ecommercebackend.projects.v7.bin
+backend/ECommerceBackEnd/ECommerceBackEnd/obj/ECommerceBackEnd.csproj.nuget.dgspec.json
+backend/ECommerceBackEnd/ECommerceBackEnd/obj/ECommerceBackEnd.csproj.nuget.g.props
+backend/ECommerceBackEnd/ECommerceBackEnd/obj/project.assets.json
+backend/ECommerceBackEnd/ECommerceBackEnd/obj/project.nuget.cache
+*.vsidx

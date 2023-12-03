@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="stylesheets/universalLoader.css" />
+    <link rel="stylesheet" href="/stylesheets/reset.css" />
+    <link rel="stylesheet" href="/stylesheets/colors.css" />
+    <link rel="stylesheet" href="/stylesheets/navbar.css" />
+    <link rel="stylesheet" href="/stylesheets/cart.css" />
+    <link rel="stylesheet" href="/stylesheets/loading.css" />
+    <link rel="icon" href="icons/appIcon.png" />
+    <link rel="stylesheet" href="stylesheets/button.css" />
+    <script src="/scripts/utils.js"></script>
+    <script src="/scripts/handleNavbar.js"></script>
+    <script src="/scripts/handleCart.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wobble</title>
+  </head>
+  <body>
+    <div class="loadingScreen">
+      <h1 class="title">Loading</h1>
+      <div class="rainbow-marker-loader"></div>
+    </div>
+    <div class="universalLoader finished">
+      <div class="loader"></div>
+      <h1 class="title">Logging in...</h1>
+    </div>
+    <navbar class="navbar">
+      <a href="/" class="icon"
+        ><img src="icons/appIcon.png" alt="Icon placholder" />
+      </a>
+      <form class="searchBar" method="GET" action="search.html">
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder="Search bar placeholder"
+        />
+        <button hidden type="submit">Search</button>
+      </form>
+      <form action="/loginOrRegister.html" class="action account">
+        <button type="submit">Login</button>
+      </form>
+      <form action="/cart.html" class="action cart">
+        <span class="badge">0</span>
+        <button type="submit">Cart</button>
+      </form>
+      <form action="/dashboard.html" class="action dashboard">
+        <button type="submit">Dashboard</button>
+      </form>
+      <div class="categories">
+        <span class="item">Categories</span>
+      </div>
+    </navbar>
+    <main class="cartMain">
+      <h1 class="title">Your shopping cart</h1>
+      <div class="columns">
+        <div class="allItem">
+          <input type="checkbox" name="allItem" id="cartAllItemChk" />
+          <label for="cartAllItemChk">Select all products (0 product)</label>
+        </div>
+        <div class="price">Product Price</div>
+        <div class="quantity">Quantity</div>
+        <div class="total">Total</div>
+        <button class="delete"></button>
+      </div>
+      <div class="cartDetails"></div>
+      <div class="itemRecs">
+        <h1 class="title">Relevant products you might like</h1>
+        <div class="recommendations"></div>
+      </div>
+      <div class="delivery">
+        <div class="title">
+          <h1 class="label">Deliver to</h1>
+          <button class="change">Change</button>
+        </div>
+        <div class="basic">
+          <div class="name">&nbsp;</div>
+          <div class="email">&nbsp;</div>
+        </div>
+        <div class="advanced">
+          <div class="country">
+            <div class="label">Country</div>
+            <div class="data">&nbsp;</div>
+          </div>
+          <div class="city">
+            <div class="label">City</div>
+            <div class="data">&nbsp;</div>
+          </div>
+          <div class="state">
+            <div class="label">State</div>
+            <div class="data">&nbsp;</div>
+          </div>
+          <div class="zip">
+            <div class="label">Zipcode</div>
+            <div class="data">&nbsp;</div>
+          </div>
+          <div class="street">
+            <div class="label">Street</div>
+            <div class="data">&nbsp;</div>
+          </div>
+        </div>
+      </div>
+      <div class="orderTotal">
+        <div class="estimated">
+          <div class="label">Estimated Total</div>
+          <div class="data">0</div>
+        </div>
+        <div class="final">
+          <div class="label">Order Total</div>
+          <div class="data">0</div>
+        </div>
+      </div>
+      <button class="purchase">Purchase (0)</button>
+    </main>
+  </body>
+</html>

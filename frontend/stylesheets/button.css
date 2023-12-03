@@ -1,0 +1,36 @@
+.navbar button:hover,
+.button:hover {
+  transition-property: all;
+  transition-duration: 10ms;
+  scale: 105%;
+}
+button:active,
+.button:active,
+.item:active,
+.item:active {
+  animation: press 0.2s 1 linear;
+}
+/* button:active svg:last-child {
+  animation: bounce 0.2s 1 linear;
+} */
+
+@keyframes press {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.92);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+@keyframes bounce {
+  50% {
+    transform: rotate(5deg) translate(20px, -50px);
+  }
+  to {
+    transform: scale(0.9) rotate(10deg) translate(50px, -80px);
+    opacity: 0;
+  }
+}

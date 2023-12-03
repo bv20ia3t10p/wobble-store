@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="stylesheets/loading.css" />
+    <link rel="stylesheet" href="stylesheets/reset.css" />
+    <link rel="stylesheet" href="stylesheets/colors.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="icons/appIcon.png" />
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/handleNavbar.js"></script>
+    <script src="scripts/handleIndex.js"></script>
+    <link rel="stylesheet" href="stylesheets/home.css" />
+    <link rel="stylesheet" href="stylesheets/navbar.css" />
+    <link rel="stylesheet" href="stylesheets/button.css" />
+    <title>Wobble</title>
+  </head>
+  <body>
+    <div class="loadingScreen">
+      <h1 class="title">Loading</h1>
+      <div class="rainbow-marker-loader"></div>
+    </div>
+    <navbar class="navbar">
+      <a href="/" class="icon"
+        ><img src="icons/appIcon.png" alt="Icon placholder" />
+      </a>
+      <form class="searchBar" method="GET" action="search.html">
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder="Search bar placeholder"
+        />
+        <button hidden type="submit">Search</button>
+      </form>
+      <form action="/loginOrRegister.html" class="action account">
+        <button type="submit">Login</button>
+      </form>
+      <form action="/cart.html" class="action cart">
+        <span class="badge">0</span>
+        <button type="submit">Cart</button>
+      </form>
+      <form action="/dashboard.html" class="action dashboard">
+        <button type="submit">Dashboard</button>
+      </form>
+      <div class="categories">
+        <span class="item">Categories</span>
+      </div>
+    </navbar>
+    <main>
+      <aside class="sideBar">
+        <span class="title">Categories</span>
+      </aside>
+      <article class="productList banner">
+        <h3 class="productListTitle">Limited Time Special Offers</h3>
+        <img src="/icons/banner/saleBanner.webp" />
+      </article>
+      <article class="productList trending">
+        <h3 class="productListTitle">What's Hot</h3>
+      </article>
+      <article class="productList allItems">
+        <h3 class="productListTitle">All Products</h3>
+      </article>
+    </main>
+  </body>
+</html>

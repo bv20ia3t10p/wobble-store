@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="icons/appIcon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheets/loading.css" />
+    <link rel="stylesheet" href="stylesheets/reset.css" />
+    <link rel="stylesheet" href="stylesheets/colors.css" />
+    <link rel="stylesheet" href="stylesheets/itemDetail.css" />
+    <link rel="stylesheet" href="stylesheets/navbar.css" />
+    <link rel="stylesheet" href="stylesheets/button.css" />
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/handleSingleItem.js"></script>
+    <script src="scripts/handleNavbar.js"></script>
+    <title>Wobble</title>
+  </head>
+  <div class="loadingScreen">
+    <h1 class="title">Loading</h1>
+    <div class="rainbow-marker-loader"></div>
+  </div>
+  <navbar class="navbar">
+    <a href="/" class="icon"
+      ><img src="icons/appIcon.png" alt="Icon placholder" />
+    </a>
+    <form class="searchBar" method="GET" action="search.html">
+      <input
+        type="text"
+        name="searchQuery"
+        placeholder="Search bar placeholder"
+      />
+      <button hidden type="submit">Search</button>
+    </form>
+    <form action="/loginOrRegister.html" class="action account">
+      <button type="submit">Login</button>
+    </form>
+    <form action="/cart.html" class="action cart">
+      <span class="badge">0</span>
+      <button type="submit">Cart</button>
+    </form>
+    <form action="/dashboard.html" class="action dashboard">
+      <button type="submit">Dashboard</button>
+    </form>
+    <div class="categories">
+      <span class="item">Categories</span>
+    </div>
+  </navbar>
+  <main class="itemDetailMain"></main>
+</html>
