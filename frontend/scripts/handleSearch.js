@@ -54,9 +54,9 @@ const getItemsByCategory = async (id) => {
     `/odata/Products?filter=CategoryId Eq ${id} ${
       additionalOpt ? "and " + additionalOpt : ""
     } ${sortOptions ? "&$orderby=" + sortOptions : ""}`;
-  fetch(queryUrl)
+  await fetch(queryUrl)
     .then((e) => (e.ok ? e.json() : e))
-    .then((data) => {
+    .then(async (data) => {
       fetchedProducts = data.value;
       data.value.map((item) => {
         document.querySelector(".searchResult").insertAdjacentHTML(
@@ -77,24 +77,24 @@ const getItemsByCategory = async (id) => {
             </div>`
         );
       });
-      waitAndLoadRecs();
+      await waitAndLoadRecs();
     });
 };
 
 const getItemsByName = async (query) => {
   const queryUrl =
     url +
-      `/odata/Products?${
-        query.length > 0
-          ? "$filter=contains(tolower(ProductName),tolower('" + query + "'))"
-          : ""
-      }  ${additionalOpt ? "and " + additionalOpt : ""} ${
-        sortOptions ? "&$orderby=" + sortOptions : ""
-      }`;
+    `/odata/Products?${
+      query.length > 0
+        ? "$filter=contains(tolower(ProductName),tolower('" + query + "'))"
+        : ""
+    }  ${additionalOpt ? "and " + additionalOpt : ""} ${
+      sortOptions ? "&$orderby=" + sortOptions : ""
+    }`;
   console.log(queryUrl);
-  fetch(queryUrl)
+  await fetch(queryUrl)
     .then((e) => (e.ok ? e.json() : e))
-    .then((data) => {
+    .then(async (data) => {
       fetchedProducts = data.value;
       data.value.map((item) => {
         document.querySelector(".searchResult").insertAdjacentHTML(
@@ -115,7 +115,7 @@ const getItemsByName = async (query) => {
             </div>`
         );
       });
-      waitAndLoadRecs();
+      await waitAndLoadRecs();
     });
 };
 

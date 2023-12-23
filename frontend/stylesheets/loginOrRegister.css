@@ -21,9 +21,6 @@
   display: none;
 }
 
-.loginOrRegister * {
-}
-
 .inactivePage {
   display: flex;
   flex-direction: column;
@@ -130,6 +127,7 @@ label[for="login-password"] {
   border-radius: 2em;
   background-image: url("/icons/googleIcon.png");
   background-repeat: no-repeat;
+  background-position: 0.5svw 0.5svh;
   background-size: 6svh;
 }
 

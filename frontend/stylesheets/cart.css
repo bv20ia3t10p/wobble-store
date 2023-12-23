@@ -6,7 +6,7 @@
   margin-top: -2vh;
   row-gap: 2vw;
   column-gap: 2.5vw;
-  height: 88.8vh;
+  height: 89.5vh;
 }
 .cartMain > * {
   height: 95%;
@@ -96,8 +96,8 @@
   grid-template-columns: 2fr 3fr;
   font-size: 0.9em;
   column-gap: 0.5em;
-  text-align: start;
-  justify-content: start;
+  text-align:flex-start;
+  justify-content:flex-start;
   align-items: center;
 }
 
@@ -265,7 +265,7 @@
 }
 .cartDetails .single > *:not(.description) {
   display: flex;
-  justify-content: start;
+  justify-content:flex-start;
   align-items: center;
 }
 
@@ -345,7 +345,7 @@
   height: 100%;
   width: 100%;
   align-items: center;
-  justify-content: start;
+  justify-content:flex-start;
   text-align: left;
   font-size: 0.8em;
   color: var(--gray-500);
@@ -362,7 +362,7 @@
   height: 100%;
   overflow: hidden;
   display: flex;
-  justify-content: start;
+  justify-content:flex-start;
   align-items: center;
   font-weight: var(--font-bold);
 }
@@ -382,7 +382,7 @@
 
 .recommendations {
   display: grid;
-  justify-content: start;
+  justify-content:flex-start;
   align-items: center;
   /* row-gap: 2vh; */
   column-gap: 1em;

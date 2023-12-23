@@ -180,7 +180,7 @@
 
 .navbar .action.dashboard {
   padding-left: 1em;
-  border-left: 0.2em solid var(--orange-400);
+  /* border-left: 0.2em solid var(--orange-400); */
 }
 
 .action.dashboard * {
@@ -195,15 +195,15 @@
     margin-top:0.5vh;
 }
 
-.navbar .searchBar input {
+/* .navbar .searchBar input {
   font-weight: var(--font-semibold);
-}
+} */
 
 .navbar .searchBar input:focus {
-  outline-color: var(--orange-500);
-  transition-property: all;
+  outline-color: var(--gray-50);
+  /* transition-property: all;
   transition-duration: 500ms;
-  scale: 101%;
+  scale: 101%; */
 }
 
 .navbar .searchBar input {
@@ -211,7 +211,8 @@
     background-repeat: no-repeat;
     background-size: 1.5em;
     background-position: 0.2em 0.4em;
-    color: var(--orange-600);
+    color: var(--gray-400);
+    border-color: var(--gray-100);
 }
 
 .navbar .searchBar button {

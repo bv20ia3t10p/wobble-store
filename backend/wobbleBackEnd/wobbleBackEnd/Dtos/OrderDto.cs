@@ -32,7 +32,7 @@ namespace ECommerceBackEnd.Dtos
         public string Type { get; set; }
         public int CustomerId { get; set; }
         public double Total { get; set; }
-        public virtual IEnumerable<CreateOrderDetailDto> orderDetails { get; set; }
+        public virtual IEnumerable<CreateOrderDetailDto> OrderDetails { get; set; }
     }
     public record UpdateOrderStatusDto
     {
@@ -50,6 +50,7 @@ namespace ECommerceBackEnd.Dtos
     }
     public record OrderWithDetailsDto
     {
+        [Key]
         public int OrderId { get; set; }
         public string Type { get; set; }
         public int DayForShippingReal { get; set; }
@@ -70,5 +71,11 @@ namespace ECommerceBackEnd.Dtos
         public string ShippingMode { get; set; }
         public double Total { get; set; }
         public virtual IEnumerable<OrderDetailDto> Details { get; set; }
+    }
+    public record UpdateOrderPaymentDto
+    {
+        public int OrderId { get; set; }
+        public string? Type { get; set; }
+        public string? OrderStatus { get; set; }
     }
 }

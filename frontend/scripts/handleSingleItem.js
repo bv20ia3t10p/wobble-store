@@ -1,6 +1,6 @@
 var viewingProductId = 0;
 
-window.addEventListener("DOMContentLoaded",async function (ev) {
+window.addEventListener("DOMContentLoaded", async function (ev) {
   const currentWindow = new URL(
     window.location.href.replace("#state=", "?state=")
   );
@@ -18,6 +18,12 @@ window.addEventListener("DOMContentLoaded",async function (ev) {
   await getCategories();
   await getSingleItem(viewingProductId);
   await getItemRecommendation(viewingProductId);
+  this.document
+    .querySelector("button.instaBuy")
+    .addEventListener("click", () => {
+      addToCart(viewingProductId, 1);
+      navigateToNewPage("/cart.html");
+    });
   setLoadingPageVisibility(false);
 });
 

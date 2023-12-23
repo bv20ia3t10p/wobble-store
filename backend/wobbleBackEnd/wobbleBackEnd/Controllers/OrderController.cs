@@ -46,7 +46,7 @@ namespace ECommerceBackEnd.Controllers
         public ActionResult<OrderDto> CreateOrder(CreateOrderDto newOrder)
         {
             var createdOrder = _service.Order.CreateOrder(newOrder);
-            foreach (var od in newOrder.orderDetails)
+            foreach (var od in newOrder.OrderDetails)
             {
                 od.OrderId = createdOrder.OrderId;
                 _service.OrderDetail.CreateOrderDetail(od);
@@ -66,6 +66,7 @@ namespace ECommerceBackEnd.Controllers
             return NoContent();
         }
         [HttpGet("Customer")]
+        [EnableQuery]
         public ActionResult<IEnumerable<OrderWithDetailsDto>> GetOrderWithDetailsForCustomerEmail([FromHeader] string Authorization)
         {
             var token = Authorization[7..];
@@ -78,7 +79,7 @@ namespace ECommerceBackEnd.Controllers
         }
         [HttpPost("Customer")]
         [Authorize(Roles = "USER")]
-        public ActionResult<OrderDto> CreateOrderForCustomer([FromHeader] string Authorization, CreateOrderDto newOrder)
+        public ActionResult<OrderWithDetailsDto> CreateOrderForCustomer([FromHeader] string Authorization, CreateOrderDto newOrder)
         {
             var token = Authorization[7..];
             var handler = new JwtSecurityTokenHandler();
@@ -88,7 +89,7 @@ namespace ECommerceBackEnd.Controllers
             if (customerInDb == null) return Unauthorized();
             //var createdOrder = _service.Order.CreateOrder(newOrder);
             double total = 0;
-            foreach (var od in newOrder.orderDetails)
+            foreach (var od in newOrder.OrderDetails)
             {
                 //od.OrderId = createdOrder.OrderId;
                 //od.CustomerId = customerInDb.CustomerId;
@@ -99,13 +100,42 @@ namespace ECommerceBackEnd.Controllers
             }
             newOrder.Total = total;
             var createdOrder = _service.Order.CreateOrder(newOrder);
-            foreach (var od in newOrder.orderDetails)
+            foreach (var od in newOrder.OrderDetails)
             {
                 od.OrderId = createdOrder.OrderId;
                 od.CustomerId = customerInDb.CustomerId;
                 var createdOd = _service.OrderDetail.CreateOrderDetail(od);
             }
-            return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrder(createdOrder.OrderId));
+            return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrderWithDetails(createdOrder.OrderId));
+        }
+        [HttpPut("Customer")]
+        [Authorize(Roles = "USER")]
+        public ActionResult<OrderWithDetailsDto> UpdateOrderPaymentStatus([FromHeader] string Authorization, UpdateOrderPaymentDto newOrder)
+        {
+            var token = Authorization[7..];
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+            var email = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+            var customerInDb = _service.Customer.GetCustomerByEmail(email);
+            if (customerInDb == null) return Unauthorized();
+            var orderInDb = _service.Order.GetOrder(newOrder.OrderId);
+            if (orderInDb.CustomerId != customerInDb.CustomerId) return Unauthorized();
+            _service.Order.UpdateOrderPaymentStatus(newOrder);
+            return Ok(_service.Order.GetOrderWithDetails(newOrder.OrderId));
+        }
+        [HttpGet("{orderId}/Customer")]
+        [Authorize(Roles = "USER")]
+        public ActionResult<OrderWithDetailsDto> GetOrderForCustomer(int orderId, [FromHeader] string Authorization)
+        {
+            var token = Authorization[7..];
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+            var email = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+            var customerInDb = _service.Customer.GetCustomerByEmail(email);
+            if (customerInDb == null) return Unauthorized();
+            var orderInDb = _service.Order.GetOrderWithDetails(orderId);
+            if (customerInDb.CustomerId != orderInDb.CustomerId) return Unauthorized();
+            return Ok(orderInDb);
         }
     }
 }

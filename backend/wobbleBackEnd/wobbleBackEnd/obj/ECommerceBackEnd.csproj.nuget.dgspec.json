@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Code\\wobble-store\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj": {}
+    "G:\\Code\\IE104-retailer-web-project\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj": {}
   },
   "projects": {
-    "G:\\Code\\wobble-store\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj": {
+    "G:\\Code\\IE104-retailer-web-project\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Code\\wobble-store\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj",
+        "projectUniqueName": "G:\\Code\\IE104-retailer-web-project\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj",
         "projectName": "ECommerceBackEnd",
-        "projectPath": "G:\\Code\\wobble-store\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj",
+        "projectPath": "G:\\Code\\IE104-retailer-web-project\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\ECommerceBackEnd.csproj",
         "packagesPath": "C:\\Users\\beave\\.nuget\\packages\\",
-        "outputPath": "G:\\Code\\wobble-store\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\obj\\",
+        "outputPath": "G:\\Code\\IE104-retailer-web-project\\backend\\ECommerceBackEnd\\ECommerceBackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "G:\\Softwares\\VS2022\\Shared\\NuGetPackages"

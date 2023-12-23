@@ -70,7 +70,7 @@ const getPopularProducts = async () => {
     <span class="price">$${Math.round(item.ProductPrice * 1000) / 1000}</span>
     <span class="button"  onclick=addToCart(${
       item.ProductCardId
-    },1)><img src="icons/shoppingRedIcon.png"/></span>
+    },1)><img src="icons/addCart.png"/></span>
     </div>`
     );
   });

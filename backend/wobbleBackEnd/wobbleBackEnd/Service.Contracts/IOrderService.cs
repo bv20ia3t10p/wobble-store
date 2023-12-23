@@ -12,6 +12,7 @@ namespace ECommerceBackEnd.Service.Contracts
         OrderDto CreateOrder(CreateOrderDto createOrderDto);
         OrderWithDetailsDto GetOrderWithDetails(int id);
         IEnumerable<OrderWithDetailsDto> GetOrdersWithDetailsForCustomer(string email);
+        void UpdateOrderPaymentStatus( UpdateOrderPaymentDto updateOrderStatus);
 
     }
 }

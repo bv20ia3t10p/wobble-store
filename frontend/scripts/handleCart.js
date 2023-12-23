@@ -13,13 +13,16 @@ window.addEventListener("DOMContentLoaded", async function (ev) {
     console.log(e);
     updateBadge(0);
   }
-  try {
-    accountToken = this.localStorage.getItem("accountToken");
-    if (!accountToken) throw new Error("Not logged in");
-    await accountInfoLoad();
-  } catch (e) {
-    console.log(e);
+  accountToken = this.localStorage.getItem("accountToken");
+  if (!accountToken) {
+    alert("Not logged in. Please login or register to continue");
+    navigateToNewPage("/loginOrRegister.html");
   }
+  await accountInfoLoad();
+  checkNullFields();
+  this.document
+    .querySelector(".delivery button.change")
+    .addEventListener("click", () => navigateToNewPage("/dashboard.html"));
   await getCategories();
   await getItemsFromCart();
   if (cart) await getItemRecommendation(cart.map((e) => e.id));
@@ -66,6 +69,14 @@ const updateQuantity = (id) => {
   )[0].quantity;
 };
 
+const checkNullFields = () => {
+  if (Object.values(customerInfo).filter((e) => e === null || e === 0).length) {
+    alert(
+      "Please fill out all fields that are currently null or 0 before continuing to order"
+    );
+    navigateToNewPage("/dashboard.html");
+  }
+};
 const addAndUpdateRecs = async (id, quantity) => {
   showLoadingPopup(true, document.querySelector("main"), "Updating cart...");
   addToCart(id, quantity);
@@ -306,20 +317,31 @@ const accountInfoLoad = async () => {
   let accountToken = "";
   try {
     accountToken = localStorage.getItem("accountToken");
-    if (accountToken.length < 1) throw new Error("Not logged in");
+    if (accountToken.length < 1) {
+      alert("Not logged in. Please login or register to continue");
+      navigateToNewPage("/loginOrRegister.html");
+    }
   } catch (e) {
     return;
   }
   const accoutnInfoUrl = url + "/api/Customer/Email";
-  const resp = await fetch(accoutnInfoUrl, {
+  const accountData = await fetch(accoutnInfoUrl, {
     method: "GET",
     headers: {
       Authorization: "Bearer " + accountToken,
     },
     redirect: "follow", // manual, *follow, error
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-  });
-  const accountData = await resp.json();
+  })
+    .then((e) => {
+      if (e.status === 401) {
+        throw new Error("Token expired, redirecting you to login page");
+      } else return e.json();
+    })
+    .catch((e) => {
+      alert(e);
+      navigateToNewPage("/loginOrRegister.html");
+    });
   console.log(accountData);
   customerInfo = accountData;
   removeAndReplaceNodeText(
@@ -361,18 +383,17 @@ const createOrder = async () => {
   let orderCreationRequestBody = {
     type: "CASH",
     customerId: customerInfo.customerId,
-    orderDetails: [],
+    orderDetails: cart
+      .map((e) => {
+        if (e.checked)
+          return {
+            productCardId: Number(e.id),
+            orderItemQuantity: Number(e.quantity),
+          };
+      })
+      .filter((e) => e),
   };
-  cart.forEach((e) => {
-    if (e.checked)
-      orderCreationRequestBody = {
-        ...orderCreationRequestBody,
-        orderDetails: [
-          ...orderCreationRequestBody.orderDetails,
-          { productCardId: e.id, orderItemQuantity: e.quantity },
-        ],
-      };
-  });
+  console.log(orderCreationRequestBody);
   const createOrderUrl = url + "/api/Order/Customer";
   const resp = await fetch(createOrderUrl, {
     method: "POST",
@@ -387,8 +408,8 @@ const createOrder = async () => {
   });
   const data = await resp.json();
   console.log("Created order", data);
-  cart = cart.filter(e=>!e.checked);
-  localStorage.setItem("cart",JSON.stringify(cart));
+  cart = cart.filter((e) => !e.checked);
+  localStorage.setItem("cart", JSON.stringify(cart));
   clearAllContent(document.querySelector(".itemRecs .recommendations"));
   clearAllContent(document.querySelector(".cartDetails"));
   await getItemsFromCart();
@@ -401,4 +422,5 @@ const createOrder = async () => {
     document.querySelector("main.cartMain"),
     "Processing..."
   );
+  navigateToNewPage("/orderConfirmation.html", { orderId: data.orderId });
 };

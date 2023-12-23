@@ -56,7 +56,7 @@ namespace ECommerceBackEnd.Service
                 };
                 return true;
             }
-            if (customerInDb.CustomerPassword != user.CustomerPassword)
+            if (GoogleToken.Length < 10 && customerInDb.CustomerPassword != user.CustomerPassword)
             {
                 return false;
             }

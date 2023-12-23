@@ -7,8 +7,8 @@ namespace ECommerceBackEnd.Repositories
     public class OrderDetailRepository: RepositoryBase<OrderDetail>,IOrderDetailRepository
     {
         public OrderDetailRepository (IMongoDatabase database,string collectionName) : base(database,collectionName) { }
-        public IEnumerable<OrderDetail> GetDetailsForOrder(int orderId) => GetManyByCondition(c=>c.OrderId==orderId);
-        public IEnumerable<OrderDetail> GetOrderDetailsForProduct(int productId) => GetManyByCondition(c=>c.ProductCardId ==productId);
+        public IEnumerable<OrderDetail> GetDetailsForOrder(int orderId) => GetManyByCondition(c=>c.OrderId.Equals(orderId));
+        public IEnumerable<OrderDetail> GetOrderDetailsForProduct(int productId) => GetManyByCondition(c=>c.ProductCardId.Equals(productId));
         public void CreateOrderDetail(OrderDetail orderDetail) => Create(orderDetail);
         public void UpdateOrderDetail(OrderDetail orderDetail) => Update(c=>c.OrderItemId == orderDetail.OrderItemId,orderDetail);
         public void DeleteOrderDetail(OrderDetail orderDetail) => Delete(c=>c.OrderItemId == orderDetail.OrderItemId);

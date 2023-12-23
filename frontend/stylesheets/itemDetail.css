@@ -399,7 +399,7 @@ input {
   height: 100%;
   width: 100%;
   align-items: center;
-  justify-content: start;
+  justify-content:flex-start;
   text-align: left;
   font-size:.8em;
   color:var(--gray-500);
@@ -416,7 +416,7 @@ input {
   height: 100%;
   overflow: hidden;
   display: flex;
-  justify-content: start;
+  justify-content:flex-start;
   align-items: center;
   font-weight: var(--font-bold);
 }

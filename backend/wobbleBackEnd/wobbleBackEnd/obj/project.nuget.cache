@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "xon/LseHiB6TGj1PrPgXDVwKqE8EWBLzonabyrAPM1ql4YlqYg8CMS4ULU5xG5Va7eR9+3bEXBPCNI0ObyQQdQ==",
+  "dgSpecHash": "iqN9cfl7OKme8VUG4Kxf2mGDUjRhBbrTPR+RE6r1sC/EMVhg9Td3EifX2TWyx20DdQV6RWox9GqF2ApmfHvB1Q==",
   "success": true,
-  "projectFilePath": "G:\\Code\\wobble-store\\backend\\ECommerceBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+  "projectFilePath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\beave\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\beave\\.nuget\\packages\\automapper.extensions\\2.1.0\\automapper.extensions.2.1.0.nupkg.sha512",

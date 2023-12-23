@@ -35,7 +35,7 @@
         <input
           type="text"
           name="searchQuery"
-          placeholder="Search bar placeholder"
+          placeholder="Search for products"
         />
         <button hidden type="submit">Search</button>
       </form>
@@ -49,20 +49,76 @@
       <form action="/dashboard.html" class="action dashboard">
         <button type="submit">Dashboard</button>
       </form>
-      <div class="categories">
-        <span class="item">Categories</span>
-      </div>
+      <div class="categories"></div>
     </navbar>
-    <aside class="sideMenu">
-      <div class="userInfo">Account information</div>
-      <div class="pastOrders">Past orders</div>
-    </aside>
     <main class="dashboardMain">
-        <div class="userInfoMain">
-
+      <aside class="sideMenu">
+        <a class="userInfo" href="/dashboard.html">
+          Account information
+        </a>
+        <a class="pastOrders" href="/pastOrders.html">
+          Past orders
+        </a>
+      </aside>
+      <h2 class="title">Your current account information</h2>
+      <form class="userInfoMain">
+        <div class="fname">
+          <label for="customerFname">First Name</label>
+          <!-- <p>Fname</p> -->
+          <input type="text" name="customerFname" id="customerFname" />
         </div>
-        <div class="updateInfo hidden"></div>
-        <div class="pastOrder hidden"></div>
+        <div class="lname">
+          <!-- <h3>Last Name</h3> -->
+          <!-- <p>LName</p> -->
+          <label for="customerLname">Last name</label>
+          <input type="text" name="customerLname" id="customerLname" />
+        </div>
+        <div class="state">
+          <!-- <h3>State</h3> -->
+          <!-- <p>State</p> -->
+          <label for="customerState">State</label>
+          <input type="text" name="customerState" id="customerState" />
+        </div>
+        <div class="city">
+          <label for="customerCity">City</label>
+          <!-- <p>Customer city</p> -->
+          <input type="text" name="customerCity" id="customerCity" />
+        </div>
+        <div class="country">
+          <label for="customerCountry">Country</label>
+          <input type="text" name="customerCountry" id="customerCountry" />
+        </div>
+        <div class="street">
+          <label for="customerStreet">Street</label>
+          <input type="text" name="customerStreet" id="customerStreet" />
+        </div>
+        <div class="zipcode">
+          <label for="customerZipcode">Zipcode</label>
+          <input type="number" name="customerZipcode" id="customerZipcode" />
+        </div>
+        <div class="email">
+          <h3>Email address</h3>
+          <p id="customerEmail">Email</p>
+        </div>
+        <div class="changePassword">
+          <h3>Changing your password?</h3>
+          <button type="button">Change password</button>
+        </div>
+        <div class="newPassword">
+          <label for="customerPassword">Enter new password:</label>
+          <input
+            type="password"
+            name="customerPassword"
+            id="customerPassword"
+          />
+        </div>
+        <div class="rePassword">
+          <label for="rePassword">Re-enter password:</label>
+          <input type="password" name="rePassword" id="rePassword" />
+        </div>
+        <button type="reset">Reset</button>
+        <button type="submit">Save changes</button>
+      </form>
     </main>
   </body>
 </html>

@@ -20,6 +20,9 @@ namespace ECommerceBackEnd.Service
         public CustomerDTO CreateCustomer(CustomerDTO customer)
         {
             var customerEntity = _mapper.Map<Customer>(customer);
+            var customerInDb = _repository.Customer.GetCustomerByEmail(customer.CustomerEmail);
+            if (customerInDb != null) throw new Exception("Email already exists");
+            if (customer.CustomerPassword.Length < 8) throw new Exception("Password ist too short. Password has to be greater than 7 characters");
             customerEntity.CustomerId = _repository.Customer.GetLatestId();
             _repository.Customer.CreateCustomer(customerEntity);
             return _mapper.Map<CustomerDTO>(customerEntity);

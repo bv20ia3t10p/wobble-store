@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="stylesheets/loading.css" />
+    <link rel="icon" href="icons/appIcon.png" />
+    <link rel="stylesheet" href="/stylesheets/reset.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="stylesheets/colors.css" />
+    <link rel="stylesheet" href="stylesheets/navbar.css" />
+    <link rel="stylesheet" href="stylesheets/button.css" />
+    <link rel="stylesheet" href="stylesheets/universalLoader.css" />
+    <link rel="stylesheet" href="stylesheets/loading.css" />
+    <link rel="stylesheet" href="stylesheets/pastOrders.css" />
+    <script src="scripts/handlePastOrders.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/handleNavbar.js"></script>
+    <title>Wobble</title>
+  </head>
+  <body>
+    <div class="loadingScreen">
+      <h1 class="title">Loading</h1>
+      <div class="rainbow-marker-loader"></div>
+    </div>
+    <div class="universalLoader finished">
+      <div class="loader"></div>
+      <h1 class="title">Logging in...</h1>
+    </div>
+    <navbar class="navbar">
+      <a href="/" class="icon"
+        ><img src="icons/appIcon.png" alt="Icon placholder" />
+      </a>
+      <form class="searchBar" method="GET" action="search.html">
+        <input
+          type="text"
+          name="searchQuery"
+          placeholder="Search for products"
+        />
+        <button hidden type="submit">Search</button>
+      </form>
+      <form action="/loginOrRegister.html" class="action account">
+        <button type="submit">Login</button>
+      </form>
+      <form action="/cart.html" class="action cart">
+        <span class="badge">0</span>
+        <button type="submit">Cart</button>
+      </form>
+      <form action="/dashboard.html" class="action dashboard">
+        <button type="submit">Dashboard</button>
+      </form>
+      <div class="categories"></div>
+    </navbar>
+    <main class="pastMain">
+      <aside class="sideMenu">
+        <a class="userInfo" href="/dashboard.html"> Account information </a>
+        <a class="pastOrders" href="/pastOrders.html"> Past orders </a>
+      </aside>
+      <h2 class="title">All orders</h2>
+      <div class="orders"></div>
+    </main>
+  </body>
+</html>

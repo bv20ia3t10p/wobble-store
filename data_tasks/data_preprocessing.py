@@ -12,6 +12,7 @@ project_data = 'G:/Code/IE104-retailer-web-project/data/'
 #%%
 df = pd.read_csv(project_data+'DataCoSupplyChainDataset.csv',encoding='latin1')
 #%%
+df['Customer Email']=df['Customer Id'].apply(lambda x: str(x)+"@fakeaddress.wobble")
 df_items = df[['Department Id','Department Name','Category Name','Category Id','Product Card Id','Product Description','Product Name','Product Price'
            ,'Product Status']].drop_duplicates(subset=['Product Card Id'],keep='last')
 df_items['ProductSoldQuantity'] = df_items['Product Card Id'].apply(lambda x : df[['Product Card Id','Order Item Quantity']]
@@ -23,7 +24,6 @@ df_items.to_csv(project_data+'Products.csv',header = [ i.replace(' ','') for i i
 df_customers = df[['Customer Id', 'Customer City','Customer Country','Customer Fname','Customer Lname','Customer Password','Customer Segment','Customer State',
                      'Customer Street','Customer Zipcode']].drop_duplicates(subset=['Customer Id'],keep='last')
 df_customers['Customer Zipcode'] = df['Customer Zipcode'].apply(lambda x: int(x) if float(x).is_integer() else 0 )
-df_customers['Customer Email']=df['Customer Id'].apply(lambda x: str(x)+"@fakeaddress.wobble")
 df_customers['Customer Password']=df['Customer Id'].apply(lambda x: "pw"+str(x))
 df_customers.to_csv(project_data+'Customers.csv',header = [ i.replace(' ','') for i in df_customers.columns],index=False)
 #%%
@@ -41,7 +41,7 @@ df_orders = df_orders.drop(['Benefit per order','Sales per customer','Category I
                 'Order Zipcode', 'Market','Latitude','Longitude','Department Name','Department Id','Order City',
                 'Order Country','Order Customer Id','Order State','Order Region',
                 'Product Image','Product Name','Product Price','Product Status','Order Item Discount Rate',
-                'Order Profit Per Order','Order Item Total','Customer Password','Customer State'],axis=1).drop_duplicates(subset=['Order Id'],keep='last')
+                'Order Profit Per Order','Order Item Total','Customer Password'],axis=1).drop_duplicates(subset=['Order Id'],keep='last')
 # order_cols = list(df_orders.columns)
 # order_cols.remove('Order Item Total')
 df_test = df[['Order Id','Order Item Total']].groupby(['Order Id'],as_index=False).sum()

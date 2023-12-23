@@ -1,0 +1,67 @@
+.order{
+    grid-column: 1/-1;
+    grid-row:1/1;
+}
+
+main {
+    display: grid;
+    grid-template-rows: 62svh 2svh 6svh 6svh 1fr;
+    height: 86.8svh;
+    row-gap: 1.2em;
+    grid-template-columns: 5fr 1.5fr;
+    align-items: end;
+    justify-content: end;
+    /* background-color: blue; */
+}
+
+main select{
+    grid-row: 3/3;
+    grid-column: 2/2;
+    /* padding: 1em; */
+    height: 100%;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    text-align: right;
+    text-align: center;
+    color: var(--gray-600);
+}
+
+main button{
+    grid-row:4/4;
+    grid-column: 1/1;
+    height: 100%;
+    grid-column: 2/2;
+}
+
+
+main > .subTitle{
+    font-size:1.2em;
+    font-weight: var(--font-semibold);
+    color: var(--gray-800);
+    grid-column: 2/2;
+    width: 100%;
+    text-align: center;
+}
+main select,main select option{
+    -webkit-appearance: none;
+    appearance: none;
+    font-size: 1.3em;
+    outline: none;
+    border: none;
+}
+main select {
+    border: 0.05em solid var(--gray-300);
+    height: 100%;
+}
+
+main button{
+    font-size: 1.4em;
+    border-radius: 0.5em;
+    background-color: var(--rose-600);
+    color: white;
+    border: none;
+    height: 100%;
+    width: 100%;
+    align-self: end;
+    justify-self: end;
+}

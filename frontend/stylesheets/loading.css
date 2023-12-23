@@ -111,7 +111,7 @@
   height: 4rem;
   width: 20rem;
   max-width: 100%;
-  border: 0.5rem solid var(--color-crayon);
+  border: 0.5rem solid var(--color-crayon) !important;
   border-radius: 0.5rem;
   animation: infinite alternate rainbow-fill var(--duration) ease-in-out;
   box-sizing: border-box;
@@ -151,7 +151,7 @@
         var(--color-crayon) 40%
       ),
     no-repeat left 3rem bottom / 100% 100%
-      linear-gradient(var(--color-crayon), var(--color-crayon));
+      linear-gradient(var(--color-crayon), var(--color-crayon)) !important;
 }
 
 @keyframes move-marker {

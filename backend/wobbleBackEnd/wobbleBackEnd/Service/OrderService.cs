@@ -57,10 +57,10 @@ namespace ECommerceBackEnd.Service
             orderEntity.Id = new MongoDB.Bson.ObjectId();
             orderEntity.OrderDate = DateTime.Now;
             orderEntity.ShippingDate = DateTime.Now.AddDays(3);
-            orderEntity.ShippingMode = "NORMAL";
-            orderEntity.OrderStatus = "UNCONFIRMED";
+            orderEntity.ShippingMode = "Standard Class";
+            orderEntity.OrderStatus = "Pending";
             orderEntity.LateDeliveryRisk = 0;
-            orderEntity.DeliveryStatus = "NOT DELIVERED";
+            orderEntity.DeliveryStatus = "Shipping on time";
             _repository.Order.CreateOrder(orderEntity);
             return _mapper.Map<OrderDto>(orderEntity);
         }
@@ -80,7 +80,13 @@ namespace ECommerceBackEnd.Service
                 order.Details = _mapper.Map<IEnumerable<OrderDetailDto>>(_repository.OrderDetail.GetDetailsForOrder(order.OrderId));
             }
 
-            return returnOrders;
+            return returnOrders.OrderByDescending(c=>c.OrderId);
+        }
+        public void UpdateOrderPaymentStatus (UpdateOrderPaymentDto updateOrderPayment)
+        {
+            var orderInDb = _repository.Order.GetOrderById(updateOrderPayment.OrderId) ?? throw new Exception("Order not found");
+            _mapper.Map(updateOrderPayment, orderInDb);
+            _repository.Order.UpdateOrder(orderInDb);
         }
     }
 }

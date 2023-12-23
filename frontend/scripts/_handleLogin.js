@@ -79,8 +79,8 @@ document.addEventListener("DOMContentLoaded", async function () {
             if (e.ok) return e.json();
             throw new Error("Failed");
           })
-          .then(() => {
-            fetch(
+          .then(async () => {
+            await fetch(
               "https://ecommercebackend20231127233624.azurewebsites.net/api/Auth?googletoken" +
                 ggToken,
               {
