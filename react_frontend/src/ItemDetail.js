@@ -3,6 +3,7 @@ import DOMPurify from "dompurify";
 import { addToCart, flask_url, url } from "./utils";
 import "./stylesheets/itemDetail.css";
 import Product from "./Product";
+import { useLoadingContext } from "./LoadingContext";
 
 const getItemDetail = async (id, setCurrenItem) => {
   const itemUrl = url + `/api/Products/${id}`;
@@ -39,6 +40,7 @@ const getItemRecs = async (id, setRecItems) => {
 
 const ItemDetail = () => {
   const [currentItem, setCurrentItem] = useState({});
+  const { setPageLoader, pageLoader } = useLoadingContext();
   const [recItems, setRecItems] = useState([]);
   const [currentItemId, setCurrentItemId] = useState(365);
   const [images, setImages] = useState([]);
@@ -83,8 +85,9 @@ const ItemDetail = () => {
     const autoSlideMover = setInterval(() => moveSlides(1), 3000);
     return () => clearInterval(autoSlideMover);
   }, [moveSlides, currentItemId]);
+  useEffect(() => {});
   return (
-    <main className="itemDetailMain">
+    <main className={`itemDetailMain`}>
       <div className="itemImages">
         <div className="buttonContainer">
           <button onClick={() => moveSlides(-1)}></button>

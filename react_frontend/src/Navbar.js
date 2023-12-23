@@ -4,6 +4,7 @@ import appIcon from "./icons/appIcon.png";
 import { navigateToNewPage, url } from "./utils";
 import { createNewSearch } from "./utils";
 import "./stylesheets/navbar.css";
+import { useLoadingContext } from "./LoadingContext";
 
 const getCategories = async (setCategories) => {
   const categoriesUrl = url + "/api/Category";
@@ -27,6 +28,7 @@ const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [badge, setBadge] = useState(0);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoading } = useLoadingContext();
   useEffect(() => {
     getCategories(setCategories);
     const checkCart = () => {
@@ -60,7 +62,7 @@ const Navbar = () => {
     }
   };
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${isLoading ? "dimmed" : ""}`}>
       <a href="/" className="icon">
         <img src={appIcon} alt="Icon placholder" />
       </a>

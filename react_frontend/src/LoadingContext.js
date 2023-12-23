@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useReducer } from "react";
 
 const initialLoadingState = {
@@ -41,6 +41,9 @@ const LoadingContext = ({ children }) => {
       dispatch({ type: "OPEN_LOADING_DIALOGUE", message: message });
     else dispatch({ type: "CLOSE_LOADING_DIALOGUE" });
   };
+  useEffect(() => {
+    setPageLoaded(true);
+  }, []);
   return (
     <AppContext.Provider
       value={{ setPageLoaded, setDialogueLoading, ...state }}

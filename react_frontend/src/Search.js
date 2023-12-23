@@ -50,7 +50,8 @@ const getItemRecommendation = async (ids, setRecs) => {
   try {
     const data = await resp.json();
     console.log(data);
-    setRecs(() => data);
+    if (flag) setRecs(() => data.value);
+    else setRecs(() => data);
   } catch (e) {
     console.log(e);
   }
@@ -86,8 +87,9 @@ const Search = () => {
   const [minPrice, setMinPrice] = useState(0);
   const [sortOpt, setSortOpt] = useState("ProductPrice asc");
   useEffect(() => {
-    if (isLoading && searchResults && recResults) setPageLoaded(() => true);
-  }, [isLoading, searchResults, recResults, setPageLoaded]);
+    if (searchResults && recResults) setPageLoaded(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchResults,recResults]);
   // useEffect(() => {});
   useEffect(() => {
     const currentWindow = new URL(window.location.href);
@@ -120,13 +122,13 @@ const Search = () => {
       ids = [...ids, ...searchResults.map((e) => e.ProductCardId)];
     getItemRecommendation(ids, setRecResults);
   }, [searchResults]);
-  const refreshSearch = () => {
+  const refreshSearch = async() => {
     setDialogueLoading(true, "Refreshing your search");
     const currentWindow = new URL(window.location.href);
     const searchParams = currentWindow.searchParams;
     const searchQuery = searchParams.get("searchQuery");
     if (searchQuery)
-      getItemsByName(
+      await getItemsByName(
         searchQuery,
         setSearchResults,
         "ProductPrice gt " + minPrice,
@@ -134,7 +136,7 @@ const Search = () => {
       );
     const categoryId = searchParams.get("categoryId");
     if (categoryId)
-      getItemsByCategory(
+      await getItemsByCategory(
         searchQuery,
         setSearchResults,
         "ProductPrice gt " + minPrice,
