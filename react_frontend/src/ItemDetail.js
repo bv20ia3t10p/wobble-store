@@ -45,23 +45,26 @@ const ItemDetail = () => {
   const [currentQuantity, setCurrentQuantity] = useState(1);
   const [currentViewing, setCurrentViewing] = useState(0);
   const [isExpandingDescription, setIsExpandingDescription] = useState(false);
-  const moveSlides = useCallback((direction = null, index = null) => {
-    if (index !== null) {
-      setCurrentViewing(() => index);
-    } else {
-      switch (direction) {
-        case direction < 0:
-          setCurrentViewing(() =>
-            currentViewing === 0 ? 5 : currentViewing - 1
-          );
-          break;
-        default:
-          setCurrentViewing(() =>
-            currentViewing === 5 ? 0 : currentViewing + 1
-          );
+  const moveSlides = useCallback(
+    (direction = null, index = null) => {
+      if (index !== null) {
+        setCurrentViewing(() => index);
+      } else {
+        switch (direction) {
+          case direction < 0:
+            setCurrentViewing(() =>
+              currentViewing === 0 ? 5 : currentViewing - 1
+            );
+            break;
+          default:
+            setCurrentViewing(() =>
+              currentViewing === 5 ? 0 : currentViewing + 1
+            );
+        }
       }
-    }
-  },[currentViewing]);
+    },
+    [currentViewing]
+  );
 
   useMemo(() => {
     setCurrentItemId(() => {
@@ -76,7 +79,9 @@ const ItemDetail = () => {
     });
     getItemRecs(currentItemId, setRecItems);
     getItemDetail(currentItemId, setCurrentItem);
-    setInterval(() => moveSlides(1), 3000);
+
+    const autoSlideMover = setInterval(() => moveSlides(1), 3000);
+    return () => clearInterval(autoSlideMover);
   }, [moveSlides, currentItemId]);
   return (
     <main className="itemDetailMain">

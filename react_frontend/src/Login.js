@@ -108,7 +108,7 @@ const Login = () => {
         ? inputData.get("customerPassword")
         : "",
     };
-    const resp = await fetch(url + 'api/Auth?googletoken=""', {
+    const resp = await fetch(url + '/api/Auth?googletoken=""', {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
@@ -198,7 +198,7 @@ const Login = () => {
           >
             Sign In
           </button>
-          <form id="login-form">
+          <form id="login-form" onSubmit={handleLogin}>
             <h2 className="formHeader">Enter your login credentials</h2>
             <label htmlFor="login-email">Email address</label>
             <input

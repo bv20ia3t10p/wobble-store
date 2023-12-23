@@ -1,14 +1,16 @@
 import Navbar from "./Navbar";
-import "./stylesheets/colors.css";
-import "./stylesheets/button.css";
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home";
 import "./stylesheets/reset.css";
+import "./stylesheets/colors.css";
+import "./stylesheets/button.css";
 import ItemDetail from "./ItemDetail";
 import Login from "./Login";
 import { LoadingContext } from "./LoadingContext";
 import PageLoader from "./PageLoader";
 import UniversalLoader from "./UniversalLoader";
+import Search from "./Search";
 
 function App() {
   return (
@@ -33,6 +35,15 @@ function App() {
               <>
                 <Navbar />
                 <ItemDetail />
+              </>
+            }
+          ></Route>
+          <Route
+            path="/search"
+            element={
+              <>
+                <Navbar />
+                <Search />
               </>
             }
           ></Route>
