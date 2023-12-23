@@ -1,0 +1,329 @@
+.searchMain {
+  display: grid;
+  grid-template-rows: 5svh 1fr 1fr;
+  height: 86svh;
+  row-gap: 3svh;
+  padding: 0 10.5svw;
+  padding-top: 0.1svh;
+  padding-bottom: 0svh;
+}
+
+.searchMain .searchControls {
+  display: grid;
+  padding: 1svh 0.5svw;
+  grid-auto-flow: column;
+  grid-template-rows: 0.3fr 1.2fr 0.8fr;
+  column-gap: 1svw;
+  row-gap: 1svh;
+  grid-template-columns: 18fr 1fr 30fr 1fr 10fr 5fr;
+  font-size: 1em;
+  width: 97.2%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border-radius: 0.5em;
+}
+
+.searchMain .searchControls label,
+.searchControls button {
+  font-size: 0.9em;
+}
+.searchMain .searchControls select {
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 0.5svh;
+  border: 0.25svh solid var(--gray-200);
+  color: var(--gray-800);
+  /* font-weight: var(--font-semibold); */
+  font-size: 0.9em;
+  letter-spacing: 0.025svw;
+  height: 70%;
+}
+
+/* .searchMain .searchControls select option {
+  font-weight: var(--font-semibold);
+} */
+
+.searchMain .searchControls * {
+  font-size: 1em;
+  border: none;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background-color: transparent;
+}
+
+.searchMain .searchControls .title {
+  grid-column: 1/-1;
+  grid-row: 1/1;
+  text-align: left;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: max-content;
+  height: max-content;
+  margin-top: -3.5svh;
+}
+
+.searchMain .searchControls *:active,
+.searchMain .searchControls *:focus {
+  outline: none;
+}
+
+.searchMain .searchControls > * {
+  grid-row: 1/-1;
+}
+
+.searchMain .searchControls h3:nth-of-type(1) {
+  grid-row: 3/3;
+  grid-column: 2/2;
+  z-index: 1;
+}
+.searchMain .searchControls h3:nth-of-type(2) {
+  grid-row: 3/3;
+  grid-column: 4/4;
+}
+
+.searchControls h3 {
+  margin-top: 0.5svh;
+  color: var(--slate-400);
+}
+
+.searchMain .searchControls label {
+  grid-column: 1/1;
+  grid-row: 2/-1;
+  font-size: 1em;
+  margin-top: -1.5svh;
+  padding-left: 4svw;
+  color: var(--slate-600);
+}
+
+.searchMain .searchControls input {
+  grid-column: 2/5;
+}
+
+.searchMain select {
+  grid-column: 5/5;
+}
+.searchMain button {
+  grid-column: 6/-1;
+}
+
+.searchMain input[type="range"] {
+  height: 2.5svh;
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 1svh 0;
+  width: 100%;
+}
+.searchMain input[type="range"]:focus {
+  outline: none;
+}
+.searchMain input[type="range"]::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 0.5svh;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000;
+  background: var(--orange-600);
+  border-radius: 0.1svh;
+  border: 0px solid #000000;
+}
+.searchMain input[type="range"]::-webkit-slider-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 0.1svh solid var(--orange-600);
+  height: 1.8svh;
+  width: 1.8svh;
+  border-radius: 2.5svh;
+  background: var(--orange-50);
+  cursor: pointer;
+  -webkit-appearance: none;
+  margin-top: -0.7svh;
+}
+.searchMain input[type="range"]:focus::-webkit-slider-runnable-track {
+  background: var(--orange-600);
+}
+.searchMain input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 0.5svh;
+  cursor: pointer;
+  box-shadow: 0px 0px 0px #000000;
+  background: var(--orange-400);
+  border-radius: 0.1svh;
+  border: 0px solid #000000;
+}
+.searchMain input[type="range"]::-moz-range-thumb {
+  box-shadow: 0px 0px 0px #000000;
+  border: 0.1svh solid var(--orange-600);
+  height: 1.8svh;
+  width: 1.8svh;
+  border-radius: 2.5svh;
+  background: var(--orange-50);
+  cursor: pointer;
+}
+.searchMain input[type="range"]::-ms-track {
+  width: 100%;
+  height: 0.5svh;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.searchMain input[type="range"]::-ms-fill-lower {
+  background: var(--orange-600);
+  border: 0px solid #000000;
+  border-radius: 0.2svh;
+  box-shadow: 0px 0px 0px #000000;
+}
+.searchMain input[type="range"]::-ms-fill-upper {
+  background: var(--orange-600);
+  border: 0px solid #000000;
+  border-radius: 0.2svh;
+  box-shadow: 0px 0px 0px #000000;
+}
+.searchMain input[type="range"]::-ms-thumb {
+  margin-top: 1px;
+  box-shadow: 0px 0px 0px #000000;
+  border: 0.1svh solid var(--orange-600);
+  height: 1.8svh;
+  width: 1.8svh;
+  border-radius: 2.5svh;
+  background: var(--orange-50);
+  cursor: pointer;
+}
+.searchMain input[type="range"]:focus::-ms-fill-lower {
+  background: var(--orange-600);
+}
+.searchMain input[type="range"]:focus::-ms-fill-upper {
+  background: var(--orange-600);
+}
+
+.searchMain .recommendations .item,
+.searchMain .searchResult .item {
+  grid-row: 2/2;
+  border: 0.1em solid var(--gray-200);
+  padding: 0.6em;
+  margin-left: 0.8em;
+  border-radius: 0.5em;
+  gap: 0.5em;
+  grid-template-rows: 1fr 20% 6% 12%;
+  grid-template-columns: 70% 1fr;
+  display: grid;
+  width: 7em;
+  height: 15em;
+  background-color: white;
+  font-size: 1.05em;
+}
+
+.searchResult .item img,
+.recommendations .item img {
+  grid-row-start: 1;
+  grid-column: 1 / span 2;
+  grid-row-end: 1;
+  width: 100%;
+  object-fit: fill;
+  height: 7em;
+}
+
+.searchResult .item .itemSold,
+.recommendations .item .itemSold {
+  grid-column: 1/-1;
+  font-size: 0.8em;
+  font-weight: var(--font-semibold);
+  color: var(--orange-800);
+  text-align: center;
+  background-image: url("../icons/soldIcon.png");
+  background-repeat: no-repeat;
+  background-size: 1em;
+}
+
+.searchResult .item .button img,
+.recommendations .item .button img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.searchResult .item .name,
+.recommendations .item .name {
+  grid-row-start: 2;
+  grid-column: 1 / span 2;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  text-align: left;
+  font-size: 0.8em;
+  color: var(--gray-500);
+  /* font-weight: var(--font-semibold); */
+  overflow: hidden;
+}
+
+.searchResult .item .price,
+.recommendations .item .price {
+  grid-row-start: 4;
+  font-family: sans-serif;
+  font-size: 1em;
+  word-wrap: break-word;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-weight: var(--font-bold);
+}
+
+.searchMain .item *,
+.searchMain .item *:hover {
+  background-color: transparent;
+}
+
+.searchResult,
+.searchMain .recommendations {
+  background-color: white;
+  padding: 1svh 0.5svw;
+  border-radius: 0.5em;
+  overflow-x: scroll;
+  display: grid;
+  grid-auto-flow: column;
+  grid-template-rows: 3svh 1fr;
+  grid-template-columns: repeat(9, 1fr);
+  row-gap: 1svh;
+  column-gap: 1svw;
+  overflow-y: hidden;
+  width: 97%;
+}
+
+.searchMain h2.title {
+  background-color: transparent;
+  font-weight: var(--font-semibold);
+  position: absolute;
+}
+
+.searchMain ::-webkit-scrollbar {
+  display: none;
+}
+
+.searchMain .searchResult {
+  margin-top: 1svh;
+}
+
+.searchMain .recommendations {
+  margin-top: -1svh;
+
+  /* height: 93%; */
+}
+
+.searchMain .recommendations .item {
+  margin-top: 1.5svh;
+}
+.searchControls button {
+  background-color: var(--orange-600) !important;
+  color: white;
+  border-radius: 0.5svw;
+  height: 3.5svh !important;
+}

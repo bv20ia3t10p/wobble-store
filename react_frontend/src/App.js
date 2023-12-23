@@ -2,9 +2,9 @@ import Navbar from "./Navbar";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Home";
+import "./stylesheets/button.css";
 import "./stylesheets/reset.css";
 import "./stylesheets/colors.css";
-import "./stylesheets/button.css";
 import ItemDetail from "./ItemDetail";
 import Login from "./Login";
 import { LoadingContext } from "./LoadingContext";

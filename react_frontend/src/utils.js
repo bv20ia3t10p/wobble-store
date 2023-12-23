@@ -24,7 +24,6 @@ export const addToCart = (id, quantity) => {
   try {
     id = Number(id);
     let cart = JSON.parse(localStorage.getItem("cart"));
-    console.log(cart);
     let exist = 0;
     cart.forEach((item) => {
       if (item.id === id) {
@@ -39,7 +38,10 @@ export const addToCart = (id, quantity) => {
     }
     window.dispatchEvent(new Event("storage"));
   } catch (e) {
-    localStorage.setItem("cart", JSON.stringify([{ id, quantity }]));
+    localStorage.setItem(
+      "cart",
+      JSON.stringify([{ id, quantity, checked: false }])
+    );
   }
 };
 

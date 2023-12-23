@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLoadingContext } from "./LoadingContext";
 import Product from "./Product";
-import { url } from "./utils";
+import { flask_url, url } from "./utils";
+import "./stylesheets/search.css";
 
 const getItemsByCategory = async (
   id,
@@ -15,9 +16,46 @@ const getItemsByCategory = async (
       additionalOpt ? "and " + additionalOpt : ""
     } ${sortOptions ? "&$orderby=" + sortOptions : ""}`;
   await fetch(queryUrl)
-    .then((e) => (e.ok ? e.json() : e))
-    .then((data) => setSearchResults(data));
+    .then((e) => e.ok && e.json())
+    .then((data) => setSearchResults(data.value));
 };
+
+const getItemRecommendation = async (ids, setRecs) => {
+  let resp;
+  let flag = !ids.length;
+  let recItemUrl;
+  if (flag) {
+    recItemUrl =
+      url + "/odata/Products?$orderby=ProductSoldQuantity%20desc&top=20";
+    resp = await fetch(recItemUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    });
+  } else {
+    recItemUrl = flask_url + "/mlApi/ProductRec";
+    resp = await fetch(recItemUrl, {
+      method: "POST",
+      body: JSON.stringify(ids),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    });
+  }
+  try {
+    const data = await resp.json();
+    console.log(data);
+    setRecs(() => data);
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 const getItemsByName = async (
   query,
   setSearchResults,
@@ -36,24 +74,32 @@ const getItemsByName = async (
   console.log(queryUrl);
   await fetch(queryUrl)
     .then((e) => (e.ok ? e.json() : e))
-    .then(async (data) => setSearchResults(data));
+    .then((data) => {
+      setSearchResults(() => data.value);
+    });
 };
 
 const Search = () => {
-  const { setPageLoaded, isLoading } = useLoadingContext();
-  const [searchResult, setSearchResults] = useState([]);
+  const { setPageLoaded, isLoading, setDialogueLoading } = useLoadingContext();
+  const [searchResults, setSearchResults] = useState([]);
   const [recResults, setRecResults] = useState([]);
+  const [minPrice, setMinPrice] = useState(0);
+  const [sortOpt, setSortOpt] = useState("ProductPrice asc");
   useEffect(() => {
-    if (searchResult && recResults) setPageLoaded(true);
-  }, [searchResult, recResults]);
-  useEffect(() => {});
+    if (isLoading && searchResults && recResults) setPageLoaded(() => true);
+  }, [isLoading, searchResults, recResults, setPageLoaded]);
+  // useEffect(() => {});
   useEffect(() => {
     const currentWindow = new URL(window.location.href);
     const searchParams = currentWindow.searchParams;
     const categorySearch = searchParams.get("category");
     const searchQuery = searchParams.get("searchQuery");
-    const additionalOpt = searchParams.get("additionalOpt");
-    const sortOptions = searchParams.get("sort");
+    const additionalOpt = searchParams.get("additionalOpt")
+      ? searchParams.get("additionalOpt")
+      : null;
+    const sortOptions = searchParams.get("sort")
+      ? searchParams.get("sort")
+      : null;
     if (categorySearch)
       getItemsByCategory(
         categorySearch,
@@ -61,24 +107,62 @@ const Search = () => {
         additionalOpt,
         sortOptions
       );
-    else getItemsByCategory(setSearchResults);
+    else
+      getItemsByName(searchQuery, setSearchResults, additionalOpt, sortOptions);
   }, []);
+  useEffect(() => {
+    const cart = localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : null;
+    let ids = [];
+    if (cart) ids = [...ids, ...cart.map((e) => e.id)];
+    if (searchResults)
+      ids = [...ids, ...searchResults.map((e) => e.ProductCardId)];
+    getItemRecommendation(ids, setRecResults);
+  }, [searchResults]);
+  const refreshSearch = () => {
+    setDialogueLoading(true, "Refreshing your search");
+    const currentWindow = new URL(window.location.href);
+    const searchParams = currentWindow.searchParams;
+    const searchQuery = searchParams.get("searchQuery");
+    if (searchQuery)
+      getItemsByName(
+        searchQuery,
+        setSearchResults,
+        "ProductPrice gt " + minPrice,
+        sortOpt
+      );
+    const categoryId = searchParams.get("categoryId");
+    if (categoryId)
+      getItemsByCategory(
+        searchQuery,
+        setSearchResults,
+        "ProductPrice gt " + minPrice,
+        sortOpt
+      );
+    setDialogueLoading(false);
+  };
   return (
     <main className={`searchMain ${isLoading ? "dimmed" : ""}`}>
       <div className="searchControls">
         <h2 className="title">Filter options</h2>
-        <select name="sort">
+        <select
+          name="sort"
+          value={sortOpt}
+          onChange={(e) => setSortOpt(() => e.target.value)}
+        >
           <option value="ProductPrice asc">Ascending product price</option>
           <option value="ProductPrice desc">Descending product price</option>
           <option value="ProductSoldQuantity desc">Trending products</option>
           <option value="ProductName asc">A-Z</option>
           <option value="ProductName desc">Z-A</option>
         </select>
-        <label for="priceRange">Minimum price: $0</label>
+        <label htmlFor="priceRange">Minimum price: ${minPrice}</label>
         <h3 className="valueRange">0</h3>
         <input
           type="range"
-          value="0"
+          value={minPrice}
+          onChange={(e) => setMinPrice(() => e.target.value)}
           min="0"
           step="10"
           max="1000"
@@ -86,12 +170,12 @@ const Search = () => {
           id="priceRange"
         />
         <h3 className="valueRange">1000</h3>
-        <button>Apply</button>
+        <button onClick={() => refreshSearch()}>Apply</button>
       </div>
       <div className="searchResult">
         <h2 className="title">Search results</h2>
-        {searchResult &&
-          searchResult.map((product, key) => (
+        {searchResults &&
+          searchResults.map((product, key) => (
             <Product product={product} key={key}></Product>
           ))}
       </div>

@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import appIcon from "./icons/appIcon.png";
-import { url } from "./utils";
+import { navigateToNewPage, url } from "./utils";
 import { createNewSearch } from "./utils";
 import "./stylesheets/navbar.css";
 
@@ -26,6 +26,7 @@ const getCategories = async (setCategories) => {
 const Navbar = () => {
   const [categories, setCategories] = useState([]);
   const [badge, setBadge] = useState(0);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   useEffect(() => {
     getCategories(setCategories);
     const checkCart = () => {
@@ -38,16 +39,32 @@ const Navbar = () => {
     };
     checkCart();
     window.addEventListener("storage", checkCart);
+    try {
+      const accountToken = localStorage.getItem("accountToken");
+      if (accountToken.length > 10) setIsLoggedIn(() => true);
+    } catch {
+      console.log("No account token");
+    }
     return () => {
       window.removeEventListener("storage", checkCart);
     };
   }, []);
+  const handleLoginOrLogout = (e) => {
+    e.preventDefault();
+    if (!isLoggedIn) {
+      navigateToNewPage("/login");
+    } else {
+      localStorage.clear();
+      setIsLoggedIn(() => false);
+      window.location.reload();
+    }
+  };
   return (
     <nav className="navbar">
       <a href="/" className="icon">
         <img src={appIcon} alt="Icon placholder" />
       </a>
-      <form className="searchBar" method="GET" action="search.html">
+      <form className="searchBar" method="GET" action="search">
         <input
           type="text"
           name="searchQuery"
@@ -57,10 +74,14 @@ const Navbar = () => {
           Search
         </button>
       </form>
-      <form action="/login" className="action account">
-        <button type="submit">Login</button>
+      <form
+        action="/login"
+        onSubmit={handleLoginOrLogout}
+        className="action account"
+      >
+        <button type="submit">{isLoggedIn ? "Log out" : "Log in"}</button>
       </form>
-      <form action="/cart.html" className="action cart">
+      <form action="/cart" className="action cart">
         <span className="badge">{badge}</span>
         <button type="submit">Cart</button>
       </form>
