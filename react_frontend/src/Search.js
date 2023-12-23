@@ -20,7 +20,7 @@ const getItemsByCategory = async (
     .then((data) => setSearchResults(data.value));
 };
 
-const getItemRecommendation = async (ids, setRecs) => {
+export const getItemRecommendation = async (ids, setRecs) => {
   let resp;
   let flag = !ids.length;
   let recItemUrl;

@@ -42,7 +42,7 @@ const LoadingContext = ({ children }) => {
     else dispatch({ type: "CLOSE_LOADING_DIALOGUE" });
   };
   useEffect(() => {
-    setPageLoaded(true);
+    setPageLoaded(false);
   }, []);
   return (
     <AppContext.Provider

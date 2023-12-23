@@ -11,6 +11,7 @@ import { LoadingContext } from "./LoadingContext";
 import PageLoader from "./PageLoader";
 import UniversalLoader from "./UniversalLoader";
 import Search from "./Search";
+import Cart from "./Cart";
 
 function App() {
   return (
@@ -48,6 +49,15 @@ function App() {
             }
           ></Route>
           <Route path="/login" element={<Login />} />
+          <Route
+            path="/cart"
+            element={
+              <>
+                <Navbar />
+                <Cart />
+              </>
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
     </LoadingContext>

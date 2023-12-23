@@ -40,7 +40,7 @@ const getItemRecs = async (id, setRecItems) => {
 
 const ItemDetail = () => {
   const [currentItem, setCurrentItem] = useState({});
-  const { setPageLoader, pageLoader } = useLoadingContext();
+  const { setPageLoaded } = useLoadingContext();
   const [recItems, setRecItems] = useState([]);
   const [currentItemId, setCurrentItemId] = useState(365);
   const [images, setImages] = useState([]);
@@ -85,6 +85,10 @@ const ItemDetail = () => {
     const autoSlideMover = setInterval(() => moveSlides(1), 3000);
     return () => clearInterval(autoSlideMover);
   }, [moveSlides, currentItemId]);
+  useEffect(() => {
+    if (recItems) setPageLoaded(true);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recItems]);
   useEffect(() => {});
   return (
     <main className={`itemDetailMain`}>
