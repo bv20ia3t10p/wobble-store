@@ -71,9 +71,10 @@
 .activePage #login-form {
   display: grid;
   grid-template-columns: 30% 1fr;
-  width: 90%;
-  height: 80%;
+  width: 100%;
+  height: 100%;
   font-size: 2em;
+  padding: 5svh;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -142,6 +143,10 @@ label[for="login-password"] {
   background-repeat: no-repeat;
   background-position: 0.5svw 0.5svh;
   background-size: 6svh;
+}
+
+.activePage #signinWithGoogle{
+  margin-top: -10svh;
 }
 
 .activePage #register-form {

@@ -1,16 +1,180 @@
 import React, { useState } from "react";
 import "./stylesheets/loginOrRegister.css";
 import "./stylesheets/loginAnimation.css";
+import { url, navigateToNewPage } from "./utils";
+import { useLoadingContext } from "./LoadingContext";
+
+const currentWindow = new URL(
+  window.location.href.replace("html#state=", "html?state=")
+);
 
 const Login = () => {
+  const { setPageLoaded, setDialogueLoading, isLoading } = useLoadingContext();
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
-  const [registerInfo, setRegisterInfo] = useState({});
+  const [registerInfo, setRegisterInfo] = useState({
+    email: "",
+    password: "",
+    fname: "",
+    lname: "",
+    city: "",
+    country: "",
+    street: "",
+    state: "",
+    zip: 0,
+  });
+  const register_url = url + "/api/Customer";
+  const oath_url = url + "/api/Auth";
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setDialogueLoading(true, "Loggin in...");
+    const inputData = new FormData(e.target);
+    const customer = {
+      customerEmail: inputData.get("customerEmail")
+        ? inputData.get("customerEmail")
+        : "",
+      customerPassword: inputData.get("customerPassword")
+        ? inputData.get("customerPassword")
+        : "",
+    };
+    const resp = await fetch(oath_url + '?googletoken=" "', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(customer),
+    }).catch((e) => alert(e));
+    const data = await resp.json();
+    localStorage.setItem("accountToken", data.token);
+    navigateToNewPage("/index.html");
+  };
+
+  const oauth2SignIn = () => {
+    var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
+    var form = document.createElement("form");
+    form.setAttribute("method", "GET"); // Send as a GET request.
+    form.setAttribute("action", oauth2Endpoint);
+    var params = {
+      client_id:
+        "433141860892-7qmra9ujnn35sslqurun4upjapcl2q2p.apps.googleusercontent.com",
+      redirect_uri: currentWindow.origin + currentWindow.pathname,
+      scope: `profile email`,
+      state: "pass-through value",
+      include_granted_scopes: "true",
+      response_type: "token",
+    };
+
+    for (var p in params) {
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", p);
+      input.setAttribute("value", params[p]);
+      form.appendChild(input);
+    }
+    document.body.appendChild(form);
+    form.submit();
+  };
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setDialogueLoading(true, "Registering you in...");
+    const inputData = new FormData(e.target);
+    const newUser = {
+      customerCity: inputData.get("customerCity"),
+      customerCountry: inputData.get("customerCountry"),
+      customerSegment: inputData.get("customerSegment"),
+      customerStreet: inputData.get("customerStreet"),
+      customerState: inputData.get("customerState"),
+      customerZipcode: inputData.get("customerZipcode"),
+      customerEmail: inputData.get("customerEmail"),
+      customerPassword: inputData.get("customerPassword"),
+      customerFname: inputData.get("customerFname"),
+      customerLname: inputData.get("customerLname"),
+      customerId: 123,
+    };
+    console.log(newUser);
+    await fetch(register_url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow",
+      referrerPolicy: "no-referrer",
+      body: JSON.stringify(newUser),
+    })
+      .then(async (e) => {
+        if (e.status === 400)
+          return e.text().then((text) => {
+            throw new Error(text);
+          });
+        return e.json();
+      })
+      .then(async (data) => {
+        console.log(data);
+        setDialogueLoading(true, "Account registered, logging you in...");
+        await fetch(oath_url + '?googletoken=" "', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+          body: JSON.stringify({
+            customerPassword: data.customerPassword,
+            customerEmail: data.customerEmail,
+          }),
+        })
+          .then((e) => {
+            if (e.ok) return e.json();
+          })
+          .then((e) => {
+            localStorage.setItem("accountToken", e.token);
+            navigateToNewPage("/index.html");
+          })
+          .catch((e) => alert(e));
+      })
+      .catch((e) => {
+        alert(e);
+        setDialogueLoading(false);
+      });
+  };
+  const loginWithGoogle = async (tokenFromUrl = null) => {
+    if (!tokenFromUrl) {
+      oauth2SignIn();
+    }
+    localStorage.setItem("googleToken", tokenFromUrl);
+    await fetch(oath_url + "?googletoken=" + tokenFromUrl, {
+      method: "POST",
+      body: JSON.stringify({ customerEmail: "", customerPassword: "" }),
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    })
+      .then((e) => {
+        if (e.ok) return e.json();
+      })
+      .then((data) => {
+        localStorage.setItem("accountToken", data.token);
+        localStorage.removeItem("loginState");
+        localStorage.removeItem("googleToken");
+        navigateToNewPage("/index.html");
+      })
+      .catch((error) => console.log(error));
+  };
+
+  const [isResgistering, setIsRegistering] = useState(true);
   return (
-    <div className="loginPage">
+    <div className={`loginPage ${isLoading ? "dimmed" : ""}`}>
       <main className="loginOrRegister">
-        <div className="login activePage">
+        <div
+          className={`loginPage ${
+            !isResgistering ? "activePage" : "inactivePage"
+          }`}
+        >
           <h1 className="pageHeader">Already have an account? Sign in!</h1>
-          <button className="activatePage">Sign In</button>
+          <button
+            className="activatePage"
+            onClick={() => setIsRegistering(() => !isResgistering)}
+          >
+            Sign In
+          </button>
           <form id="login-form">
             <h2 className="formHeader">Enter your login credentials</h2>
             <label htmlFor="login-email">Email address</label>
@@ -40,9 +204,18 @@ const Login = () => {
             </button>
           </form>
         </div>
-        <div className="register inactivePage">
+        <div
+          className={`resisterPage ${
+            isResgistering ? "activePage" : "inactivePage"
+          }`}
+        >
           <h1 className="pageHeader">Don't have an account? Sign up now</h1>
-          <button className="activatePage">Sign Up</button>
+          <button
+            className="activatePage"
+            onClick={() => setIsRegistering(() => !isResgistering)}
+          >
+            Sign Up
+          </button>
           <form id="register-form">
             <h2 className="formHeader">
               Please provide the neccessary information to create an account
@@ -53,6 +226,13 @@ const Login = () => {
               name="customerEmail"
               placeholder="youremailaddress@domain.com"
               id="register-email"
+              value={registerInfo.email}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  email: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-password">Password</label>
             <input

@@ -68,3 +68,19 @@ export const createNewSearch = (
   document.body.appendChild(form);
   form.submit();
 };
+
+export const navigateToNewPage = (url, params = null) => {
+  var form = document.createElement("form");
+  if (params)
+    for (var p in params) {
+      var input = document.createElement("input");
+      input.setAttribute("type", "hidden");
+      input.setAttribute("name", p);
+      input.setAttribute("value", params[p]);
+      form.appendChild(input);
+    }
+  form.setAttribute("method", "GET"); // Send as a GET request.
+  form.setAttribute("action", url);
+  document.body.appendChild(form);
+  form.submit();
+};
