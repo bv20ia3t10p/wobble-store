@@ -31,7 +31,7 @@ const Navbar = () => {
     const checkCart = () => {
       try {
         const cart = JSON.parse(localStorage.getItem("cart"));
-        setBadge(() => cart.length);
+        if (cart) setBadge(() => cart.length);
       } catch {
         setBadge(() => 0);
       }

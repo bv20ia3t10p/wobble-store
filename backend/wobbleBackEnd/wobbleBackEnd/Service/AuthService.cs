@@ -39,7 +39,7 @@ namespace ECommerceBackEnd.Service
             }
             var customerInDb = _repository.Customer.GetCustomerByEmail(user.CustomerEmail);
             _user = user;
-            if ( GoogleToken.Length > 10 )
+            if (GoogleToken.Length > 10)
             {
                 if (customerInDb is not null) return true;
                 _repository.Customer.CreateCustomer(new Entities.Customer
@@ -56,7 +56,7 @@ namespace ECommerceBackEnd.Service
                 };
                 return true;
             }
-            if (GoogleToken.Length < 10 && customerInDb.CustomerPassword != user.CustomerPassword)
+            else if (customerInDb is null || customerInDb.CustomerPassword != user.CustomerPassword)
             {
                 return false;
             }

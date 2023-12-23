@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./stylesheets/loginOrRegister.css";
 import "./stylesheets/loginAnimation.css";
 import { url, navigateToNewPage } from "./utils";
 import { useLoadingContext } from "./LoadingContext";
 
-const currentWindow = new URL(
-  window.location.href.replace("html#state=", "html?state=")
-);
-
 const Login = () => {
-  const { setPageLoaded, setDialogueLoading, isLoading } = useLoadingContext();
+  const { setDialogueLoading, isLoading } = useLoadingContext();
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
@@ -17,39 +13,17 @@ const Login = () => {
     fname: "",
     lname: "",
     city: "",
-    country: "",
+    country: "Algeria",
     street: "",
+    segment: "Customer",
     state: "",
     zip: 0,
   });
   const register_url = url + "/api/Customer";
-  const oath_url = url + "/api/Auth";
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setDialogueLoading(true, "Loggin in...");
-    const inputData = new FormData(e.target);
-    const customer = {
-      customerEmail: inputData.get("customerEmail")
-        ? inputData.get("customerEmail")
-        : "",
-      customerPassword: inputData.get("customerPassword")
-        ? inputData.get("customerPassword")
-        : "",
-    };
-    const resp = await fetch(oath_url + '?googletoken=" "', {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-      body: JSON.stringify(customer),
-    }).catch((e) => alert(e));
-    const data = await resp.json();
-    localStorage.setItem("accountToken", data.token);
-    navigateToNewPage("/index.html");
-  };
-
-  const oauth2SignIn = () => {
+  const oauth2SignIn = useCallback(() => {
+    const currentWindow = new URL(
+      window.location.href.replace("html#state=", "html?state=")
+    );
     var oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
     var form = document.createElement("form");
     form.setAttribute("method", "GET"); // Send as a GET request.
@@ -63,7 +37,6 @@ const Login = () => {
       include_granted_scopes: "true",
       response_type: "token",
     };
-
     for (var p in params) {
       var input = document.createElement("input");
       input.setAttribute("type", "hidden");
@@ -73,7 +46,80 @@ const Login = () => {
     }
     document.body.appendChild(form);
     form.submit();
+  }, []);
+  const loginWithGoogle = useCallback(async () => {
+    oauth2SignIn();
+  }, [oauth2SignIn]);
+  useEffect(() => {
+    const currentWindow = new URL(
+      window.location.href.replace("login#state=", "login?state=")
+    );
+    try {
+      const googleToken = currentWindow.searchParams.get("access_token");
+      if (!googleToken || googleToken.length < 10)
+        throw new Error("No token retrieved, useEffect");
+      const loginWithGoogleToken = async () => {
+        await fetch(url + "/api/Auth?googletoken=" + googleToken, {
+          method: "POST",
+          body: JSON.stringify({ customerEmail: "", customerPassword: "" }),
+          headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+        })
+          .then((e) => {
+            if (e.ok) return e.json();
+          })
+          .then((data) => {
+            localStorage.setItem("accountToken", data.token);
+            localStorage.removeItem("loginState");
+            localStorage.removeItem("googleToken");
+            navigateToNewPage("/");
+          })
+          .catch((error) => console.log(error));
+      };
+      loginWithGoogleToken();
+    } catch {
+      console.log("No access token from url");
+    }
+  }, []);
+  useEffect(() => {
+    const currentWindow = new URL(
+      window.location.href.replace("login#state=", "login?state=")
+    );
+    try {
+      const googleToken = currentWindow.searchParams.get("access_token");
+      if (!googleToken || googleToken.length < 10)
+        throw new Error("No token retrieved, useEffect");
+      setDialogueLoading(true, "Logging in with Google...");
+    } catch {
+      console.log("No access token from url");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setDialogueLoading(true, "Logging in...");
+    const inputData = new FormData(e.target);
+    const customer = {
+      customerEmail: inputData.get("customerEmail")
+        ? inputData.get("customerEmail")
+        : "",
+      customerPassword: inputData.get("customerPassword")
+        ? inputData.get("customerPassword")
+        : "",
+    };
+    const resp = await fetch(url + 'api/Auth?googletoken=""', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+      body: JSON.stringify(customer),
+    }).catch((e) => alert(e));
+    const data = await resp.json();
+    localStorage.setItem("accountToken", data.token);
+    navigateToNewPage("/");
   };
+
   const handleRegister = async (e) => {
     e.preventDefault();
     setDialogueLoading(true, "Registering you in...");
@@ -111,7 +157,7 @@ const Login = () => {
       .then(async (data) => {
         console.log(data);
         setDialogueLoading(true, "Account registered, logging you in...");
-        await fetch(oath_url + '?googletoken=" "', {
+        await fetch(url + '/api/Auth?googletoken=""', {
           method: "POST",
           headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -126,7 +172,7 @@ const Login = () => {
           })
           .then((e) => {
             localStorage.setItem("accountToken", e.token);
-            navigateToNewPage("/index.html");
+            navigateToNewPage("/");
           })
           .catch((e) => alert(e));
       })
@@ -134,29 +180,6 @@ const Login = () => {
         alert(e);
         setDialogueLoading(false);
       });
-  };
-  const loginWithGoogle = async (tokenFromUrl = null) => {
-    if (!tokenFromUrl) {
-      oauth2SignIn();
-    }
-    localStorage.setItem("googleToken", tokenFromUrl);
-    await fetch(oath_url + "?googletoken=" + tokenFromUrl, {
-      method: "POST",
-      body: JSON.stringify({ customerEmail: "", customerPassword: "" }),
-      headers: {
-        "Content-Type": "application/json; charset=utf-8",
-      },
-    })
-      .then((e) => {
-        if (e.ok) return e.json();
-      })
-      .then((data) => {
-        localStorage.setItem("accountToken", data.token);
-        localStorage.removeItem("loginState");
-        localStorage.removeItem("googleToken");
-        navigateToNewPage("/index.html");
-      })
-      .catch((error) => console.log(error));
   };
 
   const [isResgistering, setIsRegistering] = useState(true);
@@ -198,8 +221,16 @@ const Login = () => {
                 setLoginInfo(() => ({ ...loginInfo, password: e.target.value }))
               }
             />
-            <button type="submit">Sign in</button>
-            <button type="button" id="signinWithGoogle">
+            <button type="submit" onSubmit={(e) => handleLogin(e)}>
+              Sign in
+            </button>
+            <button
+              onClick={() => {
+                loginWithGoogle();
+              }}
+              type="button"
+              id="signinWithGoogle"
+            >
               Sign in with Google
             </button>
           </form>
@@ -216,7 +247,7 @@ const Login = () => {
           >
             Sign Up
           </button>
-          <form id="register-form">
+          <form onSubmit={(e) => handleRegister(e)} id="register-form">
             <h2 className="formHeader">
               Please provide the neccessary information to create an account
             </h2>
@@ -240,6 +271,13 @@ const Login = () => {
               placeholder="tempPassword"
               name="customerPassword"
               id="register-password"
+              value={registerInfo.password}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  password: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-fname">First Name</label>
             <input
@@ -247,6 +285,13 @@ const Login = () => {
               name="customerFname"
               id="register-fname"
               placeholder="First Name"
+              value={registerInfo.fname}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  fname: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-lname">Last Name</label>
             <input
@@ -254,6 +299,13 @@ const Login = () => {
               name="customerLname"
               id="register-lname"
               placeholder="Last Name"
+              value={registerInfo.lname}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  lname: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-city">City</label>
             <input
@@ -261,9 +313,26 @@ const Login = () => {
               name="customerCity"
               id="register-city"
               placeholder="Preferred Delivery City"
+              value={registerInfo.city}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  city: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-country">Country</label>
-            <select name="customerCountry" id="register-country">
+            <select
+              name="customerCountry"
+              id="register-country"
+              value={registerInfo.country}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  country: e.target.value,
+                }))
+              }
+            >
               <optgroup className="countryGroup">
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
@@ -402,9 +471,7 @@ const Login = () => {
                 <option value="Kyrgyzstan">Kyrgyzstan</option>
                 <option value="Lao">Lao People's Democratic Republic</option>
                 <option value="Latvia">Latvia</option>
-                <option value="Lebanon" selected>
-                  Lebanon
-                </option>
+                <option value="Lebanon">Lebanon</option>
                 <option value="Lesotho">Lesotho</option>
                 <option value="Liberia">Liberia</option>
                 <option value="Libyan Arab Jamahiriya">
@@ -563,7 +630,13 @@ const Login = () => {
               type="text"
               name="customerSegment"
               id="register-segment"
-              value="Customer"
+              value={registerInfo.segment}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  segment: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-street">Street</label>
             <input
@@ -571,12 +644,26 @@ const Login = () => {
               name="customerStreet"
               id="register-street"
               placeholder="Street"
+              value={registerInfo.street}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  street: e.target.value,
+                }))
+              }
             />
             <label htmlFor="register-state">State</label>
             <input
               type="text"
               name="customerState"
               id="register-state"
+              value={registerInfo.state}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  state: e.target.value,
+                }))
+              }
               placeholder="State"
             />
             <label htmlFor="register-zip">Zipcode</label>
@@ -585,6 +672,13 @@ const Login = () => {
               name="customerZipcode"
               id="register-zip"
               placeholder="0"
+              value={registerInfo.zip}
+              onChange={(e) =>
+                setRegisterInfo(() => ({
+                  ...registerInfo,
+                  zip: e.target.value,
+                }))
+              }
             />
             <button type="submit">Register</button>
           </form>

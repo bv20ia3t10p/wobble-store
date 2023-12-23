@@ -5,7 +5,7 @@ const initialLoadingState = {
   pageLoader: true,
   dialogueLoader: false,
   loadingMessage: "Loading...",
-  isLoading: true,
+  isLoading: false,
 };
 
 const AppContext = React.createContext();
@@ -13,9 +13,9 @@ const AppContext = React.createContext();
 const reducer = (state, action) => {
   switch (action.type) {
     case "PAGE_LOADED":
-      return { ...state, isLoading: false, pageLoader: false };
+      return { ...state, pageLoader: false };
     case "PAGE_LOADING":
-      return { ...state, isLoading: true, pageLoader: true };
+      return { ...state, pageLoader: true };
     case "OPEN_LOADING_DIALOGUE":
       return {
         ...state,

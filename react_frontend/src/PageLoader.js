@@ -5,9 +5,9 @@ import { useLoadingContext } from "./LoadingContext";
 const PageLoader = () => {
   const { pageLoader } = useLoadingContext();
   return (
-    <div class={`loadingScreen ${pageLoader ? "finished" : ""}`}>
-      <h1 class="title">Loading</h1>
-      <div class="rainbow-marker-loader"></div>
+    <div className={`loadingScreen ${pageLoader ? "finished" : ""}`}>
+      <h1 className="title">Loading</h1>
+      <div className="rainbow-marker-loader"></div>
     </div>
   );
 };

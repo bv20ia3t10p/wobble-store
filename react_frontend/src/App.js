@@ -8,15 +8,16 @@ import ItemDetail from "./ItemDetail";
 import Login from "./Login";
 import { LoadingContext } from "./LoadingContext";
 import PageLoader from "./PageLoader";
+import UniversalLoader from "./UniversalLoader";
 
 function App() {
   return (
     <LoadingContext>
       <PageLoader />
+      <UniversalLoader />
       <BrowserRouter>
         <Routes>
           <Route
-            exact
             index
             path="/"
             element={
