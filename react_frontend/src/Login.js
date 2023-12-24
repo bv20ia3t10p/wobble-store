@@ -5,7 +5,7 @@ import { url, navigateToNewPage } from "./utils";
 import { useLoadingContext } from "./LoadingContext";
 
 const Login = () => {
-  const { setDialogueLoading, isLoading,setPageLoaded } = useLoadingContext();
+  const { isLoading, setDialogueLoading, pageLoader, setPageLoaded } = useLoadingContext();
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
@@ -82,8 +82,11 @@ const Login = () => {
     } catch {
       console.log("No access token from url");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  useEffect(() => {
+    if (pageLoader) setPageLoaded(true);
+  });
   useEffect(() => {
     const currentWindow = new URL(
       window.location.href.replace("login#state=", "login?state=")
@@ -96,7 +99,7 @@ const Login = () => {
     } catch {
       console.log("No access token from url");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleLogin = async (e) => {
     e.preventDefault();

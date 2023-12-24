@@ -8,6 +8,8 @@
 .homeMain,
 .navbar,
 .navbar *,
+.cartMain,
+.cartMain *
 :root {
   background-color: var(--gray-100);
 }

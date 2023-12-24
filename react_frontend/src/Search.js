@@ -20,7 +20,11 @@ const getItemsByCategory = async (
     .then((data) => setSearchResults(data.value));
 };
 
-export const getItemRecommendation = async (ids, setRecs) => {
+export const getItemRecommendation = async (
+  ids,
+  setRecs,
+  setDialogueLoading = null
+) => {
   let resp;
   let flag = !ids.length;
   let recItemUrl;
@@ -35,6 +39,7 @@ export const getItemRecommendation = async (ids, setRecs) => {
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     });
+    if (setDialogueLoading) setDialogueLoading(false);
   } else {
     recItemUrl = flask_url + "/mlApi/ProductRec";
     resp = await fetch(recItemUrl, {
@@ -46,6 +51,7 @@ export const getItemRecommendation = async (ids, setRecs) => {
       redirect: "follow", // manual, *follow, error
       referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     });
+    if (setDialogueLoading) setDialogueLoading(false);
   }
   try {
     const data = await resp.json();
@@ -88,8 +94,8 @@ const Search = () => {
   const [sortOpt, setSortOpt] = useState("ProductPrice asc");
   useEffect(() => {
     if (searchResults && recResults) setPageLoaded(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchResults,recResults]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchResults, recResults]);
   // useEffect(() => {});
   useEffect(() => {
     const currentWindow = new URL(window.location.href);
@@ -122,7 +128,7 @@ const Search = () => {
       ids = [...ids, ...searchResults.map((e) => e.ProductCardId)];
     getItemRecommendation(ids, setRecResults);
   }, [searchResults]);
-  const refreshSearch = async() => {
+  const refreshSearch = async () => {
     setDialogueLoading(true, "Refreshing your search");
     const currentWindow = new URL(window.location.href);
     const searchParams = currentWindow.searchParams;

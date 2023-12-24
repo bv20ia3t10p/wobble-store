@@ -32,11 +32,18 @@ const loadUserInfo = async (setUserInfo) => {
     });
 };
 
-const getCartItems = async (setCartItems, setPageLoaded) => {
+const getCartItems = async (
+  setCartItems,
+  setRecItems,
+  setDialogueLoading = null,
+  setPageLoaded = null,
+  setTotalPrice = null
+) => {
   const cart = localStorage.getItem("cart")
     ? JSON.parse(localStorage.getItem("cart"))
     : [];
   if (!cart) return;
+  if (setDialogueLoading) setDialogueLoading(true, "Updating cart");
   const requestBody = cart.map((e) => e.id);
   const getItemsFromCartUrl = url + "/api/Products/Multiple";
   await fetch(getItemsFromCartUrl, {
@@ -51,7 +58,19 @@ const getCartItems = async (setCartItems, setPageLoaded) => {
     .then((e) => e.ok && e.json())
     .then((e) => {
       setCartItems(() => e);
-      setPageLoaded(true);
+      getItemRecommendation(
+        cart.map((e) => e.id),
+        setRecItems
+      );
+      if (setDialogueLoading) setDialogueLoading(false);
+      if (setPageLoaded) setPageLoaded(true);
+      if (setTotalPrice) {
+        let sum = 0;
+        for (let i = 0; i < e.length; i++) {
+          if (cart[i].checked) sum += e[i].productPrice * cart[i].quantity;
+        }
+        setTotalPrice(() => sum);
+      }
     });
 };
 
@@ -72,61 +91,61 @@ const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [localCart, setLocalCart] = useState([]);
   const [recItems, setRecItems] = useState([]);
-  const [totalPrice, setTotalPrice] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
   const { setPageLoaded, setDialogueLoading, isLoading } = useLoadingContext();
   useEffect(() => {
     loadUserInfo(setUserInfo);
-    getCartItems(setCartItems, setPageLoaded);
+    getCartItems(
+      setCartItems,
+      setRecItems,
+      setDialogueLoading,
+      setPageLoaded,
+      setTotalPrice
+    );
+    const modifyLocalCart = () => {
+      const cart = localStorage.getItem("cart")
+        ? JSON.parse(localStorage.getItem("cart"))
+        : [];
+      if (cart) setLocalCart(() => cart);
+      getCartItems(setCartItems, setRecItems, setDialogueLoading);
+    };
+    const modifyLocalCartListener = window.addEventListener(
+      "storage",
+      modifyLocalCart
+    );
+    return () => window.removeEventListener("storage", modifyLocalCartListener);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   useEffect(() => {
-    getItemRecommendation(
-      cartItems ? cartItems.map((e) => e.productCardId) : [],
-      setRecItems
-    );
-  }, [cartItems]);
-  useMemo(() => {
-    const cart = localStorage.getItem("cart")
-      ? JSON.parse(localStorage.getItem("cart"))
-      : [];
-    if (cart && !localCart) setLocalCart(() => cart);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  useMemo(() => {
-    if (!cartItems) return;
     let sum = 0;
-    for (let cartItem in localCart) {
-      sum +=
-        cartItem.quantity *
-        cartItems.filter(
-          (cartItem) => cartItem.productCardId === cartItem.id
+    if (!localCart) return;
+    for (let i = 0; i < localCart.length; i++) {
+      const item = localCart[i];
+      console.log(item);
+      if (item.checked) {
+        const itemPrice = cartItems.filter(
+          (e) => e.productCardId === item.id
         )[0].productPrice;
+        sum += itemPrice * item.quantity;
+      }
     }
     setTotalPrice(() => sum);
-  }, [cartItems, localCart]);
-  const modifyCart = (id, quantity, op = null) => {
-    if (quantity === 0 && !op)
-      alert(
-        "Value can't be smaller than 0, delete the item if you want to remove"
-      );
-    let newCart = [];
-    op = Number(op);
-    if (op) {
-      // -1 is subtract, 1 is add
-      newCart = localCart.map((cartItem) => {
-        if (cartItem.id === id) {
-          if (cartItem.quantity + op < 1) return cartItem;
-          else return { ...cartItem, quantity: cartItem.quantity + op };
-        } else return cartItem;
-      });
-    } else {
-      newCart = localCart.map((cartItem) => {
-        if (cartItem.id === id) {
-          return { ...cartItem, quantity };
-        }
-        return cartItem;
-      });
-    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [localCart]);
+  const checkChanged = (id, checked) => {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    let newCart = cart.map((p) => {
+      if (p.id === id) return { ...p, checked };
+      return p;
+    });
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    setLocalCart(() => newCart);
+  };
+  const checkChangedAll = (checked) => {
+    const cart = JSON.parse(localStorage.getItem("cart"));
+    let newCart = cart.map((p) => {
+      return { ...p, checked };
+    });
     localStorage.setItem("cart", JSON.stringify(newCart));
     setLocalCart(() => newCart);
   };
@@ -135,8 +154,15 @@ const Cart = () => {
       <h1 className="title">Your shopping cart</h1>
       <div className="columns">
         <div className="allItem">
-          <input type="checkbox" name="allItem" id="cartAllItemChk" />
-          <label for="cartAllItemChk">Select all products (0 product)</label>
+          <input
+            type="checkbox"
+            name="allItem"
+            id="cartAllItemChk"
+            onClick={(e) => checkChangedAll(e.target.checked)}
+          />
+          <label for="cartAllItemChk">
+            Select all products ({localCart ? localCart.length : 0} product)
+          </label>
         </div>
         <div className="price">Product Price</div>
         <div className="quantity">Quantity</div>
@@ -149,11 +175,23 @@ const Cart = () => {
             const productImg = require(`./productImages/${product.productCardId}_0.png`);
             return (
               <div key={key} className="single">
-                <input type="checkbox" name="" id="" className="itemCheck" />
+                <input
+                  type="checkbox"
+                  name=""
+                  id=""
+                  className="itemCheck"
+                  checked={
+                    localCart.find((e) => e.id === product.productCardId)
+                      .checked
+                  }
+                  onChange={(e) =>
+                    checkChanged(product.productCardId, e.target.checked)
+                  }
+                />
                 <img src={productImg} alt="" srcset="" className="itemImg" />
                 <p className="productName">{product.productName}</p>
                 <div className="price">
-                  {Math.round(product.productPrice * 1000) / 100}
+                  ${Math.round(product.productPrice * 1000) / 1000}
                 </div>
                 <div className="quantityControl"></div>
               </div>
@@ -206,14 +244,16 @@ const Cart = () => {
       <div className="orderTotal">
         <div className="estimated">
           <div className="label">Estimated Total</div>
-          <div className="data">0</div>
+          <div className="data">{Math.round(totalPrice * 100000) / 100000}</div>
         </div>
         <div className="final">
           <div className="label">Order Total</div>
-          <div className="data">0</div>
+          <div className="data">{Math.round(totalPrice * 1000) / 1000}</div>
         </div>
       </div>
-      <button className="purchase">Purchase (0)</button>
+      <button className="purchase">
+        Purchase ({localCart ? localCart.filter((e)=>e.checked).length : 0})
+      </button>
     </main>
   );
 };
