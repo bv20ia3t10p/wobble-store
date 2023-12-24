@@ -12,6 +12,7 @@ import PageLoader from "./PageLoader";
 import UniversalLoader from "./UniversalLoader";
 import Search from "./Search";
 import Cart from "./Cart";
+import Dashboard from "./Dashboard";
 
 function App() {
   return (
@@ -58,6 +59,15 @@ function App() {
               </>
             }
           ></Route>
+          <Route
+            path="/dashboard"
+            element={
+              <>
+                <Navbar />
+                <Dashboard />
+              </>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </LoadingContext>

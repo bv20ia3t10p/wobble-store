@@ -5,7 +5,7 @@ import { getItemRecommendation } from "./Search";
 import "./stylesheets/cart.css";
 import Product from "./Product";
 
-const loadUserInfo = async (setUserInfo) => {
+export const loadUserInfo = async (setUserInfo, setPageLoaded = null) => {
   const accountToken = localStorage.getItem("accountToken");
   if (!accountToken) {
     alert("Not logged in. Please login or register to continue");
@@ -25,7 +25,10 @@ const loadUserInfo = async (setUserInfo) => {
         throw new Error("Token expired, redirecting you to login page");
       } else return e.json();
     })
-    .then((e) => setUserInfo(() => e))
+    .then((e) => {
+      setUserInfo(() => e);
+      if (setPageLoaded) setPageLoaded(true);
+    })
     .catch((e) => {
       alert(e);
       navigateToNewPage("/login");
@@ -342,7 +345,12 @@ const Cart = () => {
       <div className="delivery">
         <div className="title">
           <h1 className="label">Deliver to</h1>
-          <button className="change">Change</button>
+          <button
+            className="change"
+            onClick={() => navigateToNewPage("/dashboard")}
+          >
+            Change
+          </button>
         </div>
         <div className="basic">
           <div className="name">

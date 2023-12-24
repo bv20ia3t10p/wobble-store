@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import DOMPurify from "dompurify";
-import { addToCart, flask_url, url } from "./utils";
+import { addToCart, flask_url, navigateToNewPage, url } from "./utils";
 import "./stylesheets/itemDetail.css";
 import Product from "./Product";
 import { useLoadingContext } from "./LoadingContext";
@@ -87,7 +87,7 @@ const ItemDetail = () => {
   }, [moveSlides, currentItemId]);
   useEffect(() => {
     if (recItems) setPageLoaded(true);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recItems]);
   useEffect(() => {});
   return (
@@ -209,7 +209,15 @@ const ItemDetail = () => {
         >
           Add to cart
         </button>
-        <button className="instaBuy">Buy now</button>
+        <button
+          className="instaBuy"
+          onClick={() => {
+            addToCart(currentItem.productCardId, currentQuantity);
+            navigateToNewPage("/cart");
+          }}
+        >
+          Buy now
+        </button>
       </div>
       <div className="relevantItems">
         <h1 className="header">You might be interested in</h1>

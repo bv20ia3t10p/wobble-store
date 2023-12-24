@@ -87,7 +87,7 @@ const Navbar = () => {
         <span className="badge">{badge}</span>
         <button type="submit">Cart</button>
       </form>
-      <form action="/dashboard.html" className="action dashboard">
+      <form action="/dashboard" className="action dashboard">
         <button type="submit">Dashboard</button>
       </form>
       <div className="categories">

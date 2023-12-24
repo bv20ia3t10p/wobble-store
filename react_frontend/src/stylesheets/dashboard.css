@@ -1,0 +1,128 @@
+html {
+  width: 100svw;
+  height: 100svh;
+  overflow: hidden;
+}
+
+main {
+  background-color: var(--slate-200);
+  width: 75%;
+  height: 90.7svh;
+  display: grid;
+  column-gap: 2svw;
+  grid-template-columns: 1fr 8fr;
+  padding: 2svh 12.5svw;
+  grid-template-rows: 5svh 1fr;
+}
+
+main * {
+  background-color: transparent;
+}
+
+main form {
+  background-color: white;
+  grid-column: 2/2;
+  width: 95%;
+  display: grid;
+  row-gap: 2em;
+  justify-content: center;
+  column-gap: 5em;
+  padding: 2em;
+  height: 50%;
+  grid-template-columns: 1fr 1fr;
+}
+
+main form > div:not(.changePassword) {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-auto-flow: column;
+  align-items: center;
+}
+main form .changePassword {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 50%;
+  align-self: center;
+  justify-self: center;
+}
+
+main form .changePassword :first-child {
+  align-self: center;
+  justify-self: center;
+}
+
+.changePassword h3 {
+  font-size: 1.1em;
+  color: var(--gray-500);
+}
+
+main form div:not(.changePassword) :first-child {
+  font-size: 1.2em;
+  color: var(--gray-500);
+}
+
+main form input,
+main form input:focus,
+main form button,
+main form p {
+  outline: none;
+  border: none;
+  border-bottom: 0.1em solid var(--gray-300);
+  font-size: 1.1em;
+  width: 80%;
+  align-self: center;
+  justify-self: center;
+  height: 100%;
+  box-shadow: var(--shadow-sm);
+}
+
+main form button {
+  height: 5svh;
+}
+
+.changePassword button {
+  background-color: var(--slate-200);
+  width: 12svw !important;
+  border-radius: 0.5em;
+  color: var(--gray-600);
+}
+
+main form button[type="reset"] {
+  background-color: var(--slate-200);
+  border-radius: 0.5em;
+  /* color: var(--blue-50); */
+}
+
+main form button[type="submit"] {
+  background-color: var(--blue-600);
+  border-radius: 0.5em;
+  color: var(--blue-50);
+}
+
+main .title {
+  font-size: 1.5em;
+  color: var(--gray-600);
+  letter-spacing: 0.05em;
+}
+
+aside {
+  padding-top: 5.2svh;
+  display: grid;
+  grid-template-rows: max-content;
+  row-gap: 0.8em;
+  grid-row: 1/-1;
+  font-weight: var(--font-semibold);
+  text-transform: capitalize;
+  color: var(--gray-500);
+}
+
+aside * {
+  padding-bottom: 0.2em;
+}
+
+aside :first-child {
+  /* text-decoration: underline; */
+  color: var(--blue-700) !important;
+  border-bottom: 0.1em solid var(--blue-700);
+}
