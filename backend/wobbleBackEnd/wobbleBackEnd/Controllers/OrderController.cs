@@ -17,21 +17,18 @@ namespace ECommerceBackEnd.Controllers
         {
             _service = service;
         }
-        [HttpGet]
         [EnableQuery]
-
+        [HttpGet]
         public ActionResult<IEnumerable<OrderDto>> GetOrders() => Ok(_service.Order.GetOrders());
         [HttpGet("{id}")]
         public ActionResult<OrderDto> GetOrder(int id) => Ok(_service.Order.GetOrder(id));
         [HttpGet("Customer/{customerId}")]
-        [EnableQuery]
         public ActionResult<IEnumerable<OrderDto>> GetOrders(int customerId)
         {
             return Ok(_service.Order.GetOrdersByCustomer(customerId));
         }
         [HttpGet("Customer/Email/")]
         [Authorize(Roles = "USER,ADMINISTRATOR")]
-        [EnableQuery]
         public ActionResult<IEnumerable<OrderDto>> GetOrdersByEmail([FromHeader] string Authorization)
         {
             var token = Authorization.Substring(7);
@@ -65,8 +62,8 @@ namespace ECommerceBackEnd.Controllers
             _service.Order.DeleteOrder(id);
             return NoContent();
         }
-        [HttpGet("Customer")]
         [EnableQuery]
+        [HttpGet("Customer")]
         public ActionResult<IEnumerable<OrderWithDetailsDto>> GetOrderWithDetailsForCustomerEmail([FromHeader] string Authorization)
         {
             var token = Authorization[7..];

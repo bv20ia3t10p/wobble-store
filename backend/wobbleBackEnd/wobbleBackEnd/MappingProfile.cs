@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using ECommerceBackEnd.Dtos;
 using ECommerceBackEnd.Entities;
+using wobbleBackEnd.Dtos;
+using wobbleBackEnd.Entities;
 
 namespace ECommerceBackEnd
 {
@@ -35,6 +37,8 @@ namespace ECommerceBackEnd
             CreateMap<UpdateCustomerDto, Customer>();
             CreateMap<Order, OrderWithDetailsDto>();
             CreateMap<UpdateOrderPaymentDto,Order>();
+            CreateMap<UpdateStaffDto, Staff>();
+            CreateMap<CreateStaffDto,Staff>();
         }
     }
 }

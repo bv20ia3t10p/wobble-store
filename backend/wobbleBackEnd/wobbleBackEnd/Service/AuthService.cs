@@ -17,6 +17,7 @@ namespace ECommerceBackEnd.Service
         private readonly IRepositoryManager _repository;
         private readonly IConfiguration _configuration;
         private CustomerAuthDto? _user;
+        private String _role;
 
         public AuthService(IRepositoryManager repository, IConfiguration configuration)
         {
@@ -39,6 +40,12 @@ namespace ECommerceBackEnd.Service
             }
             var customerInDb = _repository.Customer.GetCustomerByEmail(user.CustomerEmail);
             _user = user;
+            var staffInDb = _repository.Staff.GetStaff(customerInDb.CustomerId);
+            if (staffInDb != null)
+            {
+                _role = staffInDb.Role;
+            }
+            else _role = "USER";
             if (GoogleToken.Length > 10)
             {
                 if (customerInDb is not null) return true;
@@ -54,6 +61,7 @@ namespace ECommerceBackEnd.Service
                     CustomerEmail = content.email,
                     CustomerPassword = content.email + content.name
                 };
+                _role = "USER";
                 return true;
             }
             else if (customerInDb is null || customerInDb.CustomerPassword != user.CustomerPassword)
@@ -83,7 +91,7 @@ namespace ECommerceBackEnd.Service
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, _user.CustomerEmail),
-                new Claim(ClaimTypes.Role, "USER"),
+                new Claim(ClaimTypes.Role, _role),
                 new Claim(JwtRegisteredClaimNames.Aud, jwtSettings["validAudience"]),
                 new Claim(JwtRegisteredClaimNames.Iss,jwtSettings["validIssuer"])
             };

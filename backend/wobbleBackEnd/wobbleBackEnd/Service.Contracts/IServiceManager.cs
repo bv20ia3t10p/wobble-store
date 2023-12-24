@@ -1,4 +1,6 @@
-﻿namespace ECommerceBackEnd.Service.Contracts
+﻿using wobbleBackEnd.Service.Contracts;
+
+namespace ECommerceBackEnd.Service.Contracts
 {
     public interface IServiceManager
     {
@@ -8,5 +10,6 @@
         IAuthService Auth { get; }
         IOrderService Order { get; }
         IOrderDetailService OrderDetail { get; }
+        IStaffService Staff { get; }
     }
 }

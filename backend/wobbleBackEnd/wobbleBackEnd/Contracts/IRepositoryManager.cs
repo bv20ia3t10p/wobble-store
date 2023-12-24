@@ -1,4 +1,6 @@
-﻿namespace ECommerceBackEnd.Contracts
+﻿using wobbleBackEnd.Contracts;
+
+namespace ECommerceBackEnd.Contracts
 {
     public interface IRepositoryManager
     {
@@ -7,5 +9,6 @@
         ICategoryRepository Category { get; }
         IOrderRepository Order { get; }
         IOrderDetailRepository OrderDetail { get; }
+        IStaffRepository Staff { get; }
     }
 }

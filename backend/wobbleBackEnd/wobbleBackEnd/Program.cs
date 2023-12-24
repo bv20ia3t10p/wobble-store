@@ -19,9 +19,10 @@ static IEdmModel GetEdmModel()
 {
     ODataConventionModelBuilder builder = new();
     builder.EntitySet<ProductDto>("Products");
-    builder.EntitySet<OrderDto>("Orders");
-    builder.EntitySet<CustomerDTO>("Customers");
+    builder.EntitySet<OrderDto>("Order");
+    builder.EntitySet<CustomerDTO>("Customer");
     builder.EntitySet<OrderDetailDto>("OrderDetail");
+    builder.EntitySet<OrderWithDetailsDto>("Order/Customer");
     return builder.GetEdmModel();
 }
 // Add services to the container.
