@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.AspNetCore.OData.Routing.Attributes;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace ECommerceBackEnd.Controllers
@@ -18,9 +19,11 @@ namespace ECommerceBackEnd.Controllers
             _service = service;
         }
         [EnableQuery]
+        [Authorize(Roles = "ADMINISTRATOR")]
         [HttpGet]
         public ActionResult<IEnumerable<OrderDto>> GetOrders() => Ok(_service.Order.GetOrders());
         [HttpGet("{id}")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult<OrderDto> GetOrder(int id) => Ok(_service.Order.GetOrder(id));
         [HttpGet("Customer/{customerId}")]
         public ActionResult<IEnumerable<OrderDto>> GetOrders(int customerId)
@@ -40,6 +43,7 @@ namespace ECommerceBackEnd.Controllers
             return Ok(_service.Order.GetOrdersByCustomer(customerInDb.CustomerId));
         }
         [HttpPost]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult<OrderDto> CreateOrder(CreateOrderDto newOrder)
         {
             var createdOrder = _service.Order.CreateOrder(newOrder);
@@ -51,12 +55,14 @@ namespace ECommerceBackEnd.Controllers
             return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrder(createdOrder.OrderId));
         }
         [HttpPut("Status")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult<OrderDto> UpdateOrderStatus(UpdateOrderStatusDto newOrderStatus)
         {
             var updatedOrder = _service.Order.UpdateOrderStatus(newOrderStatus);
             return Ok(updatedOrder);
         }
         [HttpDelete("{id}")]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult DeleteOrder(int id)
         {
             _service.Order.DeleteOrder(id);
@@ -64,6 +70,7 @@ namespace ECommerceBackEnd.Controllers
         }
         [EnableQuery]
         [HttpGet("Customer")]
+        [Authorize(Roles = "USER,ADMINISTRATOR")]
         public ActionResult<IEnumerable<OrderWithDetailsDto>> GetOrderWithDetailsForCustomerEmail([FromHeader] string Authorization)
         {
             var token = Authorization[7..];
@@ -75,7 +82,7 @@ namespace ECommerceBackEnd.Controllers
             return Ok(_service.Order.GetOrdersWithDetailsForCustomer(customerInDb.CustomerEmail));
         }
         [HttpPost("Customer")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER,ADMINISTRATOR")]
         public ActionResult<OrderWithDetailsDto> CreateOrderForCustomer([FromHeader] string Authorization, CreateOrderDto newOrder)
         {
             var token = Authorization[7..];
@@ -106,7 +113,7 @@ namespace ECommerceBackEnd.Controllers
             return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrderWithDetails(createdOrder.OrderId));
         }
         [HttpPut("Customer")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER,ADMINISTRATOR")]
         public ActionResult<OrderWithDetailsDto> UpdateOrderPaymentStatus([FromHeader] string Authorization, UpdateOrderPaymentDto newOrder)
         {
             var token = Authorization[7..];
@@ -121,7 +128,7 @@ namespace ECommerceBackEnd.Controllers
             return Ok(_service.Order.GetOrderWithDetails(newOrder.OrderId));
         }
         [HttpGet("{orderId}/Customer")]
-        [Authorize(Roles = "USER")]
+        [Authorize(Roles = "USER,ADMINISTRATOR")]
         public ActionResult<OrderWithDetailsDto> GetOrderForCustomer(int orderId, [FromHeader] string Authorization)
         {
             var token = Authorization[7..];
