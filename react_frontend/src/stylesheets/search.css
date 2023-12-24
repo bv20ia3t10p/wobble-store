@@ -1,14 +1,14 @@
 .searchMain {
   display: grid;
   grid-template-rows: 5svh 1fr 1fr;
-  height: 82.5svh;
+  height: 82.8svh;
   overflow: hidden;
   max-width: 100%;
   row-gap: 3svh;
   padding: 0 10.5svw;
   padding-top: 2.1svh;
   padding-bottom: 5svh;
-  margin-top: -2svh;
+  /* margin-top: -2svh; */
   background-color: var(--gray-100);
 }
 

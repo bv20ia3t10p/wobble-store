@@ -15,7 +15,7 @@ const Login = () => {
     city: "",
     country: "Algeria",
     street: "",
-    segment: "Customer",
+    segment: "Consumer",
     state: "",
     zip: 0,
   });

@@ -28,6 +28,7 @@
   /* margin: 1em 0em; */
   margin-top: 0em;
   padding: 0.5em 15em;
+  /* padding-bottom: 2.5vh; */
 }
 
 .navbar * {
@@ -83,14 +84,14 @@
   grid-template-columns: repeat(8, 1fr);
   text-align: center;
   align-items: center;
-  background-color: white;
+  background-color: transparent;
   justify-content: center;
   column-gap: 0.5em;
 }
 
 .navbar .categories .navbarCategory {
   width: 100%;
-  height: 90%;
+  height: 100%;
   align-items: center;
   display: flex;
   font-size: 0.9em;

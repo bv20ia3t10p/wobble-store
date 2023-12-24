@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { navigateToNewPage, url } from "./utils";
 import { useLoadingContext } from "./LoadingContext";
 import { getItemRecommendation } from "./Search";
@@ -107,6 +107,7 @@ const Cart = () => {
       setTotalPrice
     );
     const modifyLocalCart = () => {
+      setDialogueLoading(true, "Updating cart...");
       const cart = localStorage.getItem("cart")
         ? JSON.parse(localStorage.getItem("cart"))
         : [];
@@ -187,14 +188,64 @@ const Cart = () => {
     setLocalCart(() => tempNewCart);
   };
   const removeItemFromCart = (id) => {
+    setDialogueLoading(true, "Updating cart...");
     const newCart = localCart.filter((e) => e.id !== id);
     localStorage.setItem("cart", JSON.stringify(newCart));
     setLocalCart(() => newCart);
     setCartItems(() => cartItems.filter((e) => e.productCardId !== id));
     getItemRecommendation(
       newCart.map((e) => e.id),
-      setRecItems
+      setRecItems,
+      setDialogueLoading
     );
+  };
+  const createOrder = async () => {
+    setDialogueLoading(true, "Creating your order");
+    let orderCreationRequestBody = {
+      type: "CASH",
+      customerId: userInfo.customerId,
+      orderDetails: localCart
+        // eslint-disable-next-line array-callback-return
+        .map((e) => {
+          if (e.checked)
+            return {
+              productCardId: Number(e.id),
+              orderItemQuantity: Number(e.quantity),
+            };
+        })
+        .filter((e) => e),
+    };
+    console.log(orderCreationRequestBody);
+    const accountToken = localStorage.getItem("accountToken");
+    const createOrderUrl = url + "/api/Order/Customer";
+    await fetch(createOrderUrl, {
+      method: "POST",
+      body: JSON.stringify(orderCreationRequestBody),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accountToken,
+        "Access-Control-Allow-Origin": "*",
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    })
+      .then((e) => e.ok && e.json())
+      .then((data) => {
+        console.log("Created order", data);
+        setDialogueLoading(true, "Updating cart...");
+        const newCart = localCart.filter((e) => !e.checked);
+        setLocalCart(() => newCart);
+        setCartItems(() =>
+          cartItems.filter((e) => newCart.find((t) => t.id === e.productCardId))
+        );
+        // setCartItems(() => cartItems.filter((e) => !e.checked));
+        localStorage.setItem("cart", JSON.stringify(newCart));
+        getItemRecommendation(
+          newCart.map((e) => e.id),
+          setRecItems,
+          setDialogueLoading
+        );
+      });
   };
   return (
     <main className={`cartMain ${isLoading ? "dimmed" : ""}`}>
@@ -207,7 +258,7 @@ const Cart = () => {
             id="cartAllItemChk"
             onClick={(e) => checkChangedAll(e.target.checked)}
           />
-          <label for="cartAllItemChk">
+          <label htmlFor="cartAllItemChk">
             Select all products ({localCart ? localCart.length : 0} product)
           </label>
         </div>
@@ -235,7 +286,7 @@ const Cart = () => {
                       checkChanged(product.productCardId, e.target.checked)
                     }
                   />
-                  <img src={productImg} alt="" srcset="" className="itemImg" />
+                  <img src={productImg} alt="" className="itemImg" />
                   <p className="productName">{product.productName}</p>
                 </div>
                 <div className="price">
@@ -332,7 +383,7 @@ const Cart = () => {
           <div className="data">{Math.round(totalPrice * 1000) / 1000}</div>
         </div>
       </div>
-      <button className="purchase">
+      <button className="purchase" onClick={() => createOrder()}>
         Purchase ({localCart ? localCart.filter((e) => e.checked).length : 0})
       </button>
     </main>

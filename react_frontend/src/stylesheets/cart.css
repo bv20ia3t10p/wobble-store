@@ -3,10 +3,11 @@
   grid-template-columns: 75% 1fr;
   padding: 0.4em 16em;
   grid-template-rows: 1vh 3.5vh 36vh 1fr;
-  margin-top: -2vh;
+  /* margin-top: -2vh; */
   row-gap: 2vw;
   column-gap: 2.5vw;
-  height: 88.8vh;
+  padding-bottom: 3svh;
+  height: 86.2vh;
 }
 .cartMain > * {
   height: 95%;
@@ -298,7 +299,7 @@
   grid-auto-flow: column;
 }
 
-.recommendations .item {
+.cartMain .recommendations .item {
   grid-row: 2/2;
   border: 0.1em solid var(--gray-200);
   padding: 0.6em;
@@ -312,7 +313,7 @@
   height: 15em;
   background-color: white;
 }
-.recommendations .item img {
+.cartMain .recommendations .item img {
   grid-row-start: 1;
   grid-column: 1 / span 2;
   grid-row-end: 1;
@@ -321,7 +322,7 @@
   height: 7em;
 }
 
-.recommendations .item .itemSold {
+.cartMain .recommendations .item .itemSold {
   grid-column: 1/-1;
   font-size: 0.8em;
   font-weight: var(--font-semibold);
@@ -332,13 +333,13 @@
   background-size: 1em;
 }
 
-.recommendations .item .button img {
+.cartMain .recommendations .item .button img {
   width: 100%;
   height: 100%;
   object-fit: fill;
 }
 
-.recommendations .item .name {
+.cartMain .recommendations .item .name {
   grid-row-start: 2;
   grid-column: 1 / span 2;
   display: flex;
@@ -353,7 +354,7 @@
   overflow: hidden;
 }
 
-.recommendations .item .price {
+.cartMain .recommendations .item .price {
   grid-row-start: 4;
   font-family: sans-serif;
   font-size: 1em;
@@ -367,20 +368,20 @@
   font-weight: var(--font-bold);
 }
 
-.recommendations .item * {
+.cartMain .recommendations .item * {
   width: 100%;
   height: 100%;
 }
 
-.recommendations * {
+.cartMain .recommendations * {
   background-color: transparent;
 }
 
-.itemRecs {
+.cartMain .itemRecs {
   height: 98%;
 }
 
-.recommendations {
+.cartMain .recommendations {
   display: grid;
   justify-content: flex-start;
   align-items: center;
@@ -395,7 +396,7 @@
   background-color: white;
 }
 
-.itemRecs .title {
+.cartMain .itemRecs .title {
   height: max-content;
   display: flex;
   /* justify-content: center; */
@@ -403,17 +404,17 @@
   font-size: 1em;
 }
 
-.itemRecs * {
+.cartMain .itemRecs * {
   background-color: transparent;
 }
 
-.recommendations .item * {
+.cartMain .recommendations .item * {
   background-color: transparent;
 }
-.recommendations .item:hover {
+.cartMain .recommendations .item:hover {
   background-color: var(--slate-200);
 }
-.itemRecs .recommendations::-webkit-scrollbar {
+.cartMain .itemRecs .recommendations::-webkit-scrollbar {
   display: none;
 }
 
