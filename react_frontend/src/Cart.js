@@ -94,6 +94,10 @@ const Cart = () => {
   const [totalPrice, setTotalPrice] = useState(0);
   const { setPageLoaded, setDialogueLoading, isLoading } = useLoadingContext();
   useEffect(() => {
+    const cart = localStorage.getItem("cart")
+      ? JSON.parse(localStorage.getItem("cart"))
+      : [];
+    if (cart) setLocalCart(() => cart);
     loadUserInfo(setUserInfo);
     getCartItems(
       setCartItems,
@@ -119,13 +123,11 @@ const Cart = () => {
   useEffect(() => {
     let sum = 0;
     if (!localCart) return;
+    if (!cartItems || !cartItems.length) return;
     for (let i = 0; i < localCart.length; i++) {
       const item = localCart[i];
-      console.log(item);
       if (item.checked) {
-        const itemPrice = cartItems.filter(
-          (e) => e.productCardId === item.id
-        )[0].productPrice;
+        const itemPrice = cartItems[i].productPrice;
         sum += itemPrice * item.quantity;
       }
     }
@@ -149,6 +151,51 @@ const Cart = () => {
     localStorage.setItem("cart", JSON.stringify(newCart));
     setLocalCart(() => newCart);
   };
+  const modifyQuantity = (id, quantity, opt = null) => {
+    let tempNewCart = [];
+    if (opt) {
+      opt = Number(opt);
+      for (let i = 0; i < localCart.length; i++) {
+        const item = localCart[i];
+        if (item.id === id)
+          if (item.quantity + opt < 1) {
+            removeItemFromCart(id);
+            return;
+          } else
+            tempNewCart = [
+              ...tempNewCart,
+              { ...item, quantity: item.quantity + opt },
+            ];
+        else {
+          tempNewCart = [...tempNewCart, item];
+        }
+      }
+    } else {
+      for (let i = 0; i < localCart.length; i++) {
+        const item = localCart[i];
+        if (item.id === id) {
+          if (quantity > 0)
+            tempNewCart = [...tempNewCart, { ...item, quantity }];
+          else {
+            removeItemFromCart(id);
+            return;
+          }
+        } else tempNewCart = [...tempNewCart, item];
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(tempNewCart));
+    setLocalCart(() => tempNewCart);
+  };
+  const removeItemFromCart = (id) => {
+    const newCart = localCart.filter((e) => e.id !== id);
+    localStorage.setItem("cart", JSON.stringify(newCart));
+    setLocalCart(() => newCart);
+    setCartItems(() => cartItems.filter((e) => e.productCardId !== id));
+    getItemRecommendation(
+      newCart.map((e) => e.id),
+      setRecItems
+    );
+  };
   return (
     <main className={`cartMain ${isLoading ? "dimmed" : ""}`}>
       <h1 className="title">Your shopping cart</h1>
@@ -171,29 +218,63 @@ const Cart = () => {
       </div>
       <div className="cartDetails">
         {cartItems &&
+          localCart &&
+          localCart.length &&
           cartItems.map((product, key) => {
             const productImg = require(`./productImages/${product.productCardId}_0.png`);
             return (
               <div key={key} className="single">
-                <input
-                  type="checkbox"
-                  name=""
-                  id=""
-                  className="itemCheck"
-                  checked={
-                    localCart.find((e) => e.id === product.productCardId)
-                      .checked
-                  }
-                  onChange={(e) =>
-                    checkChanged(product.productCardId, e.target.checked)
-                  }
-                />
-                <img src={productImg} alt="" srcset="" className="itemImg" />
-                <p className="productName">{product.productName}</p>
+                <div className="description">
+                  <input
+                    type="checkbox"
+                    name=""
+                    id=""
+                    className="itemCheck"
+                    checked={localCart[key].checked}
+                    onChange={(e) =>
+                      checkChanged(product.productCardId, e.target.checked)
+                    }
+                  />
+                  <img src={productImg} alt="" srcset="" className="itemImg" />
+                  <p className="productName">{product.productName}</p>
+                </div>
                 <div className="price">
                   ${Math.round(product.productPrice * 1000) / 1000}
                 </div>
-                <div className="quantityControl"></div>
+                <div className="quantityControl">
+                  <button
+                    className="subctract"
+                    onClick={() => modifyQuantity(product.productCardId, 0, -1)}
+                  >
+                    -
+                  </button>
+                  <input
+                    type="number"
+                    name=""
+                    id=""
+                    className="value"
+                    value={localCart[key].quantity}
+                    onChange={(e) =>
+                      modifyQuantity(product.productCardId, e.target.value)
+                    }
+                  />
+                  <button
+                    className="add"
+                    onClick={() => modifyQuantity(product.productCardId, 0, 1)}
+                  >
+                    +
+                  </button>
+                </div>
+                <div className="total">
+                  $
+                  {Math.round(
+                    localCart[key].quantity * product.productPrice * 1000
+                  ) / 1000}
+                </div>
+                <button
+                  className="delete"
+                  onClick={() => removeItemFromCart(product.productCardId)}
+                ></button>
               </div>
             );
           })}
@@ -252,7 +333,7 @@ const Cart = () => {
         </div>
       </div>
       <button className="purchase">
-        Purchase ({localCart ? localCart.filter((e)=>e.checked).length : 0})
+        Purchase ({localCart ? localCart.filter((e) => e.checked).length : 0})
       </button>
     </main>
   );

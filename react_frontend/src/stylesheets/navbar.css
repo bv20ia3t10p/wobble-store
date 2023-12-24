@@ -9,7 +9,8 @@
 .navbar,
 .navbar *,
 .cartMain,
-.cartMain *
+.cartMain *,
+.root
 :root {
   background-color: var(--gray-100);
 }
@@ -24,7 +25,7 @@
   grid-template-columns: 1fr 68% repeat(3, 1fr);
   grid-template-rows: 50% 50%;
   background-color: white;
-  margin: 1em 0em;
+  /* margin: 1em 0em; */
   margin-top: 0em;
   padding: 0.5em 15em;
 }
