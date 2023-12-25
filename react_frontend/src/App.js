@@ -13,6 +13,7 @@ import UniversalLoader from "./UniversalLoader";
 import Search from "./Search";
 import Cart from "./Cart";
 import Dashboard from "./Dashboard";
+import PastOrders from "./PastOrders";
 
 function App() {
   return (
@@ -65,6 +66,15 @@ function App() {
               <>
                 <Navbar />
                 <Dashboard />
+              </>
+            }
+          />
+          <Route
+            path="/pastOrders"
+            element={
+              <>
+                <Navbar />
+                <PastOrders />
               </>
             }
           />

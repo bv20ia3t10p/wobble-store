@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Attributes;
+using Newtonsoft.Json.Converters;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace ECommerceBackEnd.Controllers
@@ -21,7 +22,64 @@ namespace ECommerceBackEnd.Controllers
         [EnableQuery]
         [Authorize(Roles = "ADMINISTRATOR")]
         [HttpGet]
-        public ActionResult<IEnumerable<OrderDto>> GetOrders() => Ok(_service.Order.GetOrders());
+        public ActionResult<IEnumerable<OrderDto>> GetOrders(int? CustomerId, string? CustomerFname, string? CustomerLname, string? CustomerEmail, string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
+            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending) {
+            var returnOrders = _service.Order.GetOrders();
+            if (OrderDateGreaterThan is not null)
+            {
+                DateTime gtDate = Extension.UnixTimeStampToDateTime((double)OrderDateGreaterThan);
+                returnOrders = returnOrders.Where((o) => o.OrderDate >= gtDate);
+            }
+            if (OrderDateSmallerThan is not null)
+            {
+                if (OrderDateSmallerThan >= OrderDateGreaterThan)
+                {
+                    DateTime lsDate = Extension.UnixTimeStampToDateTime((double)OrderDateSmallerThan);
+                    returnOrders = returnOrders.Where((o) => o.OrderDate <= lsDate);
+                }
+            }
+            if (CustomerId is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.CustomerId == CustomerId);
+            }
+            if (CustomerFname is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.CustomerFname.ToLower().Contains(CustomerFname.ToLower()));
+            }
+            if (CustomerLname is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.CustomerLname.ToLower().Contains(CustomerLname.ToLower()));
+            }
+            if (CustomerEmail is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.CustomerEmail.ToLower().Contains(CustomerEmail.ToLower()));
+            }
+            if (totalGtThan is not null)
+            {
+                returnOrders = returnOrders.Where((o) => o.Total >= totalGtThan);
+            }
+            if (totalSmallerThan is not null)
+            {
+                returnOrders = returnOrders.Where((o) => o.Total <= totalSmallerThan);
+            }
+            if (sortByOrderDateAscending is not null)
+            {
+                returnOrders = returnOrders.OrderBy((e) => e.OrderDate);
+            }
+            if (sortByOrderDateDescending is not null)
+            {
+                returnOrders = returnOrders.OrderByDescending((e) => e.OrderDate);
+            }
+            if (sortByTotalAscending is not null)
+            {
+                returnOrders = returnOrders.OrderBy(e => e.Total);
+            }
+            if (sortByTotalDescending is not null)
+            {
+                returnOrders = returnOrders.OrderByDescending(e => e.Total);
+            }
+            return Ok(returnOrders);
+        }
         [HttpGet("{id}")]
         [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult<OrderDto> GetOrder(int id) => Ok(_service.Order.GetOrder(id));
@@ -71,7 +129,10 @@ namespace ECommerceBackEnd.Controllers
         [EnableQuery]
         [HttpGet("Customer")]
         [Authorize(Roles = "USER,ADMINISTRATOR")]
-        public ActionResult<IEnumerable<OrderWithDetailsDto>> GetOrderWithDetailsForCustomerEmail([FromHeader] string Authorization)
+        public ActionResult<IEnumerable<OrderWithDetailsDto>> GetOrderWithDetailsForCustomerEmail([FromHeader] string Authorization,
+            string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
+            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending
+            )
         {
             var token = Authorization[7..];
             var handler = new JwtSecurityTokenHandler();
@@ -79,6 +140,48 @@ namespace ECommerceBackEnd.Controllers
             var email = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
             var customerInDb = _service.Customer.GetCustomerByEmail(email);
             if (customerInDb == null) return Unauthorized();
+            var returnOrders = _service.Order.GetOrdersWithDetailsForCustomer(customerInDb.CustomerEmail);
+            if (ProductName is not null)
+            {
+                returnOrders = returnOrders.Where((o) => o.Details.Where(od => od.ProductName == ProductName).Any());
+            }
+            if (OrderDateGreaterThan is not null)
+            {
+                DateTime gtDate = Extension.UnixTimeStampToDateTime((double)OrderDateGreaterThan);
+                returnOrders = returnOrders.Where((o) => o.OrderDate >= gtDate);
+            }
+            if (OrderDateSmallerThan is not null)
+            {
+                if (OrderDateSmallerThan >= OrderDateGreaterThan)
+                {
+                    DateTime lsDate = Extension.UnixTimeStampToDateTime((double)OrderDateSmallerThan);
+                    returnOrders = returnOrders.Where((o) => o.OrderDate <= lsDate);
+                }
+            }
+            if (totalGtThan is not null)
+            {
+                returnOrders = returnOrders.Where((o) => o.Total >= totalGtThan);
+            }
+            if (totalSmallerThan is not null)
+            {
+                returnOrders = returnOrders.Where((o) => o.Total <= totalSmallerThan);
+            }
+            if (sortByOrderDateAscending is not null)
+            {
+                returnOrders = returnOrders.OrderBy((e) => e.OrderDate);
+            }
+            if (sortByOrderDateDescending is not null)
+            {
+                returnOrders = returnOrders.OrderByDescending((e) => e.OrderDate);
+            }
+            if (sortByTotalAscending is not null)
+            {
+                returnOrders = returnOrders.OrderBy(e => e.Total);
+            }
+            if (sortByTotalDescending is not null)
+            {
+                returnOrders = returnOrders.OrderByDescending(e => e.Total);
+            }
             return Ok(_service.Order.GetOrdersWithDetailsForCustomer(customerInDb.CustomerEmail));
         }
         [HttpPost("Customer")]

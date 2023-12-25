@@ -116,7 +116,7 @@
   color: var(--slate-500);
 }
 
-.orderTotal {
+.cartMain .orderTotal {
   height: 20vh;
   grid-row: 4/4;
 }
@@ -148,10 +148,10 @@
   font-size: 0.9em;
 }
 
-.orderTotal {
+.cartMain .orderTotal {
   margin-top: -18vh;
 }
-.orderTotal .estimated {
+.cartMain .orderTotal .estimated {
   width: 90%;
   height: 20%;
   display: grid;
@@ -161,18 +161,18 @@
   border-bottom: 0.2svh solid var(--gray-200);
 }
 
-.orderTotal .estimated .label {
+.cartMain .orderTotal .estimated .label {
   background-color: transparent;
   color: var(--gray-400);
 }
 
-.orderTotal .estimated .data {
+.cartMain .orderTotal .estimated .data {
   background-color: transparent;
   text-align: right;
   color: var(--gray-300);
 }
 
-.orderTotal .final {
+.cartMain .orderTotal .final {
   width: 90%;
   display: grid;
   grid-template-columns: 6fr 7fr;
@@ -183,7 +183,7 @@
   align-items: center;
 }
 
-.orderTotal .final .data {
+.cartMain .orderTotal .final .data {
   background-color: transparent;
   text-align: right;
   font-weight: var(--font-semibold);
@@ -191,7 +191,7 @@
   background-color: transparent;
 }
 
-.orderTotal .final .label {
+.cartMain .orderTotal .final .label {
   font-weight: var(--font-semibold);
   color: var(--gray-600);
   background-color: transparent;

@@ -3,6 +3,7 @@ using ECommerceBackEnd.Dtos;
 using ECommerceBackEnd.Entities;
 using ECommerceBackEnd.Repositories;
 using ECommerceBackEnd.Service.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Bson;
 
@@ -15,7 +16,7 @@ namespace ECommerceBackEnd.Controllers
     public class CategoryController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public CategoryController(IServiceManager service) => _service=service;
+        public CategoryController(IServiceManager service) => _service = service;
 
         // GET: api/<CategoryController>
         [HttpGet]
@@ -29,10 +30,11 @@ namespace ECommerceBackEnd.Controllers
         [HttpGet("{id}")]
         public ActionResult<CategoryDto> Get(int id)
         {
-            return Ok(_service.Category.GetCategoryById(id)); 
+            return Ok(_service.Category.GetCategoryById(id));
         }
 
         // POST api/<CategoryController>
+        [Authorize(Roles = ("ADMINISTRATOR"))]
         [HttpPost]
         public ActionResult<CategoryDto> Post([FromBody] CreateCategoryDto value)
         {
@@ -41,16 +43,21 @@ namespace ECommerceBackEnd.Controllers
             return CreatedAtAction(nameof(Get), new { id = category.CategoryId }, value);
         }
         // PUT api/<CategoryController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]
+        [Authorize(Roles = ("ADMINISTRATOR"))]
+        public ActionResult Put(UpdateCategoryDto updateCat)
         {
-            
+            _service.Category.UpdateCategory(updateCat);
+            return Ok(_service.Category.GetCategoryById(updateCat.CategoryId));
         }
 
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Authorize(Roles = ("ADMINISTRATOR"))]
+        public ActionResult Delete(int id)
         {
+            _service.Category.DeleteCategoryById(id);
+            return NoContent();
         }
     }
 }

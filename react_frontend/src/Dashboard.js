@@ -3,11 +3,12 @@ import { loadUserInfo } from "./Cart";
 import { url } from "./utils";
 import { useLoadingContext } from "./LoadingContext";
 import "./stylesheets/dashboard.css";
+import AccountSidebar from "./AccountSidebar";
 
 const initialState = {
   customerCity: "",
   customerCountry: "",
-  customerSegment: "",
+  customerSegment: "Consumer",
   customerStreet: "",
   customerState: "",
   customerZipcode: "",
@@ -108,14 +109,7 @@ const Dashboard = () => {
   };
   return (
     <main className={`dashboardMain ${isLoading ? "dimmed" : ""}`}>
-      <aside className="sideMenu">
-        <a className="userInfo" href="/dashboard">
-          Account information
-        </a>
-        <a className="pastOrders" href="/pastOrders.html">
-          Past orders
-        </a>
-      </aside>
+      <AccountSidebar />
       <h2 className="title">Your current account information</h2>
       <form
         className="userInfoMain"

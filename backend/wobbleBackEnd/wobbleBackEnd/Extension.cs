@@ -11,7 +11,13 @@ namespace ECommerceBackEnd
 {
     public static class Extension
     {
-
+        public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
+        {
+            // Unix timestamp is seconds past epoch
+            DateTime dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
+            dateTime = dateTime.AddSeconds(unixTimeStamp).ToLocalTime();
+            return dateTime;
+        }
         public static void ConfigureCors(this IServiceCollection services) => services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builders =>
@@ -94,6 +100,7 @@ namespace ECommerceBackEnd
 
             return _next.Invoke(context);
         }
+
     }
 
     public static class OptionsMiddlewareExtensions
@@ -103,5 +110,6 @@ namespace ECommerceBackEnd
             return builder.UseMiddleware<OptionsMiddleware>();
         }
     }
+
 
 }

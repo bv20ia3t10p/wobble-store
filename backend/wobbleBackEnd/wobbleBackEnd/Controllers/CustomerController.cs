@@ -18,15 +18,18 @@ namespace ECommerceBackEnd.Controllers
             _services = services;
         }
 
-        [Authorize]
+        [Authorize(Roles = ("ADMINISTRATOR"))]
         [HttpGet]
         [EnableQuery]
         public ActionResult<IEnumerable<CustomerDTO>> Get() => Ok(_services.Customer.GetCustomers());
         [HttpGet("{id}", Name = "GetCustomerById")]
+        [Authorize(Roles = ("ADMINISTRATOR"))]
         public ActionResult<CustomerDTO> GetById(int id) => Ok(_services.Customer.GetCustomerById(id));
         [HttpPut]
+        [Authorize(Roles = ("ADMINISTRATOR"))]
         public ActionResult<CustomerDTO> Replace(UpdateCustomerDto newCustomer) => Ok(_services.Customer.UpdateCustomer(newCustomer));
         [HttpDelete("{id}")]
+        [Authorize(Roles = ("ADMINISTRATOR"))]
         public ActionResult Delete(int id)
         {
             _services.Customer.DeleteCustomerById(id);

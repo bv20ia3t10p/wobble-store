@@ -81,7 +81,7 @@
   height: 5svh;
 }
 
-.changePassword button {
+.dashboardMain .changePassword button {
   background-color: var(--slate-200);
   width: 12svw !important;
   border-radius: 0.5em;
@@ -106,23 +106,3 @@
   letter-spacing: 0.05em;
 }
 
-aside {
-  padding-top: 5.2svh;
-  display: grid;
-  grid-template-rows: max-content;
-  row-gap: 0.8em;
-  grid-row: 1/-1;
-  font-weight: var(--font-semibold);
-  text-transform: capitalize;
-  color: var(--gray-500);
-}
-
-aside * {
-  padding-bottom: 0.2em;
-}
-
-aside :first-child {
-  /* text-decoration: underline; */
-  color: var(--blue-700) !important;
-  border-bottom: 0.1em solid var(--blue-700);
-}

@@ -31,7 +31,7 @@ namespace ECommerceBackEnd.Service
             _mapper.Map<CategoryDto>(_repository.Category.GetCategoryById(id));
         public CategoryDto UpdateCategory (UpdateCategoryDto categoryDto)
         {
-            var categoryInDb = _repository.Category.GetCategoryById((int)categoryDto.CategoryId);
+            var categoryInDb = _repository.Category.GetCategoryById((int)categoryDto.CategoryId) ?? throw new Exception("Category not found");
             if ( categoryInDb != null)
             {
                 throw new Exception("Category not found");

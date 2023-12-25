@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\wobbleBackEnd",
+    "\\wobbleBackEnd\\Service"
   ],
-  "SelectedNode": "\\wobbleBackEnd.sln",
+  "SelectedNode": "\\wobbleBackEnd\\Service\\CustomerService.cs",
   "PreviewInSolutionExplorer": false
 }
