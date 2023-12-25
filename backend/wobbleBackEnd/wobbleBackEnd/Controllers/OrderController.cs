@@ -134,10 +134,7 @@ namespace ECommerceBackEnd.Controllers
             bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending
             )
         {
-            var token = Authorization[7..];
-            var handler = new JwtSecurityTokenHandler();
-            var jwtSecurityToken = handler.ReadJwtToken(token);
-            var email = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+            var email = Extension.ExtractEmailFromToken(Authorization);
             var customerInDb = _service.Customer.GetCustomerByEmail(email);
             if (customerInDb == null) return Unauthorized();
             var returnOrders = _service.Order.GetOrdersWithDetailsForCustomer(customerInDb.CustomerEmail);

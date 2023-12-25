@@ -6,11 +6,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using MongoDB.Bson.Serialization;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace ECommerceBackEnd
 {
     public static class Extension
     {
+        public static string ExtractEmailFromToken(string Authorization)
+        {
+            var token = Authorization[7..];
+            var handler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = handler.ReadJwtToken(token);
+            var email = jwtSecurityToken.Claims.First(claim => claim.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name").Value;
+            return email;
+        }
         public static DateTime UnixTimeStampToDateTime(double unixTimeStamp)
         {
             // Unix timestamp is seconds past epoch

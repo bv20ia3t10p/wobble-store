@@ -5,7 +5,8 @@ import { url, navigateToNewPage } from "./utils";
 import { useLoadingContext } from "./LoadingContext";
 
 const Login = () => {
-  const { isLoading, setDialogueLoading, pageLoader, setPageLoaded } = useLoadingContext();
+  const { isLoading, setDialogueLoading, pageLoader, setPageLoaded } =
+    useLoadingContext();
   const [loginInfo, setLoginInfo] = useState({ email: "", password: "" });
   const [registerInfo, setRegisterInfo] = useState({
     email: "",
@@ -70,10 +71,21 @@ const Login = () => {
           .then((e) => {
             if (e.ok) return e.json();
           })
-          .then((data) => {
+          .then(async (data) => {
             localStorage.setItem("accountToken", data.token);
             localStorage.removeItem("loginState");
             localStorage.removeItem("googleToken");
+            await fetch(url + "/api/Staffs/Check", {
+              headers: {
+                Authorization: "Bearer " + data.token,
+              },
+            })
+              .then((t) => t.ok && t.json())
+              .then((t) => {
+                localStorage.setItem("isStaff", t);
+                navigateToNewPage("/");
+              })
+              .catch((t) => alert(t));
             navigateToNewPage("/");
           })
           .catch((error) => console.log(error));
@@ -113,16 +125,29 @@ const Login = () => {
         ? inputData.get("customerPassword")
         : "",
     };
-    const resp = await fetch(url + '/api/Auth?googletoken=""', {
+    await fetch(url + '/api/Auth?googletoken=""', {
       method: "POST",
       headers: {
         "Content-Type": "application/json; charset=utf-8",
       },
       body: JSON.stringify(customer),
-    }).catch((e) => alert(e));
-    const data = await resp.json();
-    localStorage.setItem("accountToken", data.token);
-    navigateToNewPage("/");
+    })
+      .then(async (e) => e.ok && e.json())
+      .then(async (e) => {
+        localStorage.setItem("accountToken", e.token);
+        await fetch(url + "/api/Staffs/Check", {
+          headers: {
+            Authorization: "Bearer " + e.token,
+          },
+        })
+          .then((t) => t.ok && t.json())
+          .then((t) => {
+            localStorage.setItem("isStaff", t);
+            navigateToNewPage("/");
+          })
+          .catch((t) => alert(t));
+      })
+      .catch((e) => alert(e));
   };
 
   const handleRegister = async (e) => {
