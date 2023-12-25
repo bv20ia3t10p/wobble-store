@@ -274,7 +274,6 @@ const Cart = () => {
       <div className="cartDetails">
         {cartItems &&
           localCart &&
-          localCart.length &&
           cartItems.map((product, key) => {
             const productImg = require(`./productImages/${product.productCardId}_0.png`);
             return (

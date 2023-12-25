@@ -1,5 +1,6 @@
 ﻿using ECommerceBackEnd.Contracts;
 using ECommerceBackEnd.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace ECommerceBackEnd.Repositories
@@ -12,9 +13,8 @@ namespace ECommerceBackEnd.Repositories
         public void CreateOrderDetail(OrderDetail orderDetail) => Create(orderDetail);
         public void UpdateOrderDetail(OrderDetail orderDetail) => Update(c=>c.OrderItemId == orderDetail.OrderItemId,orderDetail);
         public void DeleteOrderDetail(OrderDetail orderDetail) => Delete(c=>c.OrderItemId == orderDetail.OrderItemId);
-        public OrderDetail GetOrderDetailById(int id) => GetByCondition(c => c.OrderItemId == id);
+        public OrderDetail GetOrderDetailById(ObjectId id) => GetByCondition(c => c.Id.Equals(id));
         public OrderDetail GetDetailByProductAndOrder(int oid, int pid) => GetByCondition(c => c.ProductCardId == pid && c.OrderId == oid);
-        public int GetLatestId() => GetAll().ToList().OrderByDescending(c => c.OrderItemId).FirstOrDefault().OrderItemId + 1;
         public void CreateManyOrderDetails(IEnumerable<OrderDetail> orderDetails)=>CreateMany(orderDetails);
     }
 }

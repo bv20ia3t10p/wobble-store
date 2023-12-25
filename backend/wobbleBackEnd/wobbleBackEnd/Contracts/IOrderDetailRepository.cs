@@ -1,4 +1,5 @@
 ﻿using ECommerceBackEnd.Entities;
+using MongoDB.Bson;
 
 namespace ECommerceBackEnd.Contracts
 {
@@ -9,9 +10,8 @@ namespace ECommerceBackEnd.Contracts
         void CreateOrderDetail (OrderDetail orderDetail);
         void UpdateOrderDetail (OrderDetail orderDetail);
         void DeleteOrderDetail (OrderDetail orderDetail);
-        OrderDetail GetOrderDetailById (int OrderDetailId);
+        OrderDetail GetOrderDetailById (ObjectId OrderDetailId);
         OrderDetail GetDetailByProductAndOrder(int oid, int pid);
-        int GetLatestId();
         void CreateManyOrderDetails (IEnumerable<OrderDetail> orderDetails);
         
     }

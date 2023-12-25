@@ -1,4 +1,5 @@
 ﻿using ECommerceBackEnd.Dtos;
+using MongoDB.Bson;
 
 namespace ECommerceBackEnd.Service.Contracts
 {
@@ -6,11 +7,12 @@ namespace ECommerceBackEnd.Service.Contracts
     {
         IEnumerable<OrderDetailDto> CreateMultipleOrderDetails(IEnumerable<CreateOrderDetailDto> orderDetails);
         OrderDetailDto CreateOrderDetail(CreateOrderDetailDto orderDetailDto);
-        void DeleteOrderDetail(int id);
+        void DeleteOrderDetail(ObjectId id);
         IEnumerable<OrderDetailDto> GetByOrder(int orderId);
         OrderDetailDto GetByOrderAndProduct(int oid, int pid);
         IEnumerable<OrderDetailDto> GetByProduct(int productId);
         OrderDetailDto UpdateOrderDetail(UpdateOrderDetailDto orderDetail);
-        OrderDetailDto GetById(int id);
+        OrderDetailDto GetById(ObjectId id);
+        void CreateOrderDetailWithOrder(CreateOrderDetailDto orderDetailDto, OrderDto order);
     }
 }

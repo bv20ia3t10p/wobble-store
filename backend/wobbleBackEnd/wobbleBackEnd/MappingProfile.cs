@@ -39,6 +39,7 @@ namespace ECommerceBackEnd
             CreateMap<UpdateOrderPaymentDto,Order>();
             CreateMap<UpdateStaffDto, Staff>();
             CreateMap<CreateStaffDto,Staff>();
+            CreateMap<OrderDto, OrderDetail>();
         }
     }
 }

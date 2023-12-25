@@ -6,6 +6,8 @@ namespace ECommerceBackEnd.Dtos
 {
     public record OrderDetailDto
     {
+        [Key]
+        public ObjectId Id;
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
         public int? DepartmentId { get; set; }
@@ -16,9 +18,7 @@ namespace ECommerceBackEnd.Dtos
         public int OrderId { get; set; }
         public double OrderItemDiscount { get; set; }
         public double OrderItemDiscountRate { get; set; }
-        [Key]
 
-        public int OrderItemId { get; set; }
         public double OrderItemProfitRatio { get; set; }
         public int OrderItemQuantity { get; set; }
         public double Sales { get; set; }
@@ -28,6 +28,8 @@ namespace ECommerceBackEnd.Dtos
     }
     public record CreateOrderDetailDto
     {
+        [Key]
+        public ObjectId Id;
         public int ProductCardId { get; set; }
         public int OrderId { get; set; }
         //public double OrderItemDiscount { get; set; }
@@ -42,7 +44,8 @@ namespace ECommerceBackEnd.Dtos
     public record UpdateOrderDetailDto
     {
 
-        public int OrderItemId { get; set; }
+        [Key]
+        public ObjectId Id;
         public int ProductCardId { get; set; }
         public double OrderItemDiscount { get; set; }
         public double OrderItemDiscountRate { get; set; }

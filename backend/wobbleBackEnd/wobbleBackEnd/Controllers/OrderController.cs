@@ -1,4 +1,5 @@
 ﻿using ECommerceBackEnd.Dtos;
+using ECommerceBackEnd.Entities;
 using ECommerceBackEnd.Service.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -184,7 +185,7 @@ namespace ECommerceBackEnd.Controllers
         }
         [HttpPost("Customer")]
         [Authorize(Roles = "USER,ADMINISTRATOR")]
-        public ActionResult<OrderWithDetailsDto> CreateOrderForCustomer([FromHeader] string Authorization, CreateOrderDto newOrder)
+        public ActionResult<Order> CreateOrderForCustomer([FromHeader] string Authorization, CreateOrderDto newOrder)
         {
             var token = Authorization[7..];
             var handler = new JwtSecurityTokenHandler();
@@ -209,9 +210,9 @@ namespace ECommerceBackEnd.Controllers
             {
                 od.OrderId = createdOrder.OrderId;
                 od.CustomerId = customerInDb.CustomerId;
-                var createdOd = _service.OrderDetail.CreateOrderDetail(od);
+                _service.OrderDetail.CreateOrderDetailWithOrder(od,createdOrder);
             }
-            return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrderWithDetails(createdOrder.OrderId));
+            return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrder(createdOrder.OrderId));
         }
         [HttpPut("Customer")]
         [Authorize(Roles = "USER,ADMINISTRATOR")]

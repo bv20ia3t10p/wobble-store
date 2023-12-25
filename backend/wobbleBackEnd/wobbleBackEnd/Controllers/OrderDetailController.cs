@@ -3,6 +3,7 @@ using ECommerceBackEnd.Service.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using MongoDB.Bson;
 
 namespace ECommerceBackEnd.Controllers
 {
@@ -25,10 +26,10 @@ namespace ECommerceBackEnd.Controllers
         public ActionResult<IEnumerable<OrderDetailDto>> GetDetailsForProduct(int pid) => Ok(_service.OrderDetail.GetByProduct(pid));
         [HttpGet("{id}")]
         [Authorize(Roles = ("ADMINISTRATOR"))]
-        public ActionResult<OrderDetailDto> GetById(int id) => Ok(_service.OrderDetail.GetById(id));
+        public ActionResult<OrderDetailDto> GetById(ObjectId id) => Ok(_service.OrderDetail.GetById(id));
         [HttpDelete("{id}")]
         [Authorize(Roles = ("ADMINISTRATOR"))]
-        public ActionResult DeleteOrderDetail(int id)
+        public ActionResult DeleteOrderDetail(ObjectId id)
         {
             _service.OrderDetail.DeleteOrderDetail(id);
             return NoContent();
@@ -38,7 +39,7 @@ namespace ECommerceBackEnd.Controllers
         public ActionResult<OrderDto> AddOrderDetail([FromBody] CreateOrderDetailDto newOd)
         {
             var createdOd = _service.OrderDetail.CreateOrderDetail(newOd);
-            return CreatedAtAction(nameof(GetById), new { id = createdOd.OrderItemId} , createdOd);
+            return CreatedAtAction(nameof(GetById), new { id = createdOd.Id} , createdOd);
         }
         [HttpPut]
         [Authorize(Roles = ("ADMINISTRATOR"))]

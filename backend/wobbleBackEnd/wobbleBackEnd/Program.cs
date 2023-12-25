@@ -21,7 +21,6 @@ static IEdmModel GetEdmModel()
     builder.EntitySet<ProductDto>("Products");
     builder.EntitySet<OrderDto>("Order");
     builder.EntitySet<CustomerDTO>("Customer");
-    builder.EntitySet<OrderDetailDto>("OrderDetail");
     return builder.GetEdmModel();
 }
 // Add services to the container.
