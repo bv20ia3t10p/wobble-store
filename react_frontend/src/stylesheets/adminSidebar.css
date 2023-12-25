@@ -1,0 +1,32 @@
+.adminSidebar {
+  width: 15svw;
+  background-color: var(--slate-900);
+  height: 100svh;
+  display: grid;
+  grid-template-rows: 0.4fr 0.7fr;
+}
+
+.adminSidebar * {
+  color: var(--orange-50);
+}
+.adminSidebar .adminInfo {
+  display: grid;
+  justify-content: center;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: var(--font-semibold);
+  font-size: 1.1em;
+  align-items: center;
+  border-bottom: 0.1em solid var(--slate-600);
+}
+
+
+
+.adminSidebar .adminIcon {
+  background-color: white;
+  border-radius: 100%;
+  object-fit: contain;
+  width: 20svh;
+  height: 20svh;
+}

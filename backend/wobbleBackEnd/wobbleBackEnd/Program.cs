@@ -27,6 +27,7 @@ static IEdmModel GetEdmModel()
 builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.ConfigureRepositoryManager();
 builder.Services.ConfigureServiceManager();
+builder.Services.ConfigureUriService();
 builder.Services.ConfigureJWT(builder.Configuration);
 builder.Services.AddControllers(options => { options.AllowEmptyInputInBodyModelBinding = true; }).AddOData(options => options
         .AddRouteComponents("odata", GetEdmModel())

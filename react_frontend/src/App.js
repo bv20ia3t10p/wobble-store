@@ -15,6 +15,9 @@ import Cart from "./Cart";
 import Dashboard from "./Dashboard";
 import PastOrders from "./PastOrders";
 import OrderConfirmation from "./OrderConfirmation";
+import AdminDashboard from "./AdminHelper/AdminDashboard";
+import AdminSidebar from "./AdminHelper/AdminSidebar";
+import AdminOrders from "./AdminHelper/AdminOrders";
 
 function App() {
   return (
@@ -88,6 +91,15 @@ function App() {
               </>
             }
           />
+          <Route
+            path="/adminDashboard/Orders"
+            element={
+              <>
+                <AdminSidebar />
+                <AdminOrders />
+              </>
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
     </LoadingContext>

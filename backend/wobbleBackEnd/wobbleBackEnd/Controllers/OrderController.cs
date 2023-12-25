@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Newtonsoft.Json.Converters;
 using System.IdentityModel.Tokens.Jwt;
+using wobbleBackEnd.Service.Contracts;
 
 namespace ECommerceBackEnd.Controllers
 {
@@ -16,16 +17,21 @@ namespace ECommerceBackEnd.Controllers
     public class OrderController : ControllerBase
     {
         private readonly IServiceManager _service;
-        public OrderController(IServiceManager service)
+        private readonly IUriService _uriService;
+        public OrderController(IServiceManager service, IUriService uriService)
         {
             _service = service;
+            _uriService = uriService;
         }
         [EnableQuery]
         [Authorize(Roles = "ADMINISTRATOR")]
         [HttpGet]
-        public ActionResult<IEnumerable<OrderDto>> GetOrders(int? CustomerId, string? CustomerFname, string? CustomerLname, string? CustomerEmail, string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
-            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending) {
+        public ActionResult<IEnumerable<OrderDto>> GetOrders(int PageNumber, int PageSize, int? CustomerId, string? CustomerFname, string? CustomerLname, string? CustomerEmail, string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
+
+            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending)
+        {
             var returnOrders = _service.Order.GetOrders();
+
             if (OrderDateGreaterThan is not null)
             {
                 DateTime gtDate = Extension.UnixTimeStampToDateTime((double)OrderDateGreaterThan);
@@ -79,7 +85,13 @@ namespace ECommerceBackEnd.Controllers
             {
                 returnOrders = returnOrders.OrderByDescending(e => e.Total);
             }
-            return Ok(returnOrders);
+            var route = Request.Path.Value;
+            var validFilter = new PaginationFilter(PageNumber, PageSize);
+            var pagedData = returnOrders.Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
+                .Take(validFilter.PageSize)
+                .ToList();
+            var totalRecords = returnOrders.Count();
+            return Ok( Extension.CreatePagedReponse<OrderDto>(pagedData, validFilter, totalRecords, _uriService, route));
         }
         [HttpGet("{id}")]
         [Authorize(Roles = "ADMINISTRATOR")]
@@ -146,14 +158,14 @@ namespace ECommerceBackEnd.Controllers
             if (OrderDateGreaterThan is not null)
             {
                 DateTime gtDate = Extension.UnixTimeStampToDateTime((double)OrderDateGreaterThan);
-                returnOrders = returnOrders.Where((o) => o.OrderDate >= gtDate).ToList() ;
+                returnOrders = returnOrders.Where((o) => o.OrderDate >= gtDate).ToList();
             }
             if (OrderDateSmallerThan is not null)
             {
                 if (OrderDateSmallerThan >= OrderDateGreaterThan)
                 {
                     DateTime lsDate = Extension.UnixTimeStampToDateTime((double)OrderDateSmallerThan);
-                    returnOrders = returnOrders.Where((o) => o.OrderDate <= lsDate).ToList() ;
+                    returnOrders = returnOrders.Where((o) => o.OrderDate <= lsDate).ToList();
                 }
             }
             if (totalGtThan is not null)
@@ -210,7 +222,7 @@ namespace ECommerceBackEnd.Controllers
             {
                 od.OrderId = createdOrder.OrderId;
                 od.CustomerId = customerInDb.CustomerId;
-                _service.OrderDetail.CreateOrderDetailWithOrder(od,createdOrder);
+                _service.OrderDetail.CreateOrderDetailWithOrder(od, createdOrder);
             }
             return CreatedAtAction(nameof(GetOrder), new { id = createdOrder.OrderId }, _service.Order.GetOrder(createdOrder.OrderId));
         }

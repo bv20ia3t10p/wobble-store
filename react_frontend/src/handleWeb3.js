@@ -1,4 +1,4 @@
-import { ethers } from "./ethers-5.1.esm.min.js";
+const ethers = require("ethers");
 
 export const connect = async (setIsWeb3Available) => {
   try {
