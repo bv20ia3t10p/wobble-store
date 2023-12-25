@@ -14,6 +14,7 @@ import Search from "./Search";
 import Cart from "./Cart";
 import Dashboard from "./Dashboard";
 import PastOrders from "./PastOrders";
+import OrderConfirmation from "./OrderConfirmation";
 
 function App() {
   return (
@@ -75,6 +76,15 @@ function App() {
               <>
                 <Navbar />
                 <PastOrders />
+              </>
+            }
+          />
+          <Route
+            path="/OrderDetails"
+            element={
+              <>
+                <Navbar />
+                <OrderConfirmation />
               </>
             }
           />

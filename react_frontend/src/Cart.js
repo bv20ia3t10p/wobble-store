@@ -243,11 +243,12 @@ const Cart = () => {
         );
         // setCartItems(() => cartItems.filter((e) => !e.checked));
         localStorage.setItem("cart", JSON.stringify(newCart));
-        getItemRecommendation(
-          newCart.map((e) => e.id),
-          setRecItems,
-          setDialogueLoading
-        );
+        // getItemRecommendation(
+        //   newCart.map((e) => e.id),
+        //   setRecItems,
+        //   setDialogueLoading
+        // );
+        navigateToNewPage("/OrderDetails", { orderId: data.orderId });
       });
   };
   return (

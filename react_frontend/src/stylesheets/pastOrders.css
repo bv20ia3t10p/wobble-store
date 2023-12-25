@@ -86,63 +86,10 @@
   row-gap: 3svh;
 }
 
-.pastMain .order {
-  background-color: white;
-  display: grid;
-  padding: 2svh;
-  row-gap: 2svh;
-  border-radius: 0.5em;
-  height: min-content;
-}
-
-.pastMain .order .subTitle {
-  font-weight: var(--font-semibold);
-  padding-bottom: 0.23em;
-  font-size: 1.1em;
-  color: var(--gray-500);
-  border-bottom: 0.2em solid var(--gray-400);
-}
-
-.pastMain
-  .order
-  > div:not(.orderId):not(.pastMain .orderItem):not(.pastMain .orderTotal) {
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-  width: 100%;
-}
-.pastMain .order .orderId {
-  color: var(--gray-700);
-  font-size: 1.5em;
-  width: 100%;
-  padding-bottom: 0.5em;
-  border-bottom: 0.05svh solid var(--gray-500);
-}
-
-.pastMain .order img {
-  width: 8svh;
-  height: 8svh;
-  grid-row: 1/-1;
-}
-
-.pastMain .order .badge {
-  background-color: var(--gray-400);
-  color: var(--gray-50);
-  position: absolute;
-  border-radius: 0.25svh;
-  width: 2svh;
-  height: 2svh;
-  margin-left: 3svw;
-  display: flex;
-  color: white;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.pastMain .orderItem {
+.singleOrderView .orderItem {
   display: grid;
   position: relative;
-  grid-template-columns: 0.6fr 6fr 1fr;
+  grid-template-columns: 0.6fr 6fr 1fr !important;
   grid-template-rows: 3fr 2fr;
   height: 100%;
   padding-bottom: 0.2em;
@@ -150,7 +97,7 @@
   width: 100% !important;
 }
 
-.pastMain .orderItem .productName {
+.singleOrderView .orderItem .productName {
   display: flex;
   width: 100%;
   height: 100%;
@@ -159,7 +106,7 @@
   text-align: left;
 }
 
-.pastMain .orderItem .departmentName {
+.singleOrderView .orderItem .departmentName {
   grid-row: 2/2;
   color: var(--gray-500);
 }
@@ -168,7 +115,7 @@
   display: none;
 }
 
-.pastMain .orderTotal {
+.singleOrderView .orderTotal {
   width: 20%;
   display: grid;
   grid-template-columns: 2.5fr 3fr;
@@ -180,15 +127,15 @@
   font-weight: var(--font-semibold);
 }
 
-.pastMain .orderTotal .label {
+.singleOrderView .orderTotal .label {
   color: var(--gray-500);
 }
 
-.pastMain .orderTotal .data {
+.singleOrderView .orderTotal .data {
   font-weight: normal;
 }
 
-.pastMain .orders button {
+.singleOrderView .orders button {
   border: none;
   font-size: 1em;
   border: 0.12em solid var(--blue-500);
@@ -199,3 +146,4 @@
   color: var(--blue-500);
   display: none;
 }
+

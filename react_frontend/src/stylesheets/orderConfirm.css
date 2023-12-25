@@ -1,0 +1,8 @@
+.orderConfirmMain {
+    padding: 2em 20em;
+    display: grid;
+    gap: 2em;
+    background-color: var(--gray-100);
+    min-height: 82.5svh;
+    max-height: max-content;
+}
