@@ -1,18 +1,47 @@
-html {
-  width: 100svw;
-  height: 100svh;
-  overflow: hidden;
-}
-
 .pastMain {
   background-color: var(--slate-200);
   width: 75%;
-  height: 86.7svh;
+  height: max-content;
   display: grid;
   column-gap: 2svw;
   grid-template-columns: 1fr 8fr;
   padding: 2svh 12.5svw;
-  grid-template-rows: 5svh 1fr;
+  grid-template-rows: 5svh 22svh 1fr;
+}
+
+.pastMain .orderSearch {
+  display: grid;
+  font-size: 1em;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+  padding-bottom: 1em;
+}
+
+.pastMain .mainSearchControl {
+  display: grid;
+  grid-template-columns: 80% 1fr;
+  grid-template-rows: 1fr;
+}
+
+.pastMain .mainSearchControl span {
+  width: 100%;
+  grid-row: 1/1;
+  grid-column: 1/1;
+}
+
+.pastMain .mainSearchControl button {
+  display: inline-block;
+  grid-row: 1/1;
+  grid-column: 2/2;
+  align-self: flex-end;
+  justify-self: flex-end;
+  width: max-content;
+}
+
+.pastMain .orderSearch :first-child,
+.pastMain .orderSearch :nth-child(2),
+.pastMain .orderSearch :nth-child(3) {
+  grid-column: 1/-1;
 }
 
 .pastMain * {
@@ -48,9 +77,10 @@ html {
 }
 
 .pastMain .orders {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  grid-row: 2/2;
+  /* overflow-y: scroll; */
+  /* overflow-x: hidden; */
+  grid-row: 3/3;
+  margin-top: 2em;
   display: grid;
   grid-auto-flow: row;
   row-gap: 3svh;
@@ -73,7 +103,9 @@ html {
   border-bottom: 0.2em solid var(--gray-400);
 }
 
-.pastMain .order > div:not(.orderId):not(.pastMain .orderItem):not(.orderTotal) {
+.pastMain
+  .order
+  > div:not(.orderId):not(.pastMain .orderItem):not(.pastMain .orderTotal) {
   display: grid;
   grid-template-columns: 1fr 6fr;
   width: 100%;
@@ -136,7 +168,7 @@ html {
   display: none;
 }
 
-.orderTotal {
+.pastMain .orderTotal {
   width: 20%;
   display: grid;
   grid-template-columns: 2.5fr 3fr;
@@ -148,11 +180,11 @@ html {
   font-weight: var(--font-semibold);
 }
 
-.orderTotal .label {
+.pastMain .orderTotal .label {
   color: var(--gray-500);
 }
 
-.orderTotal .data {
+.pastMain .orderTotal .data {
   font-weight: normal;
 }
 

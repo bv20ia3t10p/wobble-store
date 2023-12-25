@@ -143,46 +143,47 @@ namespace ECommerceBackEnd.Controllers
             var returnOrders = _service.Order.GetOrdersWithDetailsForCustomer(customerInDb.CustomerEmail);
             if (ProductName is not null)
             {
-                returnOrders = returnOrders.Where((o) => o.Details.Where(od => od.ProductName == ProductName).Any());
+                returnOrders = returnOrders.Where((o) => o.Details.Where(od => od.ProductName == ProductName).Any()).ToList();
             }
             if (OrderDateGreaterThan is not null)
             {
                 DateTime gtDate = Extension.UnixTimeStampToDateTime((double)OrderDateGreaterThan);
-                returnOrders = returnOrders.Where((o) => o.OrderDate >= gtDate);
+                returnOrders = returnOrders.Where((o) => o.OrderDate >= gtDate).ToList() ;
             }
             if (OrderDateSmallerThan is not null)
             {
                 if (OrderDateSmallerThan >= OrderDateGreaterThan)
                 {
                     DateTime lsDate = Extension.UnixTimeStampToDateTime((double)OrderDateSmallerThan);
-                    returnOrders = returnOrders.Where((o) => o.OrderDate <= lsDate);
+                    returnOrders = returnOrders.Where((o) => o.OrderDate <= lsDate).ToList() ;
                 }
             }
             if (totalGtThan is not null)
             {
-                returnOrders = returnOrders.Where((o) => o.Total >= totalGtThan);
+                returnOrders = returnOrders.Where((o) => o.Total >= totalGtThan).ToList();
+                Console.WriteLine(returnOrders);
             }
             if (totalSmallerThan is not null)
             {
-                returnOrders = returnOrders.Where((o) => o.Total <= totalSmallerThan);
+                returnOrders = returnOrders.Where((o) => o.Total <= totalSmallerThan).ToList();
             }
             if (sortByOrderDateAscending is not null)
             {
-                returnOrders = returnOrders.OrderBy((e) => e.OrderDate);
+                returnOrders = returnOrders.OrderBy((e) => e.OrderDate).ToList();
             }
             if (sortByOrderDateDescending is not null)
             {
-                returnOrders = returnOrders.OrderByDescending((e) => e.OrderDate);
+                returnOrders = returnOrders.OrderByDescending((e) => e.OrderDate).ToList();
             }
             if (sortByTotalAscending is not null)
             {
-                returnOrders = returnOrders.OrderBy(e => e.Total);
+                returnOrders = returnOrders.OrderBy(e => e.Total).ToList();
             }
             if (sortByTotalDescending is not null)
             {
-                returnOrders = returnOrders.OrderByDescending(e => e.Total);
+                returnOrders = returnOrders.OrderByDescending(e => e.Total).ToList();
             }
-            return Ok(_service.Order.GetOrdersWithDetailsForCustomer(customerInDb.CustomerEmail));
+            return Ok(returnOrders);
         }
         [HttpPost("Customer")]
         [Authorize(Roles = "USER,ADMINISTRATOR")]

@@ -4,7 +4,7 @@ import Product from "./Product";
 import "./stylesheets/home.css";
 import { useLoadingContext } from "./LoadingContext";
 
-const getAllProducts = async (setProducts) => {
+export const getAllProducts = async (setProducts) => {
   const itemUrl = url + `/api/products`;
   await fetch(itemUrl, {
     method: "GET",
