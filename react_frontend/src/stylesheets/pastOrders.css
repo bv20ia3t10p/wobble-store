@@ -7,6 +7,7 @@
   grid-template-columns: 1fr 8fr;
   padding: 2svh 12.5svw;
   grid-template-rows: 5svh 22svh 1fr;
+  min-height: 100vh;
 }
 
 .pastMain .orderSearch {

@@ -7,8 +7,8 @@ Created on Sat Sep 23 19:20:44 2023
 
 import pandas as pd
 #%%
-project_repo = 'G:/Code/IE104-retailer-web-project/'
-project_data = 'G:/Code/IE104-retailer-web-project/data/'
+project_repo = 'G:/Code/wobble-store/'
+project_data = 'G:/Code/wobble-store/data/'
 #%%
 df = pd.read_csv(project_data+'DataCoSupplyChainDataset.csv',encoding='latin1')
 #%%
@@ -49,7 +49,7 @@ df_orders['Total'] = df_orders['Order Id'].apply(lambda x: df_test[df_test['Orde
 df_orders.to_csv(project_data+"Orders.csv",header = [ i.replace(' ','') for i in df_orders.columns],index=False)
 #%%
 df_order_details = df[['Category Id','Category Name','Department Id','Department Name','Order Id',
-                       'Order Item Discount','Order Item Discount Rate','Order Item Id',
+                       'Order Item Discount','Order Item Discount Rate',
                        'Order Item Profit Ratio','Order Item Quantity','Sales','Product Price',
                        'Order Item Total','Product Card Id','Product Price','Product Name','Customer Id']]
 df_order_details.to_csv(project_data+"Order_details.csv",header = [ i.replace(' ','') for i in df_order_details.columns],index=False)
