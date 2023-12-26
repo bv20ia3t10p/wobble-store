@@ -41,6 +41,11 @@ namespace ECommerceBackEnd.Service
             {
                 throw new Exception("Order not found");
             }
+            var orderDetailsForOrder = _repository.OrderDetail.GetDetailsForOrder(id);
+            foreach (OrderDetail od in orderDetailsForOrder)
+            {
+                _repository.OrderDetail.DeleteOrderDetail(od); 
+            }
             _repository.Order.DeleteOrder(orderInDb);
         }
         public OrderDto CreateOrder(CreateOrderDto newOrder)

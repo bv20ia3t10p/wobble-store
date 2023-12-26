@@ -26,6 +26,7 @@ namespace ECommerceBackEnd.Dtos
         public DateTime ShippingDate { get; set; }
         public string ShippingMode { get; set; }
         public double Total { get; set; }
+        public string CustomerFullName { get; set; }
     }
     public record CreateOrderDto
     {
@@ -38,15 +39,11 @@ namespace ECommerceBackEnd.Dtos
     {
         public int OrderId { get; set; }
         public string Type { get; set; }
-        public int DayForShippingReal { get; set; }
-        public int DayForShipmentScheduled { get; set; }
         public string DeliveryStatus { get; set; }
-        public int LateDeliveryRisk { get; set; }
         public string OrderStatus { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime ShippingDate { get; set; }
         public string ShippingMode { get; set; }
-        public double Total { get; set; }
     }
     public record OrderWithDetailsDto
     {

@@ -19,8 +19,11 @@ import { navigateToNewPage } from "../utils";
 const AdminSidebar = () => {
   const { setPageLoaded } = useLoadingContext();
   const [userInfo, setUserInfo] = useState();
+  const [selected,setSelected] = useState(1);
+
   useEffect(() => {
     loadUserInfo(setUserInfo, setPageLoaded);
+    
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const adminIcon = require("../icons/adminIcon.png");
