@@ -11,5 +11,6 @@ namespace ECommerceBackEnd.Service.Contracts
         IOrderService Order { get; }
         IOrderDetailService OrderDetail { get; }
         IStaffService Staff { get; }
+        IStatService Stat { get; }
     }
 }

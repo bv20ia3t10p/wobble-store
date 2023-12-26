@@ -48,17 +48,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
-{
-    var settings = configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
-    return new MongoClient(settings.ConnectionString);
-});
-
 //builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
 //{
-//    var settings = configuration.GetSection("MongoDbCloud")["ConnectionString"];
-//    return new MongoClient(settings);
+//    var settings = configuration.GetSection(nameof(MongoDbSettings)).Get<MongoDbSettings>();
+//    return new MongoClient(settings.ConnectionString);
 //});
+
+builder.Services.AddSingleton<IMongoClient>(serviceProvider =>
+{
+    var settings = configuration.GetSection("MongoDbCloud")["ConnectionString"];
+    return new MongoClient(settings);
+});
 
 
 var app = builder.Build();

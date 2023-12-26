@@ -1,0 +1,56 @@
+.adminCustomerMain {
+  margin-left: 15svw;
+  padding: 5em;
+}
+
+.adminCustomerFilterOptions {
+  background-color: white;
+  width: 100%;
+  display: grid;
+  gap: 2svh;
+  width: 50svw;
+  height: 80svh;
+  padding: 2em;
+  border-radius: 2em;
+  left: 25svw;
+  position: absolute;
+  top: 5svh;
+}
+.adminCustomerFilterOptions .controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2em;
+}
+
+.adminCustomerTitle {
+  padding-bottom: 5vh;
+  border-bottom: 0.1em solid var(--orange-900);
+}
+
+.editCustomerModal {
+  background-color: white;
+  display: grid;
+  width: 60svw;
+  padding: 2em;
+  border-radius: 2em;
+  gap: 1em;
+  left: 20svw;
+  position: absolute;
+  top: 5svh;
+}
+
+.editCustomerModal .controls {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+
+.editCustomerModal > button {
+  text-align: right;
+  align-self: flex-end;
+  justify-self: flex-end;
+  border-bottom: 0.1em solid var(--rose-800);
+  border-radius: 0;
+  width: 100%;
+  justify-content: flex-end;
+}

@@ -18,6 +18,7 @@ import OrderConfirmation from "./OrderConfirmation";
 import AdminDashboard from "./AdminHelper/AdminDashboard";
 import AdminSidebar from "./AdminHelper/AdminSidebar";
 import AdminOrders from "./AdminHelper/AdminOrders";
+import AdminCustomer from "./AdminHelper/AdminCustomer";
 
 function App() {
   return (
@@ -99,7 +100,34 @@ function App() {
                 <AdminOrders />
               </>
             }
-          ></Route>
+          />
+          <Route
+            path="/adminDashboard/Customers"
+            element={
+              <>
+                <AdminSidebar />
+                <AdminCustomer />
+              </>
+            }
+          />
+          <Route
+            path="/adminDashboard/Dashboard"
+            element={
+              <>
+                <AdminSidebar />
+                <AdminDashboard />
+              </>
+            }
+          />
+          <Route
+            path="/adminDashboard"
+            element={
+              <>
+                <AdminSidebar />
+                <AdminDashboard />
+              </>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </LoadingContext>

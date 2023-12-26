@@ -23,7 +23,7 @@ import Paper from "@mui/material/Paper";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { DatePicker } from "@mui/x-date-pickers";
 import PropTypes from "prop-types";
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import {
   Unstable_NumberInput as BaseNumberInput,
   numberInputClasses,
@@ -284,14 +284,18 @@ const updateOrderInfo = async (newOrder, setOrder) => {
   const accountToken = localStorage.getItem("accountToken");
   newOrder = {
     ...newOrder,
-    orderDate: newOrder.orderDate.toISOString(),
-    shippingDate: newOrder.shippingDate.toISOString(),
+    orderDate:  dayjs(newOrder.orderDate).toISOString(),
+    shippingDate:  dayjs(newOrder.shippingDate).toISOString(),
   };
+  console.log(newOrder);
+
   await fetch(url + "/api/Order/Status", {
     method: "PUT",
     body: JSON.stringify(newOrder),
     headers: {
       Authorization: "Bearer " + accountToken,
+      "Content-Type": "application/json",
+
     },
   })
     .then((e) => e.ok && e.json())
@@ -323,7 +327,7 @@ const deleteOrder = async (order, setIsOpeningModal) => {
     })
     .catch((e) => alert(e));
 };
-const CustomNumberInput = React.forwardRef(function CustomNumberInput(
+export const CustomNumberInput = React.forwardRef(function CustomNumberInput(
   props,
   ref
 ) {
@@ -687,8 +691,18 @@ const OrderEditModal = (props) => {
                 </Table>
               </TableContainer>
               <div className="controls">
-                <Button variant="outlined">Reset</Button>
-                <Button variant="contained">Update</Button>
+                <Button
+                  variant="outlined"
+                  onClick={() => getOrderWithDetails(setOrder, orderId)}
+                >
+                  Reset
+                </Button>
+                <Button
+                  variant="contained"
+                  onClick={() => updateOrderInfo(order, setOrder)}
+                >
+                  Update
+                </Button>
               </div>
             </Box>
           )}

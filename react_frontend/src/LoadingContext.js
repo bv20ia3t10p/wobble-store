@@ -6,6 +6,7 @@ const initialLoadingState = {
   dialogueLoader: false,
   loadingMessage: "Loading...",
   isLoading: false,
+  snackBar: false,
 };
 
 const AppContext = React.createContext();
@@ -25,11 +26,12 @@ const reducer = (state, action) => {
       };
     case "CLOSE_LOADING_DIALOGUE":
       return { ...state, isLoading: false, dialogueLoader: false };
+    case "SHOW_SNACK":
+      return { ...state, snackBar: true };
     default:
       return state;
   }
 };
-
 const LoadingContext = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialLoadingState);
   const setPageLoaded = (isLoaded, message = "") => {
@@ -41,12 +43,15 @@ const LoadingContext = ({ children }) => {
       dispatch({ type: "OPEN_LOADING_DIALOGUE", message: message });
     else dispatch({ type: "CLOSE_LOADING_DIALOGUE" });
   };
+  const showSnack = () => {
+    dispatch({ type: "SHOW_SNACK" });
+  };
   useEffect(() => {
     setPageLoaded(false);
   }, []);
   return (
     <AppContext.Provider
-      value={{ setPageLoaded, setDialogueLoading, ...state }}
+      value={{ showSnack, setPageLoaded, setDialogueLoading, ...state }}
     >
       {children}
     </AppContext.Provider>

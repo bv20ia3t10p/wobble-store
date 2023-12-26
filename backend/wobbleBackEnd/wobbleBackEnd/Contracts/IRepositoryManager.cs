@@ -10,5 +10,6 @@ namespace ECommerceBackEnd.Contracts
         IOrderRepository Order { get; }
         IOrderDetailRepository OrderDetail { get; }
         IStaffRepository Staff { get; }
+        IStatRepository Stat { get; }
     }
 }
