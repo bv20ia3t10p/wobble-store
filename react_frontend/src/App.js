@@ -19,6 +19,7 @@ import AdminDashboard from "./AdminHelper/AdminDashboard";
 import AdminSidebar from "./AdminHelper/AdminSidebar";
 import AdminOrders from "./AdminHelper/AdminOrders";
 import AdminCustomer from "./AdminHelper/AdminCustomer";
+import AdminProducts from "./AdminHelper/AdminProducts";
 
 function App() {
   return (
@@ -124,7 +125,16 @@ function App() {
             element={
               <>
                 <AdminSidebar />
-                <AdminDashboard />
+                <AdminOrders />
+              </>
+            }
+          />
+          <Route
+            path="/adminDashboard/Products"
+            element={
+              <>
+                <AdminSidebar />
+                <AdminProducts />
               </>
             }
           />

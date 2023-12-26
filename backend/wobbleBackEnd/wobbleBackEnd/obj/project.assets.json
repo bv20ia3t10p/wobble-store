@@ -3604,19 +3604,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {}
+    "C:\\Users\\beave\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+      "projectUniqueName": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
       "projectName": "wobbleBackEnd",
-      "projectPath": "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\obj\\",
+      "projectPath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+      "packagesPath": "C:\\Users\\beave\\.nuget\\packages\\",
+      "outputPath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\beave\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3730,7 +3730,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

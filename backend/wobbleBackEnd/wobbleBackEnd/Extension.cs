@@ -77,7 +77,7 @@ namespace ECommerceBackEnd
     {
         public int PageNumber { get; set; }
         public int PageSize { get; set; }
-        public PaginationFilter()
+        public PaginationFilter(int? pageNumber)
         {
             this.PageNumber = 1;
             this.PageSize = 10;
