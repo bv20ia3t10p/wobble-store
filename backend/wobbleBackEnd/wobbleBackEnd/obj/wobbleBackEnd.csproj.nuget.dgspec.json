@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {}
+    "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {}
   },
   "projects": {
-    "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {
+    "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+        "projectUniqueName": "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
         "projectName": "wobbleBackEnd",
-        "projectPath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
-        "packagesPath": "C:\\Users\\beave\\.nuget\\packages\\",
-        "outputPath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\obj\\",
+        "projectPath": "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "E:\\Wobble_Store\\backend\\wobbleBackEnd\\wobbleBackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\beave\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -128,7 +128,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -83,3 +83,7 @@ backend/ECommerceBackEnd/ECommerceBackEnd/obj/ECommerceBackEnd.csproj.nuget.g.pr
 backend/ECommerceBackEnd/ECommerceBackEnd/obj/project.assets.json
 backend/ECommerceBackEnd/ECommerceBackEnd/obj/project.nuget.cache
 *.vsidx
+backend/wobbleBackEnd/.vs/wobbleBackEnd/DesignTimeBuild/.dtbcache.v2
+*.v2
+backend/wobbleBackEnd/.vs/wobbleBackEnd/v17/.futdcache.v2
+*.bin

@@ -8,6 +8,7 @@ namespace ECommerceBackEnd.Repositories
     public class RepositoryManager : IRepositoryManager
     {
         private const string databaseName = "wobble";
+        private readonly Lazy<IDepartmentRepository> _departmentRepository;
         private readonly Lazy<ICustomerRepository> _customerRepository;
         private readonly Lazy<IProductRepository> _productRepository;
         private readonly Lazy<ICategoryRepository> _categoryRepository;
@@ -21,6 +22,7 @@ namespace ECommerceBackEnd.Repositories
             _database = mongoClient.GetDatabase(databaseName);
             _productRepository = new Lazy<IProductRepository>(() => new ProductRepository(_database,"products"));
             _categoryRepository = new Lazy<ICategoryRepository>(() => new CategoryRepository(_database,"categories"));
+            _departmentRepository = new Lazy<IDepartmentRepository>(() => new DepartmentRepository(_database, "departments"));
             _customerRepository = new Lazy<ICustomerRepository>(() => new CustomerRepository(_database,"customers"));
             _orderRepository = new Lazy<IOrderRepository>(() => new OrderRepository(_database, "orders"));
             _orderDetailRepository = new Lazy<IOrderDetailRepository>(() => new OrderDetailRepository(_database, "order_details"));
@@ -35,5 +37,6 @@ namespace ECommerceBackEnd.Repositories
         public IStaffRepository Staff => _staffRepository.Value;
         public IStatRepository Stat => _statRepository.Value;
 
+        public IDepartmentRepository Department => _departmentRepository.Value;
     }
 }
