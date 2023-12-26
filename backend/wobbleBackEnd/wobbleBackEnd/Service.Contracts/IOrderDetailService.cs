@@ -7,7 +7,7 @@ namespace ECommerceBackEnd.Service.Contracts
     {
         IEnumerable<OrderDetailDto> CreateMultipleOrderDetails(IEnumerable<CreateOrderDetailDto> orderDetails);
         OrderDetailDto CreateOrderDetail(CreateOrderDetailDto orderDetailDto);
-        void DeleteOrderDetail(ObjectId id);
+        void DeleteOrderDetail(string id);
         IEnumerable<OrderDetailDto> GetByOrder(int orderId);
         OrderDetailDto GetByOrderAndProduct(int oid, int pid);
         IEnumerable<OrderDetailDto> GetByProduct(int productId);

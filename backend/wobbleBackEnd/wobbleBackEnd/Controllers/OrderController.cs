@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Attributes;
+using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json.Converters;
 using System.IdentityModel.Tokens.Jwt;
 using wobbleBackEnd.Service.Contracts;
@@ -23,15 +24,85 @@ namespace ECommerceBackEnd.Controllers
             _service = service;
             _uriService = uriService;
         }
+        private Uri AppendParamsAsQueryString(Uri modifiedPage, string? CustomerFullName, int? CustomerId, string? CustomerFname, string? CustomerLname, string? CustomerEmail, string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
+
+            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending, string? Type, string? OrderStatus, string? ShippingMode, string? DeliveryStatus)
+        {
+            if (CustomerId is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(CustomerId), CustomerId.ToString()));
+            }
+            if (CustomerFullName is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(CustomerFullName), CustomerFullName.ToString()));
+            }
+            if (CustomerFname is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(CustomerFname), CustomerFname.ToString()));
+            }
+            if (CustomerLname is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(CustomerLname), CustomerLname.ToString()));
+            }
+            if (CustomerEmail is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(CustomerEmail), CustomerEmail.ToString()));
+            }
+            if (totalGtThan is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(totalGtThan), totalGtThan.ToString()));
+            }
+            if (totalSmallerThan is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(totalSmallerThan), totalSmallerThan.ToString()));
+            }
+            if (sortByOrderDateAscending is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(sortByOrderDateAscending), sortByOrderDateAscending.ToString()));
+            }
+            if (sortByOrderDateDescending is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(sortByOrderDateDescending), sortByOrderDateDescending.ToString()));
+            }
+            if (sortByTotalAscending is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(sortByTotalAscending), sortByTotalAscending.ToString()));
+            }
+            if (sortByTotalDescending is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(sortByTotalDescending), sortByTotalDescending.ToString()));
+            }
+            if (Type is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(Type), Type.ToString()));
+
+            }
+            if (OrderStatus is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(OrderStatus), OrderStatus.ToString()));
+
+            }
+            if (ShippingMode is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(ShippingMode), ShippingMode.ToString()));
+
+            }
+            if (DeliveryStatus is not null)
+            {
+                modifiedPage = new Uri(QueryHelpers.AddQueryString(modifiedPage.ToString(), nameof(DeliveryStatus), DeliveryStatus.ToString()));
+
+            }
+            return modifiedPage;
+        }
         [EnableQuery]
         [Authorize(Roles = "ADMINISTRATOR")]
         [HttpGet]
-        public ActionResult<IEnumerable<OrderDto>> GetOrders(int PageNumber, int PageSize, int? CustomerId, string? CustomerFname, string? CustomerLname, string? CustomerEmail, string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
+        public ActionResult<IEnumerable<OrderDto>> GetOrders(int PageNumber, int PageSize, string? CustomerFullName, int? CustomerId, string? CustomerFname, string? CustomerLname, string? CustomerEmail, string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
 
-            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending)
+            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending, string? Type, string? OrderStatus, string? ShippingMode, string? DeliveryStatus)
         {
             var returnOrders = _service.Order.GetOrders();
-
+            Console.WriteLine("Got order");
             if (OrderDateGreaterThan is not null)
             {
                 DateTime gtDate = Extension.UnixTimeStampToDateTime((double)OrderDateGreaterThan);
@@ -52,6 +123,10 @@ namespace ECommerceBackEnd.Controllers
             if (CustomerFname is not null)
             {
                 returnOrders = returnOrders.Where(c => c.CustomerFname.ToLower().Contains(CustomerFname.ToLower()));
+            }
+            if (CustomerFullName is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.CustomerFname.ToLower().Contains(CustomerFullName.ToLower()));
             }
             if (CustomerLname is not null)
             {
@@ -85,13 +160,46 @@ namespace ECommerceBackEnd.Controllers
             {
                 returnOrders = returnOrders.OrderByDescending(e => e.Total);
             }
+            if (Type is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.Type.Equals(Type));
+            }
+            if (OrderStatus is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.OrderStatus.Equals(OrderStatus));
+            }
+            if (DeliveryStatus is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.DeliveryStatus.Equals(DeliveryStatus));
+            }
+            if (ShippingMode is not null)
+            {
+                returnOrders = returnOrders.Where(c => c.ShippingMode.Equals(ShippingMode));
+            }
             var route = Request.Path.Value;
             var validFilter = new PaginationFilter(PageNumber, PageSize);
             var pagedData = returnOrders.Skip((validFilter.PageNumber - 1) * validFilter.PageSize)
                 .Take(validFilter.PageSize)
                 .ToList();
             var totalRecords = returnOrders.Count();
-            return Ok( Extension.CreatePagedReponse<OrderDto>(pagedData, validFilter, totalRecords, _uriService, route));
+            var pagedResponse = Extension.CreatePagedReponse<OrderDto>(pagedData, validFilter, totalRecords, _uriService, route);
+            if (pagedResponse.FirstPage is not null)
+                pagedResponse.FirstPage = AppendParamsAsQueryString(pagedResponse.FirstPage, CustomerFullName, CustomerId, CustomerFname, CustomerLname
+                    , CustomerEmail, ProductName, OrderDateGreaterThan, OrderDateSmallerThan, totalGtThan, totalSmallerThan, sortByOrderDateAscending,
+                sortByOrderDateDescending, sortByTotalDescending, sortByTotalAscending, Type, OrderStatus, ShippingMode, DeliveryStatus);
+            if (pagedResponse.LastPage is not null)
+                pagedResponse.LastPage = AppendParamsAsQueryString(pagedResponse.LastPage, CustomerFullName, CustomerId, CustomerFname, CustomerLname
+                    , CustomerEmail, ProductName, OrderDateGreaterThan, OrderDateSmallerThan, totalGtThan, totalSmallerThan, sortByOrderDateAscending,
+                sortByOrderDateDescending, sortByTotalDescending, sortByTotalAscending, Type, OrderStatus, ShippingMode, DeliveryStatus);
+            if (pagedResponse.NextPage is not null)
+                pagedResponse.NextPage = AppendParamsAsQueryString(pagedResponse.NextPage, CustomerFullName, CustomerId, CustomerFname, CustomerLname
+                    , CustomerEmail, ProductName, OrderDateGreaterThan, OrderDateSmallerThan, totalGtThan, totalSmallerThan, sortByOrderDateAscending,
+                sortByOrderDateDescending, sortByTotalDescending, sortByTotalAscending, Type, OrderStatus, ShippingMode, DeliveryStatus);
+            if (pagedResponse.PreviousPage is not null)
+                pagedResponse.PreviousPage = AppendParamsAsQueryString(pagedResponse.PreviousPage, CustomerFullName, CustomerId, CustomerFname, CustomerLname
+                    , CustomerEmail, ProductName, OrderDateGreaterThan, OrderDateSmallerThan, totalGtThan, totalSmallerThan, sortByOrderDateAscending,
+                sortByOrderDateDescending, sortByTotalDescending, sortByTotalAscending, Type, OrderStatus, ShippingMode, DeliveryStatus);
+            return Ok(pagedResponse);
         }
         [HttpGet("{id}")]
         [Authorize(Roles = "ADMINISTRATOR")]
@@ -144,7 +252,7 @@ namespace ECommerceBackEnd.Controllers
         [Authorize(Roles = "USER,ADMINISTRATOR")]
         public ActionResult<IEnumerable<OrderWithDetailsDto>> GetOrderWithDetailsForCustomerEmail([FromHeader] string Authorization,
             string? ProductName, double? OrderDateGreaterThan, double? OrderDateSmallerThan, double? totalGtThan, double? totalSmallerThan, bool? sortByOrderDateAscending,
-            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending
+            bool? sortByOrderDateDescending, bool? sortByTotalDescending, bool? sortByTotalAscending, string? ShippingMode, string? DeliveryStatus
             )
         {
             var email = Extension.ExtractEmailFromToken(Authorization);
@@ -206,17 +314,6 @@ namespace ECommerceBackEnd.Controllers
             var customerInDb = _service.Customer.GetCustomerByEmail(email);
             if (customerInDb == null) return Unauthorized();
             //var createdOrder = _service.Order.CreateOrder(newOrder);
-            double total = 0;
-            foreach (var od in newOrder.OrderDetails)
-            {
-                //od.OrderId = createdOrder.OrderId;
-                //od.CustomerId = customerInDb.CustomerId;
-                //var createdOd = _service.OrderDetail.CreateOrderDetail(od);
-                //total += createdOd.OrderItemTotal;
-                var productInDb = _service.Product.GetProductById(od.ProductCardId) ?? throw new Exception("Product not found");
-                total += od.OrderItemQuantity * productInDb.ProductPrice;
-            }
-            newOrder.Total = total;
             var createdOrder = _service.Order.CreateOrder(newOrder);
             foreach (var od in newOrder.OrderDetails)
             {
@@ -253,6 +350,13 @@ namespace ECommerceBackEnd.Controllers
             if (customerInDb == null) return Unauthorized();
             var orderInDb = _service.Order.GetOrderWithDetails(orderId);
             if (customerInDb.CustomerId != orderInDb.CustomerId) return Unauthorized();
+            return Ok(orderInDb);
+        }
+        [HttpGet("WithDetails/{orderId}")]
+        [Authorize(Roles = "ADMINISTRATOR")]
+        public ActionResult<OrderWithDetailsDto> GetOrderWithDetailsForAdmin(int orderId)
+        {
+            var orderInDb = _service.Order.GetOrderWithDetails(orderId);
             return Ok(orderInDb);
         }
     }

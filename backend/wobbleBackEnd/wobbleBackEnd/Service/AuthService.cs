@@ -38,14 +38,18 @@ namespace ECommerceBackEnd.Service
                 user.CustomerEmail = content.email;
                 Console.WriteLine(user);
             }
+            
             var customerInDb = _repository.Customer.GetCustomerByEmail(user.CustomerEmail);
             _user = user;
-            var staffInDb = _repository.Staff.GetStaff(customerInDb.CustomerId);
-            if (staffInDb != null)
+            if (customerInDb is not null)
             {
-                _role = staffInDb.Role;
+                var staffInDb = _repository.Staff.GetStaff(customerInDb.CustomerId);
+                if (staffInDb != null)
+                {
+                    _role = staffInDb.Role;
+                }
+                else _role = "USER";
             }
-            else _role = "USER";
             if (GoogleToken.Length > 10)
             {
                 if (customerInDb is not null) return true;

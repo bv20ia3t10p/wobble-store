@@ -9,10 +9,33 @@ using MongoDB.Bson.Serialization;
 using System.IdentityModel.Tokens.Jwt;
 using wobbleBackEnd.Service;
 using wobbleBackEnd.Service.Contracts;
+using MongoDB.Bson;
+using Newtonsoft.Json;
 
 namespace ECommerceBackEnd
 {
+    class ObjectIdConverter : JsonConverter
+    {
 
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            serializer.Serialize(writer, value.ToString());
+
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool CanConvert(Type objectType)
+        {
+            return typeof(ObjectId).IsAssignableFrom(objectType);
+            //return true;
+        }
+
+
+    }
     public class Response<T>
     {
         public Response()
@@ -62,7 +85,7 @@ namespace ECommerceBackEnd
         public PaginationFilter(int pageNumber, int pageSize)
         {
             this.PageNumber = pageNumber < 1 ? 1 : pageNumber;
-            this.PageSize = pageSize > 10 ? 10 : pageSize;
+            this.PageSize = pageSize;
         }
     }
     public static class Extension

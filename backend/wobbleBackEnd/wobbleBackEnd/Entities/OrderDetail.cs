@@ -1,5 +1,6 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace ECommerceBackEnd.Entities
 {
@@ -30,6 +31,7 @@ namespace ECommerceBackEnd.Entities
           "ProductName": "Smart watch ",
           "ProductPrice": 327.75
          */
+        [JsonConverter(typeof(ObjectIdConverter))]
         public ObjectId Id { get; set; }
         // From Products
         public int CategoryId { get; set; }

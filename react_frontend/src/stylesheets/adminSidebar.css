@@ -3,6 +3,7 @@
   background-color: var(--slate-900);
   height: 100svh;
   display: grid;
+  position: fixed;
   grid-template-rows: 0.4fr 0.7fr;
 }
 
@@ -20,7 +21,6 @@
   align-items: center;
   border-bottom: 0.1em solid var(--slate-600);
 }
-
 
 
 .adminSidebar .adminIcon {

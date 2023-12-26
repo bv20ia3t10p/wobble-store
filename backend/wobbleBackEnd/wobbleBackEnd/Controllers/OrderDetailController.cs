@@ -26,10 +26,10 @@ namespace ECommerceBackEnd.Controllers
         public ActionResult<IEnumerable<OrderDetailDto>> GetDetailsForProduct(int pid) => Ok(_service.OrderDetail.GetByProduct(pid));
         [HttpGet("{id}")]
         [Authorize(Roles = ("ADMINISTRATOR"))]
-        public ActionResult<OrderDetailDto> GetById(ObjectId id) => Ok(_service.OrderDetail.GetById(id));
+        public ActionResult<OrderDetailDto> GetById(string id) => Ok(_service.OrderDetail.GetById(new ObjectId(id)));
         [HttpDelete("{id}")]
         [Authorize(Roles = ("ADMINISTRATOR"))]
-        public ActionResult DeleteOrderDetail(ObjectId id)
+        public ActionResult DeleteOrderDetail(string id)
         {
             _service.OrderDetail.DeleteOrderDetail(id);
             return NoContent();
@@ -39,10 +39,14 @@ namespace ECommerceBackEnd.Controllers
         public ActionResult<OrderDto> AddOrderDetail([FromBody] CreateOrderDetailDto newOd)
         {
             var createdOd = _service.OrderDetail.CreateOrderDetail(newOd);
-            return CreatedAtAction(nameof(GetById), new { id = createdOd.Id} , createdOd);
+            return CreatedAtAction(nameof(GetById), new { id = createdOd.Id }, createdOd);
         }
-        [HttpPut]
+        [HttpPut("{id}")]
         [Authorize(Roles = ("ADMINISTRATOR"))]
-        public ActionResult<OrderDto> UpdateOrderDetail([FromBody] UpdateOrderDetailDto newOd) => Ok(_service.OrderDetail.UpdateOrderDetail(newOd));
+        public ActionResult<OrderDto> UpdateOrderDetail(string id, [FromBody] UpdateOrderDetailDto newOd)
+        {
+            newOd.Id = new ObjectId(id);
+            return Ok(_service.OrderDetail.UpdateOrderDetail(newOd));
+        }
     }
 }

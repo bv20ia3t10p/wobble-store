@@ -18,6 +18,7 @@ namespace ECommerceBackEnd.Dtos
         public string CustomerPassword { get; set; }
         public string CustomerFname { get; set; }
         public string CustomerLname { get; set; }
+        public string CustomerFullName { get; set; }
     }
     public record CustomerAuthDto
     {

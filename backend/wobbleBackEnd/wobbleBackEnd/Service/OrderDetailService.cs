@@ -39,6 +39,8 @@ namespace ECommerceBackEnd.Service
             productInDb.ProductSoldQuantity += odEntity.OrderItemQuantity;
             _repository.Product.UpdateProduct(productInDb);
             _repository.OrderDetail.CreateOrderDetail(odEntity);
+            orderInDb.Total += odEntity.OrderItemTotal;
+            _repository.Order.UpdateOrder(orderInDb);
             return _mapper.Map<OrderDetailDto>(odEntity);
         }
         public void CreateOrderDetailWithOrder(CreateOrderDetailDto orderDetailDto, OrderDto order)
@@ -47,7 +49,7 @@ namespace ECommerceBackEnd.Service
             var productInDb = _repository.Product.GetProduct(orderDetailDto.ProductCardId) ?? throw new Exception("Product not found");
             _mapper.Map(productInDb, odEntity);
             _mapper.Map(order, odEntity);
-            odEntity.Id = new MongoDB.Bson.ObjectId();
+            odEntity.Id = new ObjectId();
             odEntity.OrderItemDiscount = 0;
             odEntity.OrderItemDiscountRate = 0;
             odEntity.OrderItemProfitRatio = 0.2;
@@ -56,6 +58,9 @@ namespace ECommerceBackEnd.Service
             //Update product sales
             productInDb.ProductSoldQuantity += odEntity.OrderItemQuantity;
             _repository.Product.UpdateProduct(productInDb);
+            var orderInDb = _repository.Order.GetOrderById(order.OrderId);
+            orderInDb.Total += odEntity.OrderItemTotal;
+            _repository.Order.UpdateOrder(orderInDb);
             _repository.OrderDetail.CreateOrderDetail(odEntity);
         }
         public IEnumerable<OrderDetailDto> CreateMultipleOrderDetails(IEnumerable<CreateOrderDetailDto> orderDetails)
@@ -70,6 +75,8 @@ namespace ECommerceBackEnd.Service
         public OrderDetailDto UpdateOrderDetail(UpdateOrderDetailDto orderDetail)
         {
             var odEntity = _repository.OrderDetail.GetOrderDetailById(orderDetail.Id) ?? throw new Exception("Order detail not found");
+            var oldProductPrice = _repository.Product.GetProduct(odEntity.ProductCardId).ProductPrice;
+            int oldQuant = odEntity.OrderItemQuantity;
             var odEntityId = odEntity.Id;
             _mapper.Map(orderDetail, odEntity);
             var productInDb = _repository.Product.GetProduct(orderDetail.ProductCardId) ?? throw new Exception("Product not found");
@@ -82,15 +89,21 @@ namespace ECommerceBackEnd.Service
                 orderDetail.OrderItemQuantity;
             _repository.Product.UpdateProduct(productInDb);
             _repository.OrderDetail.UpdateOrderDetail(odEntity);
+            var orderInDb = _repository.Order.GetOrderById(odEntity.OrderId);
+            orderInDb.Total += (productInDb.ProductPrice * odEntity.OrderItemQuantity - oldProductPrice* oldQuant);
+            _repository.Order.UpdateOrder(orderInDb);
             return _mapper.Map<OrderDetailDto>(odEntity);
         }
-        public void DeleteOrderDetail(ObjectId id)
+        public void DeleteOrderDetail(string id)
         {
-            var odEntity = _repository.OrderDetail.GetOrderDetailById(id) ?? throw new Exception("Order detail not found");
+            var odEntity = _repository.OrderDetail.GetOrderDetailById(new ObjectId(id)) ?? throw new Exception("Order detail not found");
             var productInDb = _repository.Product.GetProduct(odEntity.ProductCardId) ?? throw new Exception("Product not found");
             productInDb.ProductSoldQuantity -= odEntity.OrderItemQuantity;
             _repository.Product.UpdateProduct(productInDb);
             _repository.OrderDetail.DeleteOrderDetail(odEntity);
+            var orderInDb = _repository.Order.GetOrderById(odEntity.OrderId);
+            orderInDb.Total -= odEntity.OrderItemTotal;
+            _repository.Order.UpdateOrder(orderInDb);
         }
     }
 }
