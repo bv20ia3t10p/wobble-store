@@ -4,6 +4,7 @@ namespace ECommerceBackEnd.Contracts
 {
     public interface IRepositoryManager
     {
+        IDepartmentRepository Department { get; }
         IProductRepository Product { get; }
         ICustomerRepository Customer { get; }
         ICategoryRepository Category { get; }

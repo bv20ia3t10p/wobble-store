@@ -9,6 +9,7 @@ namespace ECommerceBackEnd.Service
 {
     public class ServiceManager : IServiceManager
     {
+        private readonly Lazy<IDepartmentService> _departmentService;
         private readonly Lazy<ICategoryService> _categoryService;
         private readonly Lazy<ICustomerService> _customerService;
         private readonly Lazy<IProductService> _productService;
@@ -18,6 +19,7 @@ namespace ECommerceBackEnd.Service
         private readonly Lazy<IOrderDetailService> _orderDetailService;
         public ServiceManager(IMapper mapper, IRepositoryManager repositoryManager, IConfiguration configuration)
         {
+            _departmentService = new Lazy<IDepartmentService>(() => new DepartmentService(mapper, repositoryManager));
             _categoryService = new Lazy<ICategoryService>(() => new CategoryService(mapper, repositoryManager));
             _productService = new Lazy<IProductService>(() => new ProductService(mapper, repositoryManager));
             _customerService = new Lazy<ICustomerService>(() => new CustomerService(mapper, repositoryManager));
@@ -26,6 +28,7 @@ namespace ECommerceBackEnd.Service
             _orderDetailService = new Lazy<IOrderDetailService>(() => new OrderDetailService(mapper, repositoryManager));
             _staffService = new Lazy<IStaffService>(() => new StaffService(repositoryManager, mapper));
         }
+        public IDepartmentService Department => _departmentService.Value;
         public IAuthService Auth => _authService.Value;
         public ICategoryService Category => _categoryService.Value;
         public IProductService Product => _productService.Value;

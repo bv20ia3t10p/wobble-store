@@ -3,6 +3,7 @@ import { createNewSearch, url } from "./utils";
 import Product from "./Product";
 import "./stylesheets/home.css";
 import { useLoadingContext } from "./LoadingContext";
+import Slideshow from './Slideshow';
 
 export const getAllProducts = async (setProducts) => {
   const itemUrl = url + `/api/products`;
@@ -53,7 +54,13 @@ const getTrendingProducts = async (setTrendingProducts, setPageLoaded) => {
 };
 
 const Home = () => {
-  const salesBanner = require("./icons/banner/saleBanner.webp");
+    const salesBanner = require("./icons/banner/saleBanner.webp");
+    const images_slideshow = [
+        "https://images.unsplash.com/photo-1509721434272-b79147e0e708?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+        "https://images.unsplash.com/photo-1506710507565-203b9f24669b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1536&q=80",
+        "https://images.unsplash.com/photo-1536987333706-fc9adfb10d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80",
+    ];
+
   const [sidebarCategories, setSidebarCategories] = useState([]);
   const { setPageLoaded } = useLoadingContext();
   const [products, setProducts] = useState([]);
@@ -85,7 +92,8 @@ const Home = () => {
       </aside>
       <article className="productList banner">
         <h3 className="productListTitle">Limited Time Special Offers</h3>
-        <img src={salesBanner} alt="salesBanner" />
+
+        <Slideshow images={images_slideshow} />
       </article>
       <article className="productList trending">
         <h3 className="productListTitle">What's Hot</h3>

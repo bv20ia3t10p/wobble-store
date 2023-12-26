@@ -4,6 +4,7 @@ namespace ECommerceBackEnd.Service.Contracts
 {
     public interface IServiceManager
     {
+        IDepartmentService Department {  get; }
         ICategoryService Category { get; }
         ICustomerService Customer { get; }
         IProductService Product { get; }
