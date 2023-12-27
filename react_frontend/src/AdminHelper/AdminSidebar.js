@@ -8,7 +8,7 @@ import List from "@mui/material/List";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import Inventory2Icon from "@mui/icons-material/Inventory2";
-import CategoryIcon from "@mui/icons-material/Category";
+// import CategoryIcon from "@mui/icons-material/Category";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import StorefrontIcon from "@mui/icons-material/Storefront";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
@@ -19,7 +19,7 @@ import { navigateToNewPage } from "../utils";
 const AdminSidebar = () => {
   const { setPageLoaded } = useLoadingContext();
   const [userInfo, setUserInfo] = useState();
-  const [selected, setSelected] = useState(1);
+  // const [selected, setSelected] = useState(1);
 
   useEffect(() => {
     loadUserInfo(setUserInfo, setPageLoaded);
