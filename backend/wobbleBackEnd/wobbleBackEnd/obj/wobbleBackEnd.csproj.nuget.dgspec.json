@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {}
+    "E:\\Code\\Web\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {}
   },
   "projects": {
-    "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {
+    "E:\\Code\\Web\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+        "projectUniqueName": "E:\\Code\\Web\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
         "projectName": "wobbleBackEnd",
-        "projectPath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
+        "projectPath": "E:\\Code\\Web\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\wobbleBackEnd.csproj",
         "packagesPath": "C:\\Users\\beave\\.nuget\\packages\\",
-        "outputPath": "G:\\Code\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\obj\\",
+        "outputPath": "E:\\Code\\Web\\wobble-store\\backend\\wobbleBackEnd\\wobbleBackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\beave\\AppData\\Roaming\\NuGet\\NuGet.Config",
