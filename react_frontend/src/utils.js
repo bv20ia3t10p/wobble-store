@@ -1,4 +1,4 @@
-export const url = "https://localhost:7136";
+export const url = "https://ecommercebackend20231127233624.azurewebsites.net";
 export const flask_url = "http://localhost:5000";
 
 export const openItemDetails = (id) => {
