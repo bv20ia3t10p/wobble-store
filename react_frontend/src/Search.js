@@ -60,6 +60,17 @@ export const getItemRecommendation = async (
     else setRecs(() => data);
   } catch (e) {
     console.log(e);
+    // setPageLoaded(true);
+    recItemUrl =
+      url + "/odata/Products?$orderby=ProductSoldQuantity%20desc&top=20";
+    await fetch(recItemUrl, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      redirect: "follow", // manual, *follow, error
+      referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    }).then(e=>e.ok);
   }
 };
 
@@ -80,10 +91,11 @@ const getItemsByName = async (
     }`;
   console.log(queryUrl);
   await fetch(queryUrl)
-    .then((e) => (e.ok ? e.json() : e))
+    .then((e) => (e.ok ? e.json() : new Error(e)))
     .then((data) => {
       setSearchResults(() => data.value);
-    });
+    })
+    .catch((e) => alert(e));
 };
 
 const Search = () => {

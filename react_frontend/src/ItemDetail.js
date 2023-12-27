@@ -34,8 +34,10 @@ const getItemRecs = async (id, setRecItems) => {
     redirect: "follow", // manual, *follow, error
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
   })
-    .then((e) => e.ok && e.json())
-    .then((e) => setRecItems(() => e));
+    .then((e) => (e.ok ? e.json() : new Error(e)))
+    .then((e) => {
+      setRecItems(() => e);
+    });
 };
 
 const ItemDetail = () => {
@@ -75,11 +77,19 @@ const ItemDetail = () => {
   }, []);
   useEffect(() => {
     setImages(() => {
-      return Array.from(Array(6).keys()).map((val) =>
-        require(`./productImages/${currentItemId}_${val}.png`)
-      );
+      return Array.from(Array(6).keys()).map((val) => {
+        try {
+          return require(`./productImages/${currentItemId}_${val}.png`);
+        } catch {
+          return "";
+        }
+      });
     });
-    getItemRecs(currentItemId, setRecItems);
+    try {
+      getItemRecs(currentItemId, setRecItems);
+    } catch {
+      setRecItems(() => []);
+    }
     getItemDetail(currentItemId, setCurrentItem);
 
     const autoSlideMover = setInterval(() => moveSlides(1), 3000);
@@ -221,9 +231,11 @@ const ItemDetail = () => {
       </div>
       <div className="relevantItems">
         <h1 className="header">You might be interested in</h1>
-        {recItems.map(
-          (item, no) => no < 20 && <Product product={item} key={no} />
-        )}
+        {recItems &&
+          recItems.length &&
+          recItems.map(
+            (item, no) => no < 20 && <Product product={item} key={no} />
+          )}
       </div>
     </main>
   );

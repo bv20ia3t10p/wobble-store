@@ -275,7 +275,12 @@ const Cart = () => {
         {cartItems &&
           localCart &&
           cartItems.map((product, key) => {
-            const productImg = require(`./productImages/${product.productCardId}_0.png`);
+            let productImg;
+            try {
+              productImg = require(`./productImages/${product.productCardId}_0.png`);
+            } catch {
+              productImg = "";
+            }
             return (
               <div key={key} className="single">
                 <div className="description">

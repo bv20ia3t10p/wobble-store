@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
-import { useLoadingContext } from "../LoadingContext";
-import AdminSideBar from "./AdminSidebar";
-import Box from "@mui/material/Box";
-import { ResponsiveChartContainer } from "@mui/x-charts/ResponsiveChartContainer";
-import { LinePlot } from "@mui/x-charts/LineChart";
-import { BarPlot } from "@mui/x-charts/BarChart";
-import { ChartsXAxis } from "@mui/x-charts/ChartsXAxis";
-import { ChartsYAxis } from "@mui/x-charts/ChartsYAxis";
-import { axisClasses } from "@mui/x-charts/ChartsAxis";
+import * as React from "react";
+import { BarChart } from "@mui/x-charts/BarChart";
 import { url } from "../utils";
+import { useLoadingContext } from "../LoadingContext";
+import { LineChart } from "@mui/x-charts/LineChart";
+import PendingActionsIcon from "@mui/icons-material/PendingActions";
+import { PieChart } from "@mui/x-charts/PieChart";
+import "../stylesheets/adminDashMain.css";
+import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
+import Typography from "@mui/material/Typography";
+import PhishingIcon from "@mui/icons-material/Phishing";
 
 const loadMonthlyTotal = async (setMonthlyTotal) => {
   await fetch(url + "/api/Stat/MonthlyTotal")
@@ -18,93 +18,136 @@ const loadMonthlyTotal = async (setMonthlyTotal) => {
 const loadMonthlyOrder = async (setMonthlyTotal) => {
   await fetch(url + "/api/Stat/CountMonthly")
     .then((e) => e.ok && e.json())
-    .then((e) => setMonthlyTotal(() => e));
+    .then((e) => {
+      setMonthlyTotal(() => e);
+    });
+};
+const loadMonthlySummary = async (setMonthlySummary) => {
+  await fetch(url + "/api/Stat/YearlySummary")
+    .then((e) => e.ok && e.json())
+    .then((e) => {
+      setMonthlySummary(() => e);
+    });
 };
 
 const AdminDashboard = () => {
   const { isLoading, setPageLoaded } = useLoadingContext();
-  const [monthlyTotal, setMonthlyTotal] = useState([]);
-  const [monthlyOrder, setMonthlyOrder] = useState([]);
-  useEffect(() => {
+  const [monthlySummary, setMonthlySummary] = React.useState();
+  const [monthlyTotal, setMonthlyTotal] = React.useState();
+  const [monthlyOrder, setMonthlyOrder] = React.useState();
+  React.useEffect(() => {
+    loadMonthlySummary(setMonthlySummary);
     loadMonthlyTotal(setMonthlyTotal);
     loadMonthlyOrder(setMonthlyOrder);
     setPageLoaded(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  return (
-    monthlyOrder &&
-    monthlyTotal && (
-      <div>
-        <Box sx={{ width: "100%", maxWidth: 600 }}>
-          <ResponsiveChartContainer
+  if (monthlySummary&& monthlyTotal)
+    return (
+      <div className="adminDashMain">
+        <div className="bar">
+          <BarChart
             xAxis={[
+              { scaleType: "band", data: monthlySummary.map((x) => x.year) },
+            ]}
+            series={[
               {
-                scaleType: "band",
-                data: monthlyOrder.map((x) => x.month),
-                id: "month",
-                label: "Month",
+                data: monthlySummary.map((x) => x.canceled),
+                label: "Canceled orders",
+              },
+              {
+                data: monthlySummary.map((x) => x.closed),
+                label: "Completed orders",
+              },
+              {
+                data: monthlySummary.map((x) => x.oN_HOLD),
+                label: "Orders on hold",
+              },
+              {
+                data: monthlySummary.map((x) => x.pending),
+                label: "Pending orders",
               },
             ]}
-            yAxis={[{ id: "Number_of_Orders" }, { id: "Monthly_Total" }]}
-            series={
-              [
-                {
-                  type: "line",
-                  id: "monthlyCount",
-                  yAxisKey: "Number_of_Orders",
-                  data: monthlyOrder.map((x) => x.Number_of_Orders),
-                },
-                {
-                  type: "bar",
-                  id: "monthlyTotal",
-                  yAxisKey: "Monthly_Total",
-                  data: monthlyTotal.map((x) => x.Monthly_Total),
-                },
-              ]
-              // {
-              //   type: "line",
-              //   id: "revenue",
-              //   yAxisKey: "money",
-              //   data: [5645, 7542, 9135, 12221],
-              // },
-              // {
-              //   type: "bar",
-              //   id: "cookies",
-              //   yAxisKey: "quantities",
-              //   data: [3205, 2542, 3135, 8374],
-              // },
-              // {
-              //   type: "bar",
-              //   id: "icecream",
-              //   yAxisKey: "quantities",
-              //   data: [1645, 5542, 5146, 3735],
-              // },
-            }
-            height={400}
-            margin={{ left: 70, right: 70 }}
-            sx={{
-              [`.${axisClasses.left} .${axisClasses.label}`]: {
-                transform: "translate(-25px, 0)",
+            width={1200}
+            height={600}
+          />
+        </div>
+        <div className="line">
+          <LineChart
+            xAxis={[{ data: monthlyTotal.map((x,index) => index), label: "month" }]}
+            series={[
+              {
+                data: monthlyOrder.map((x) => x.number_of_Orders), label:"Order totals"
               },
-              [`.${axisClasses.right} .${axisClasses.label}`]: {
-                transform: "translate(30px, 0)",
+            ]}
+            width={1200}
+            height={300}
+          />
+        </div>
+        <div className="pie">
+          <PieChart
+            series={[
+              {
+                data: [
+                  {
+                    id: 0,
+                    value: monthlySummary[0].pendinG_PAYMENT,
+                    label: "Pending payment",
+                  },
+                  {
+                    id: 1,
+                    value: monthlySummary[0].suspecteD_FRAUD,
+                    label: "Suspected Fraud",
+                  },
+                  {
+                    id: 2,
+                    value: monthlySummary[0].processing,
+                    label: "Processing",
+                  },
+                ],
+                innerRadius: 30,
+                outerRadius: 200,
+                paddingAngle: 5,
+                cornerRadius: 5,
+                startAngle: -90,
+                endAngle: 180,
+                cx: 260,
+                cy: 300,
               },
-            }}
-          >
-            <BarPlot />
-            <LinePlot />
-            <ChartsXAxis
-              axisId="quarters"
-              label="2021 quarters"
-              labelFontSize={18}
-            />
-            <ChartsYAxis axisId="quantities" label="# units sold" />
-            <ChartsYAxis axisId="money" position="right" label="revenue" />
-          </ResponsiveChartContainer>
-        </Box>
+            ]}
+            width={500}
+            height={500}
+          />
+          <div className="summary">
+            <div className="first">
+              <Typography variant="h6" color="initial">
+                Pending payment
+              </Typography>
+              <Typography variant="caption" color="initial">
+                {monthlySummary[0].pendinG_PAYMENT}
+              </Typography>
+            </div>
+            <div className="2nd">
+              <Typography variant="h6" color="initial">
+                Suspected fraud
+              </Typography>
+              <Typography variant="caption" color="initial">
+                {monthlySummary[0].suspecteD_FRAUD}
+              </Typography>
+            </div>
+            <div className="3rd">
+              <Typography variant="h6" color="initial">
+                Processing
+              </Typography>
+              <Typography variant="caption" color="initial">
+                {monthlySummary[0].processing}
+              </Typography>
+            </div>
+          </div>
+        </div>
       </div>
-    )
-  );
+    );
+  else return <></>;
 };
 
 export default AdminDashboard;

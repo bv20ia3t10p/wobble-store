@@ -1,0 +1,17 @@
+.adminCreateProductModal{
+    background-color: white;
+    display: grid;
+    height: 50vh;
+    gap: 1em;
+    padding: 2em;
+    width: 60vw;
+    border-radius: 2em;
+    left: 20vw;
+    position: absolute;
+    top:20vh;
+}
+.adminCreateProductModal .controls{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2em;
+}

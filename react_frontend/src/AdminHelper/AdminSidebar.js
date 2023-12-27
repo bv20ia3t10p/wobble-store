@@ -19,11 +19,11 @@ import { navigateToNewPage } from "../utils";
 const AdminSidebar = () => {
   const { setPageLoaded } = useLoadingContext();
   const [userInfo, setUserInfo] = useState();
-  const [selected,setSelected] = useState(1);
+  const [selected, setSelected] = useState(1);
 
   useEffect(() => {
     loadUserInfo(setUserInfo, setPageLoaded);
-    
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const adminIcon = require("../icons/adminIcon.png");
@@ -42,13 +42,16 @@ const AdminSidebar = () => {
           "Orders",
           "Customers",
           "Products",
-          "Categories",
-          "Department",
-          "Staffs",
+          // "Categories",
+          // "Department",
+          // "Staffs",
+          "Back To Store",
         ].map((text, index) => (
           <ListItem
             key={text}
-            onClick={() => navigateToNewPage("/adminDashboard/" + text)}
+            onClick={() =>
+              navigateToNewPage(index === 4 ? "/" : "/adminDashboard/" + text)
+            }
           >
             <ListItemButton>
               <ListItemIcon>
@@ -63,7 +66,8 @@ const AdminSidebar = () => {
                     case 4:
                       return <Inventory2Icon />;
                     case 5:
-                      return <CategoryIcon />;
+                      // return <CategoryIcon />;
+                      return <StorefrontIcon />;
                     case 6:
                       return <StorefrontIcon />;
                     default:

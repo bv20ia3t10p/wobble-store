@@ -11,7 +11,12 @@ const Product = ({ product }) => {
       productPrice: product.ProductPrice,
       productSoldQuantity: product.ProductSoldQuantity,
     };
-  const productImg = require(`./productImages/${product.productCardId}_0.png`);
+  let productImg;
+  try {
+    productImg = require(`./productImages/${product.productCardId}_0.png`);
+  } catch {
+    productImg = "";
+  }
   return (
     <div className="item">
       <img

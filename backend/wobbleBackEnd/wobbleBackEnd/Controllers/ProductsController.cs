@@ -201,7 +201,7 @@ namespace ECommerceBackEnd.Controllers
         }
         //POST /items
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult<ProductDto> CreateProduct(CreateProductDto productDto)
         {
             var product = _services.Product.CreateProduct(productDto);
@@ -213,13 +213,16 @@ namespace ECommerceBackEnd.Controllers
         [Route(nameof(GetProductByCategory))]
         public ActionResult<IEnumerable<ProductDto>> GetProductByCategory(int id) => Ok(_services.Product.GetProductByCategory(id));
         [HttpPut]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public ActionResult<ProductDto> UpdateProduct(UpdateProductDto updateProduct) => Ok(_services.Product.UpdateProduct(updateProduct));
         [HttpDelete]
+        [Authorize(Roles ="ADMINISTRATOR")]
         public ActionResult DeleteProduct(int id)
         {
             _services.Product.DeleteProduct(id);
             return NoContent();
         }
+
         [HttpPost("Multiple")]
         public ActionResult<IEnumerable<ProductDto>> GetMultipleProductsByIds([FromBody] IEnumerable<int> ids)
         {

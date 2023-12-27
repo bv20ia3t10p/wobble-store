@@ -29,6 +29,7 @@ namespace ECommerceBackEnd.Dtos
     }
     public record UpdateProductDto
     {
+        public int ProductCardId { get; set; }
         public int DepartmentId { get; set; }
         public int CategoryId { get; set; }
         public string ProductName { get; set; }

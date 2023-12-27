@@ -37,8 +37,11 @@ import PropTypes from "prop-types";
 import Modal from "@mui/material/Modal";
 import "../stylesheets/adminOrder.css";
 import OrderEditModal from "./OrderEditModal";
+import "../stylesheets/adminProduct.css";
 import { getAllProducts } from "../Home";
-
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import CreateProductModal from "./CreateProductModal";
+import UpdateProductModal from "./UpdateProductModal";
 function EnhancedTableHead(props) {
   const {
     // onSelectAllClick,
@@ -93,9 +96,8 @@ function EnhancedTableHead(props) {
 }
 
 EnhancedTableHead.propTypes = {
-  numSelected: PropTypes.number.isRequired,
   onRequestSort: PropTypes.func.isRequired,
-  onSelectAllClick: PropTypes.func.isRequired,
+  //   onSelectAllClick: PropTypes.func.isRequired,
   order: PropTypes.oneOf(["asc", "desc"]).isRequired,
   orderBy: PropTypes.string.isRequired,
   rowCount: PropTypes.number.isRequired,
@@ -115,6 +117,7 @@ function EnhancedTableToolbar(props) {
   const {
     // numSelected,
     handleOpenModal,
+    handleCreateProduct,
   } = props;
 
   return (
@@ -158,6 +161,9 @@ function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       ) : ( */}
+      <IconButton onClick={handleCreateProduct}>
+        <AddCircleOutlineIcon />
+      </IconButton>
       <Tooltip title="Filter list">
         <IconButton onClick={handleOpenModal}>
           <FilterListIcon />
@@ -167,10 +173,6 @@ function EnhancedTableToolbar(props) {
     </Toolbar>
   );
 }
-
-EnhancedTableToolbar.propTypes = {
-  numSelected: PropTypes.number.isRequired,
-};
 
 const headCells = [
   {
@@ -218,9 +220,15 @@ const headCells = [
   },
   {
     id: "productSoldQuantity",
-    numeric: false,
+    numeric: true,
     disablePadding: false,
     label: "Sold",
+  },
+  {
+    id: "productStatus",
+    numeric: false,
+    disablePadding: false,
+    label: "Status",
   },
 ];
 function descendingComparator(a, b, orderBy) {
@@ -321,13 +329,13 @@ const loadProducts = async (
     .catch((e) => alert(e));
 };
 
-const loadDepartments = async (setDepartments) => {
+export const loadDepartments = async (setDepartments) => {
   await fetch(url + "/api/Department")
     .then((e) => e.ok && e.json())
     .then((e) => setDepartments(() => e));
 };
 
-const loadCategories = async (setCategories) => {
+export const loadCategories = async (setCategories) => {
   await fetch(url + "/api/Category")
     .then((e) => e.ok && e.json())
     .then((e) => setCategories(() => e));
@@ -362,7 +370,9 @@ const AdminProducts = () => {
   const [isOriginalList, setIsOriginalList] = useState(true);
   const [isOpeningModal, setIsOpeningModal] = useState(false);
   const [viewingProductId, setViewingProductId] = useState(365);
-  const [isEditingOrder, setIsEditingOrder] = useState(false);
+  const [isEditingProduct, setIsEditingProduct] = useState(false);
+  const [isCreatingProduct, setIsCreatingProduct] = useState(false);
+
   useEffect(() => {
     loadProducts(
       setProducts,
@@ -384,7 +394,7 @@ const AdminProducts = () => {
   };
   const handleClick = (event, id) => {
     setViewingProductId(() => id);
-    setIsEditingOrder(() => true);
+    setIsEditingProduct(() => true);
   };
   const handleChangePage = (event, newPage) => {
     if (isOriginalList)
@@ -441,6 +451,17 @@ const AdminProducts = () => {
   };
   return (
     <div>
+      <CreateProductModal
+        isCreatingProduct={isCreatingProduct}
+        setIsCreatingProduct={setIsCreatingProduct}
+      />
+      {viewingProductId && (
+        <UpdateProductModal
+          isCreatingProduct={isEditingProduct}
+          setIsCreatingProduct={setIsEditingProduct}
+          productId={viewingProductId}
+        />
+      )}
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         {/* <OrderEditModal
           orderId={viewingOrderId}
@@ -641,6 +662,7 @@ const AdminProducts = () => {
               <Paper sx={{ width: "100%", mb: 2 }}>
                 <EnhancedTableToolbar
                   handleOpenModal={() => setIsOpeningModal(() => true)}
+                  handleCreateProduct={() => setIsCreatingProduct(() => true)}
                 />
                 {pagingInfo && (
                   <>
@@ -697,7 +719,7 @@ const AdminProducts = () => {
                                   <TableCell align="left">
                                     {row.categoryName}
                                   </TableCell>
-                                  <TableCell align="left">
+                                  <TableCell align="right">
                                     {row.departmentId}
                                   </TableCell>
                                   <TableCell align="left">
@@ -706,11 +728,16 @@ const AdminProducts = () => {
                                   <TableCell align="right">
                                     {row.productPrice}
                                   </TableCell>
-                                  <TableCell align="left">
+                                  {/* <TableCell align="left">
                                     {row.productStatus}
+                                  </TableCell> */}
+                                  <TableCell align="right">
+                                    {row.productSoldQuantity}
                                   </TableCell>
                                   <TableCell align="left">
-                                    {row.productSoldQuantity}
+                                    {row.productStatus
+                                      ? "Available"
+                                      : "Unavailable"}
                                   </TableCell>
                                 </TableRow>
                               );
@@ -723,7 +750,7 @@ const AdminProducts = () => {
                                   (rowsPerPage - products.length),
                               }}
                             >
-                              <TableCell colSpan={7} />
+                              <TableCell colSpan={8} />
                             </TableRow>
                           )}
                         </TableBody>
