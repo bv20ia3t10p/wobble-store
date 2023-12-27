@@ -84,7 +84,7 @@ const UpdateProductModal = (props) => {
     loadProductInfo(productId, setLoadedProduct);
     loadDepartments(setDepartments);
     loadCategories(setCategories);
-  }, []);
+  }, [productId]);
   useEffect(() => {
     if (loadedProduct && categories && departments) {
       setSelectedCategory(() =>

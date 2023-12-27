@@ -2,15 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useLoadingContext } from "../LoadingContext";
 import { url } from "../utils";
 import Box from "@mui/material/Box";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import TextField from "@mui/material/TextField";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import dayjs from "dayjs";
-import Slider from "@mui/material/Slider";
 import { Button, InputLabel } from "@mui/material";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -35,7 +30,6 @@ import { visuallyHidden } from "@mui/utils";
 import PropTypes from "prop-types";
 import Modal from "@mui/material/Modal";
 import "../stylesheets/adminCustomer.css";
-import OrderEditModal from "./OrderEditModal";
 import CustomerEditModal from "./CustomerEditModal";
 
 function EnhancedTableHead(props) {

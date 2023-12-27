@@ -3,12 +3,9 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { url } from "../utils";
 import { useLoadingContext } from "../LoadingContext";
 import { LineChart } from "@mui/x-charts/LineChart";
-import PendingActionsIcon from "@mui/icons-material/PendingActions";
 import { PieChart } from "@mui/x-charts/PieChart";
 import "../stylesheets/adminDashMain.css";
-import RunningWithErrorsIcon from "@mui/icons-material/RunningWithErrors";
 import Typography from "@mui/material/Typography";
-import PhishingIcon from "@mui/icons-material/Phishing";
 
 const loadMonthlyTotal = async (setMonthlyTotal) => {
   await fetch(url + "/api/Stat/MonthlyTotal")
@@ -31,7 +28,7 @@ const loadMonthlySummary = async (setMonthlySummary) => {
 };
 
 const AdminDashboard = () => {
-  const { isLoading, setPageLoaded } = useLoadingContext();
+  const { setPageLoaded } = useLoadingContext();
   const [monthlySummary, setMonthlySummary] = React.useState();
   const [monthlyTotal, setMonthlyTotal] = React.useState();
   const [monthlyOrder, setMonthlyOrder] = React.useState();

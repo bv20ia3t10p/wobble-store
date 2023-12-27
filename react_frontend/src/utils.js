@@ -1,5 +1,5 @@
 export const url = "https://ecommercebackend20231127233624.azurewebsites.net";
-export const flask_url = "http://localhost:5000";
+export const flask_url = "https://wobblerecsys.azurewebsites.net";
 
 export const openItemDetails = (id) => {
   const tempForm = document.createElement("form");
