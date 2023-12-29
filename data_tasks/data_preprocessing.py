@@ -7,8 +7,8 @@ Created on Sat Sep 23 19:20:44 2023
 
 import pandas as pd
 #%%
-project_repo = 'G:/Code/wobble-store/'
-project_data = 'G:/Code/wobble-store/data/'
+project_repo = 'E:/Code/wobble-store/'
+project_data = 'E:/Code/wobble-store/data/'
 #%%
 df = pd.read_csv(project_data+'DataCoSupplyChainDataset.csv',encoding='latin1')
 #%%
@@ -17,7 +17,7 @@ df_items = df[['Department Id','Department Name','Category Name','Category Id','
            ,'Product Status']].drop_duplicates(subset=['Product Card Id'],keep='last')
 df_items['ProductSoldQuantity'] = df_items['Product Card Id'].apply(lambda x : df[['Product Card Id','Order Item Quantity']]
                                                                     [df['Product Card Id']==x].groupby(['Product Card Id']).sum().values[0,0])
-df_items_with_desc = pd.read_csv("G:/Code/IE104-retailer-web-project/product_descriptions/Products2.csv")
+df_items_with_desc = pd.read_csv("E:/Code/wobble-store/product_descriptions/Products2.csv")
 df_items['Product Description'] = df_items['Product Card Id'].apply(lambda x: df_items_with_desc[df_items_with_desc['ProductCardId'] == x]['ProductDescription'].values[0])
 df_items.to_csv(project_data+'Products.csv',header = [ i.replace(' ','') for i in df_items.columns], index=False)
 #%%
@@ -50,7 +50,7 @@ df_orders.to_csv(project_data+"Orders.csv",header = [ i.replace(' ','') for i in
 #%%
 df_order_details = df[['Category Id','Category Name','Department Id','Department Name','Order Id',
                        'Order Item Discount','Order Item Discount Rate',
-                       'Order Item Profit Ratio','Order Item Quantity','Sales','Product Price',
+                       'Order Item Profit Ratio','Order Item Quantity','Sales','Product Price','Order Item Id'
                        'Order Item Total','Product Card Id','Product Price','Product Name','Customer Id']]
 df_order_details.to_csv(project_data+"Order_details.csv",header = [ i.replace(' ','') for i in df_order_details.columns],index=False)
 #%%

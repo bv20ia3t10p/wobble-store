@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 #%%
-uri = "mongodb+srv://hasuras3:TrPhuc203@cluster0.vb10svk.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb://localhost:27018"
 client = MongoClient(uri, server_api=ServerApi('1'))
 try:
     client.admin.command('ping')
@@ -21,8 +21,8 @@ mydoc = mycol.find()
 df_mongo = pd.DataFrame(mydoc)
 #%% Extract number of times a customer ordered a product
 
-times_product_ordered_by_customer= df_mongo[['ProductCardId','CustomerId','OrderItemId']].groupby(['ProductCardId','CustomerId']).count().reset_index()
-times_utility_matrix = times_product_ordered_by_customer.pivot_table(values='OrderItemId',index='CustomerId',columns='ProductCardId',fill_value = 0)
+times_product_ordered_by_customer= df_mongo[['ProductCardId','CustomerId','OrderId']].groupby(['ProductCardId','CustomerId']).count().reset_index()
+times_utility_matrix = times_product_ordered_by_customer.pivot_table(values='OrderId',index='CustomerId',columns='ProductCardId',fill_value = 0)
 
 #%%
 times_utility_matrix.shape

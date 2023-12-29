@@ -5,7 +5,7 @@ import pandas as pd
 from sklearn.decomposition import TruncatedSVD
 
 #%%
-uri = "mongodb+srv://hasuras3:TrPhuc203@cluster0.vb10svk.mongodb.net/?retryWrites=true&w=majority"
+uri = "mongodb://localhost:27018"
 client = MongoClient(uri, server_api=ServerApi('1'))
 try:
     client.admin.command('ping')

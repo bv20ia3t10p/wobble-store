@@ -6,6 +6,6 @@ namespace ECommerceBackEnd.Entities
     {
        public ObjectId Id { get; set; }
        public int CategoryId { get; set; }
-       public string CategoryName { get; set; }
+       public string? CategoryName { get; set; }
     }
 }
